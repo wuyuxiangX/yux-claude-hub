@@ -77,13 +77,28 @@ Input Video URL: $ARGUMENTS
    - Each line: `[Timestamp] Text content`
    - Or plain text without timestamps if user prefers
 
-## Step 5: Save and Report
+## Step 5: Detect Language and Save
 
-1. **Save the transcript** to: `<Video Title>.txt`
+1. **Detect source language**:
+   - **From subtitle filename**: Check the downloaded file extension
+     - `.zh-Hans.vtt`, `.zh-Hant.vtt`, `.zh.vtt` → `zh`
+     - `.en.vtt`, `.en-US.vtt`, `.en-GB.vtt` → `en`
+     - `.ja.vtt` → `ja`
+     - `.ko.vtt` → `ko`
+   - **From content analysis** (if filename doesn't indicate language):
+     - Count Chinese characters (Unicode range `\u4e00-\u9fff`)
+     - Calculate ratio: Chinese chars / Total chars
+     - If ratio > 0.3 → `zh`
+     - Otherwise → `en`
 
-2. **Report completion**:
+2. **Store the detected language code**: `video_language` (e.g., `zh`, `en`)
+
+3. **Save the transcript** to: `<Video Title>.txt`
+
+4. **Report completion with language info**:
    - File path
-   - Detected language
+   - **Language code**: `[zh/en/ja/ko]`
+   - Language name (e.g., Chinese, English)
    - Total number of lines
    - File size
 
@@ -98,7 +113,10 @@ Input Video URL: $ARGUMENTS
 
 ```
 File saved: <Video Title>.txt
+Language code: zh
 Language: Chinese (auto-generated)
 Lines: 245
 Size: 12.5 KB
 ```
+
+The language code (`zh`, `en`, etc.) will be used by the video-summary skill for multi-language output generation.
