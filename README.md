@@ -38,13 +38,14 @@ One-click pipeline: URL → Subtitles → Summary → Blog Article
 
 ### Option 1: Via Claude Code (Recommended)
 
+1. Add this marketplace to Claude Code:
 ```bash
-/install-plugin github:wuyuxiangX/yux-claude-hub
+/plugin marketplace add wuyuxiangX/yux-claude-hub
 ```
 
-Or install only the video-to-blog plugin:
+2. Install the video-to-blog plugin:
 ```bash
-/install-plugin github:wuyuxiangX/yux-claude-hub/plugins/video-to-blog
+/plugin install video-to-blog
 ```
 
 ### Option 2: Manual Installation

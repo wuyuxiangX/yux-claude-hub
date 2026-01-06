@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "yux-claude-hub",
+  "version": "1.0.0",
+  "description": "Claude Code Plugin Marketplace - Custom skills, commands, and extensions for content creation and productivity",
+  "owner": {
+    "name": "wuyuxiangX",
+    "email": "wuyuxiang@example.com"
+  },
+  "plugins": [
+    {
+      "name": "video-to-blog",
+      "description": "Transform video content into blog articles. Download subtitles, summarize content, and generate polished blog posts.",
+      "version": "1.0.0",
+      "author": {
+        "name": "wuyuxiangX",
+        "email": "wuyuxiang@example.com"
+      },
+      "source": "./plugins/video-to-blog",
+      "category": "productivity"
+    }
+  ]
+}
