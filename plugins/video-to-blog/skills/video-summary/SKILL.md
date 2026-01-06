@@ -6,392 +6,175 @@ allowed-tools: Read, Write, Glob, Grep
 
 # Video Content Summary
 
-Organize a video transcript file into a structured summary with key points, timeline, and notable quotes. Supports different video types with specialized processing.
+Input: Transcript file path from $ARGUMENTS
 
-Input: Transcript file path or content from $ARGUMENTS
+## Step 1: Load & Detect Languages
 
-## Step 1: Load Transcript
-
-1. **Identify the transcript file**:
-   - If a file path is provided, read that file
-   - If no path provided, look for recent `.txt` files in current directory
-   - Ask user to specify if multiple transcript files exist
-
-2. **Read and parse the content**:
-   - Load the full transcript text
-   - Identify if timestamps are present
-   - Detect the language (Chinese, English, etc.)
-   - Estimate video duration from timestamps (if available)
+1. Read transcript file (`.txt` in current directory if not specified)
+2. **Detect video_language**: Chinese chars > 30% → `zh`, else → `en`
+3. **Detect user_language**: From user's input message, same rule
+4. **Output mode**: Same language → SINGLE_FILE, Different → DUAL_FILE
+5. Inform user: "视频语言: [X], 用户语言: [Y], 模式: [Combined/Dual-file]"
 
 ## Step 2: Identify Video Type
 
-Analyze the transcript to determine the video type:
-
 | Type | Indicators |
 |------|------------|
-| **Interview** | Multiple speakers, Q&A format, dialogue patterns |
-| **Tutorial** | Step-by-step instructions, demonstrations |
-| **Talk/Lecture** | Single speaker, educational content |
-| **Review** | Product/service evaluation, pros/cons |
-| **Podcast** | Casual conversation, multiple hosts |
-| **News** | Reporting style, factual delivery |
+| Interview/Podcast | Multiple speakers, Q&A format |
+| Talk/Lecture | Single speaker, educational |
+| Tutorial/Review/News | Instructions, evaluation, reporting |
 
-**Ask user to confirm the detected type** or let them choose if unclear.
+## Step 3: Extract & Clean Content
 
-## Step 3: Extract Key Information
+### 3a. Extract Key Information
+- Main topics and themes
+- Key points and arguments
+- Timeline highlights with timestamps
+- Notable quotes
+- Speaker identification (for interviews)
 
-### For ALL video types:
+### 3b. Clean Transcript (Filler Word Removal)
 
-1. **Identify main topics**:
-   - What is the video about?
-   - What are the major themes discussed?
-   - Who are the speakers (if identifiable)?
+**English**: um, uh, er, ah, you know, I mean, kind of, sort of, like, basically, actually, literally, right, okay
 
-2. **Extract key points**:
-   - Main arguments or ideas
-   - Important facts or statistics
-   - Conclusions or recommendations
+**Chinese**: 嗯, 啊, 呃, 哦, 那个, 这个, 就是, 然后, 所以说, 对吧, 是吧, 懂吗, 其实, 怎么说呢
 
-3. **Create timeline highlights**:
-   - Key moments with timestamps (if available)
-   - Topic transitions
-   - Important demonstrations or examples
+**Rules**: Remove fillers, merge broken sentences, organize by topic/timeline sections
 
-### For INTERVIEW/PODCAST types (additional processing):
+## Step 4: Generate Output
 
-4. **Identify speakers**:
-   - Detect speaker changes in transcript
-   - Label speakers (Host, Guest, Speaker A/B, or by name if mentioned)
-   - Note each speaker's role/expertise if mentioned
+### SINGLE_FILE Mode (same language)
 
-5. **Extract dialogue segments**:
-   - Important Q&A exchanges
-   - Key discussion points
-   - Controversial or insightful moments
-
-6. **Translate dialogue** (if original is not in user's preferred language):
-   - Preserve original text
-   - Provide translation below each segment
-   - Maintain speaker labels
-
-## Step 4: Generate Structured Summary
-
-### Standard Output (for Tutorial/Talk/Review/News):
+**Filename**: `<Title>-summary-<lang>.md`
 
 ```markdown
-# Video Summary: [Title]
+# 视频摘要 / Video Summary: [Title]
 
-## Overview
-- **Type**: [Tutorial/Talk/Review/News]
-- **Duration**: [estimated duration]
-- **Language**: [detected language]
-- **Main Topic**: [brief description]
-- **Key Themes**: [list of themes]
+## 概览 / Overview
+| 项目 | 内容 |
+|------|------|
+| 类型 | [Type] |
+| 时长 | [Duration] |
+| 语言 | [Language] |
+| 主题 | [Topics] |
+| 发言人 | [Speakers] (if applicable) |
 
-## Executive Summary
-[2-3 paragraph summary of the entire video content]
+## 执行摘要 / Executive Summary
+[2-3 paragraphs in user_language]
 
-## Key Points
-
+## 关键要点 / Key Points
 ### [Topic 1]
 - Point 1
 - Point 2
-- Point 3
 
 ### [Topic 2]
 - Point 1
-- Point 2
 
-## Timeline Highlights
-- [00:00] Introduction and context
-- [05:30] Main argument begins
-- [15:00] Key demonstration
-- [25:00] Conclusion and takeaways
+## 时间线 / Timeline
+- [00:00] [Description]
+- [05:30] [Description]
 
-## Notable Quotes
-> "Quote 1" - [Speaker/Context]
+## 重要引用 / Notable Quotes
+> "Quote 1" - [Speaker]
 
-> "Quote 2" - [Speaker/Context]
+> "Quote 2" - [Speaker]
 
-## Key Takeaways
+## 核心收获 / Key Takeaways
 1. Takeaway 1
 2. Takeaway 2
 3. Takeaway 3
+
+## 推荐资源 / Resources Mentioned
+- 📖 [Book/Tool/Link]
+
+---
+
+# 原文整理 / Organized Transcript
+
+> 已清理语气词，按主题整理。
+
+## [00:00] 开场 / Introduction
+[Cleaned content...]
+
+## [05:30] [Topic Title]
+[Cleaned content...]
+
+## 结语 / Closing
+[Cleaned content...]
 ```
 
-### Interview/Podcast Output (enhanced format):
+### DUAL_FILE Mode (different languages)
+
+**File 1**: `<Title>-summary-<user_lang>.md`
 
 ```markdown
-# Video Summary: [Title]
+# 视频摘要 / Video Summary: [Title]
 
-## 📋 Basic Info
+> 原视频语言: [video_lang], 本摘要语言: [user_lang]
+> 原文整理见: `<Title>-transcript-<video_lang>.md`
 
-| Item | Content |
-|------|---------|
-| 📺 Video | [Platform](URL) |
-| 🎙️ Host | [Host Name] ([Show/Channel Name]) |
-| 💡 Guest | [Guest Name] ([Title/Company]) |
-| 📝 Topics | Topic1, Topic2, Topic3 |
-| ⏱️ Duration | [estimated duration] |
+## 概览 / Overview
+[Same structure as above, content in user_language]
 
----
+## 执行摘要 / Executive Summary
+[In user_language]
 
-## 📝 Executive Summary
+## 关键要点 / Key Points
+[In user_language]
 
-[2-3 paragraph summary of the entire conversation]
+## 时间线 / Timeline
+[Descriptions in user_language]
 
----
+## 重要引用 / Notable Quotes
+> "[Original quote in video_language]"
+> *翻译: [Translation in user_language]*
 
-## 👥 Participants
+## 核心收获 / Key Takeaways
+[In user_language]
 
-### 🎙️ Host: [Name]
-[Brief background about the host]
-
-### 💡 Guest: [Name]
-[Brief background, expertise, why they were invited]
-
----
-
-## 🎯 Key Discussion Points
-
-### Topic 1: [Topic Title]
-**Summary**: [Brief summary of this discussion segment]
-
-**Key Insights**:
-- Insight 1
-- Insight 2
-
-### Topic 2: [Topic Title]
-**Summary**: [Brief summary]
-
-**Key Insights**:
-- Insight 1
-- Insight 2
-
----
-
-## 🗣️ Interview Dialogue
-
-### 🎙️ Host Opening
-
-> **English:** Original English text here. This is the host's opening remarks or question...
-
-**中文：** 这里是中文翻译内容。这是主持人的开场白或问题...
-
----
-
-### 💡 [Guest Name]
-
-> **English:** Guest's response in original language. Their insights, opinions, and explanations...
-
-**中文：** 嘉宾的回应翻译。他们的见解、观点和解释...
-
----
-
-### 🎙️ Host Follow-up
-
-> **English:** Host's follow-up question or comment...
-
-**中文：** 主持人的后续问题或评论...
-
----
-
-### 💡 [Guest Name]
-
-> **English:** Guest's continued response...
-
-**中文：** 嘉宾的继续回应...
-
----
-
-## 💬 Notable Quotes
-
-### 💡 [Guest Name]
-> **English:** "Notable quote in original language..."
-
-**中文：** "值得注意的引用翻译..."
-
-### 🎙️ [Host Name]
-> **English:** "Another notable quote..."
-
-**中文：** "另一个值得注意的引用..."
-
----
-
-## 🎯 Key Takeaways
-
-1. Takeaway 1
-2. Takeaway 2
-3. Takeaway 3
-
----
-
-## 📚 Recommendations Mentioned
-
-[If the guest mentioned any books, tools, resources, etc.]
-- 📖 Book: [Title] by [Author]
-- 🔧 Tool: [Tool Name]
-- 🔗 Resource: [Resource Name]
+## 相关文件 / Related Files
+- 原文整理: `<Title>-transcript-<video_lang>.md`
 ```
 
-### Talk/Lecture Output (enhanced format):
+**File 2**: `<Title>-transcript-<video_lang>.md`
 
 ```markdown
-# Video Summary: [Title]
+# 原文整理 / Organized Transcript: [Title]
 
-## 📋 Basic Info
+> 已清理语气词，按主题整理。原语言保留。
 
-| Item | Content |
-|------|---------|
-| 📺 Video | [Platform](URL) |
-| 🎤 Speaker | [Speaker Name] ([Title/Affiliation]) |
-| 🏛️ Event | [Conference/Event Name] (if applicable) |
-| 📝 Topic | [Main Topic] |
-| ⏱️ Duration | [estimated duration] |
+## 视频信息 / Metadata
+| 项目 | 值 |
+|------|---|
+| 原语言 | [video_lang] |
+| 时长 | [Duration] |
+| 发言人 | [Speakers] |
 
----
+## [00:00] 开场 / Introduction
+[Cleaned original content...]
 
-## 📝 Executive Summary
+## [05:30] [Topic Title]
+[Cleaned original content...]
 
-[2-3 paragraph summary of the entire talk]
-
----
-
-## 🎤 About the Speaker
-
-### [Speaker Name]
-[Brief background, expertise, notable achievements, why this person is qualified to speak on this topic]
-
----
-
-## 🎯 Core Arguments
-
-### Main Thesis
-[The central argument or message of the talk]
-
-### Supporting Arguments
-1. **Argument 1**: [Description]
-2. **Argument 2**: [Description]
-3. **Argument 3**: [Description]
-
----
-
-## 📑 Talk Structure
-
-### 1. Introduction [00:00]
-[What the speaker sets up in the opening]
-
-### 2. [Section Title] [05:00]
-[Key points covered in this section]
-
-### 3. [Section Title] [15:00]
-[Key points covered in this section]
-
-### 4. Conclusion [25:00]
-[How the speaker wraps up, call to action if any]
-
----
-
-## 💡 Key Insights (with Translation)
-
-### Insight 1: [Topic]
-
-> **English:** Original quote or passage from the speaker explaining this insight...
-
-**中文：** 演讲者解释这个观点的原文翻译...
-
----
-
-### Insight 2: [Topic]
-
-> **English:** Another important passage...
-
-**中文：** 另一段重要内容的翻译...
-
----
-
-### Insight 3: [Topic]
-
-> **English:** Key argument or evidence presented...
-
-**中文：** 关键论点或证据的翻译...
-
----
-
-## 💬 Notable Quotes
-
-### 🎤 [Speaker Name]
-> **English:** "A memorable quote from the talk..."
-
-**中文：** "演讲中令人难忘的引用翻译..."
-
----
-
-> **English:** "Another impactful statement..."
-
-**中文：** "另一个有影响力的陈述翻译..."
-
----
-
-## 📊 Data & Evidence Mentioned
-
-[If the speaker referenced any statistics, studies, or evidence]
-- 📈 [Statistic/Data point]
-- 📚 [Study/Research referenced]
-- 📋 [Case study mentioned]
-
----
-
-## 🎯 Key Takeaways
-
-1. Takeaway 1
-2. Takeaway 2
-3. Takeaway 3
-
----
-
-## 📚 References & Resources
-
-[Books, papers, tools, or resources mentioned by the speaker]
-- 📖 Book: [Title] by [Author]
-- 📄 Paper: [Title]
-- 🔗 Resource: [Name](URL)
-
----
-
-## 🤔 Questions Raised
-
-[Questions the speaker posed or left for the audience to consider]
-1. [Question 1]
-2. [Question 2]
+## 结语 / Closing
+[Cleaned original content...]
 ```
 
-## Step 5: Save Summary
+## Step 5: Save & Report
 
-1. **Save the summary file**:
-   - Filename: `<Original Name>-summary.md`
-   - Location: Same directory as the transcript
+**SINGLE_FILE**: Save `<Title>-summary-<lang>.md`, report path and mode
 
-2. **Report completion**:
-   - Summary file path
-   - Video type detected
-   - Number of speakers identified (for interview type)
-   - Number of dialogue segments extracted
-   - Languages detected
+**DUAL_FILE**: Save both files, report:
+```
+Generated:
+1. Summary: <Title>-summary-<user_lang>.md
+2. Transcript: <Title>-transcript-<video_lang>.md
+Mode: Dual-file
+```
 
-## Output Quality Guidelines
+## Quality Guidelines
 
-- **Be concise**: Focus on essential information
-- **Be accurate**: Only include information present in the transcript
-- **Be structured**: Use clear hierarchical organization
-- **Be objective**: Summarize without adding personal opinions
-- **Preserve context**: Maintain important nuances from the original
-- **Translation quality**: Ensure translations are natural and accurate
-
-## Error Handling
-
-- **Empty transcript**: Notify user the file is empty
-- **Unreadable content**: Report parsing issues
-- **Too short**: Warn if transcript is too brief for meaningful summary
-- **Unknown language**: Ask user to specify the source language
-- **Speaker detection failed**: Fall back to "Speaker A/B" labels
+- Concise and accurate
+- Structured hierarchy
+- Natural translations
+- Preserve meaning when removing fillers
