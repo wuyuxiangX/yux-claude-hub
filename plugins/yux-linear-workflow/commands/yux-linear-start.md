@@ -42,7 +42,49 @@ Analyze user input to determine preferred language:
 
 Store as `USER_LANG` for all subsequent messages.
 
-### Step 2: Issue Selection
+### Step 2: Discover Team & Project
+
+**This step is critical for Linear API calls.**
+
+1. **Check for cached config** in `.claude/linear-config.json`:
+   ```json
+   {
+     "team_id": "cfef1fd0-...",
+     "team_name": "Wyx",
+     "project_id": "optional-project-id"
+   }
+   ```
+
+2. **If no config exists**, discover automatically:
+   ```
+   mcp__linear__list_teams()
+   ```
+
+3. **Team selection logic**:
+   - If only 1 team → use it automatically
+   - If multiple teams → ask user to choose:
+     ```
+     Found multiple Linear teams:
+     1. Wyx (cfef1fd0-...)
+     2. Engineering (abc123...)
+
+     Which team should we use?
+     ```
+
+4. **Optionally discover projects** in the team:
+   ```
+   mcp__linear__list_projects(team: "<team-id>")
+   ```
+   - If user's task mentions a project name, try to match it
+   - Otherwise, issues will be created without a project
+
+5. **Cache the selection** for future use:
+   - Save to `.claude/linear-config.json`
+   - Or remember in conversation context
+
+Store as `LINEAR_TEAM` and optionally `LINEAR_PROJECT` for subsequent calls.
+
+### Step 3: Issue Selection
 
 Present options to user (in detected language):
 
@@ -64,14 +106,17 @@ Enter your choice:
 请输入选择：
 ```
 
-### Step 3a: Search Existing Issues
+### Step 4a: Search Existing Issues
 
 If user chooses to search:
 
-1. Get search query from user
-2. Use Linear MCP to search:
+1. Get search query from user (or use task description)
+2. Use Linear MCP to search within the team:
    ```
-   mcp__linear__searchIssues(query: "<search terms>")
+   mcp__linear__list_issues(
+     team: "<LINEAR_TEAM>",
+     query: "<search terms>"
+   )
    ```
 3. Display results in a formatted list:
    ```
@@ -82,9 +127,9 @@ If user chooses to search:
 
    Enter issue number to select, or 'n' for new issue:
    ```
-4. If user selects an issue, proceed to Step 4
+4. If user selects an issue, proceed to Step 5
 
-### Step 3b: Create New Issue
+### Step 4b: Create New Issue
 
 If user chooses to create:
 
@@ -93,18 +138,20 @@ If user chooses to create:
    - Description (optional): Ask for additional context
    - Priority (optional): Urgent, High, Medium, Low, None
 
-2. **Create issue via Linear MCP**:
+2. **Create issue via Linear MCP** (use team from Step 2):
    ```
    mcp__linear__createIssue(
      title: "<title>",
      description: "<description>",
+     team: "<LINEAR_TEAM>",
+     project: "<LINEAR_PROJECT>",  // optional
      priority: <priority_number>
    )
    ```
 
 3. **Get the created issue ID** (e.g., `LIN-456`)
 
-### Step 4: Create Git Branch
+### Step 5: Create Git Branch
 
 1. **Determine branch type** based on task:
    - `feat/` - New features
@@ -129,7 +176,7 @@ If user chooses to create:
    git push -u origin <branch-name>
    ```
 
-### Step 5: Update Linear Issue Status
+### Step 6: Update Linear Issue Status
 
 Update the issue status to "In Progress":
 ```
@@ -147,7 +194,7 @@ mcp__linear__createComment(
 )
 ```
 
-### Step 6: Output Summary
+### Step 7: Output Summary
 
 Display completion message (in user's language):
 
