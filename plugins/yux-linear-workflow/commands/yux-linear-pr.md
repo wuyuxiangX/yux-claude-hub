@@ -175,8 +175,18 @@ CI Status: Monitoring...
 ├── ○ test (running)
 └── ○ deploy-preview (pending)
 
-Use /yux-linear-status to check progress
-Use /yux-linear-merge when ready to merge
+---
+📋 Next Steps:
+
+\`\`\`
+/yux-linear-status
+\`\`\`
+Monitor CI status
+
+\`\`\`
+/yux-linear-merge
+\`\`\`
+Merge the PR when CI passes
 ```
 
 ## Error Handling

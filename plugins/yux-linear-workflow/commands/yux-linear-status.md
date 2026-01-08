@@ -118,11 +118,15 @@ Parse results:
 ║  12:50  CI started                                            ║
 ║  12:58  CI passed                                             ║
 ║                                                               ║
-║  Next Steps                                                   ║
-║  ──────────────────────────────────────────────────────────  ║
-║  → Ready to merge! Use /yux-linear-merge                      ║
-║                                                               ║
 ╚══════════════════════════════════════════════════════════════╝
+
+---
+📋 Next Steps:
+
+\`\`\`
+/yux-linear-merge
+\`\`\`
+Ready to merge! All CI checks passed.
 ```
 
 ### Simplified Output (when not on task branch)
@@ -133,7 +137,14 @@ Parse results:
 Current branch: main
 
 No active Linear task detected.
-Use /yux-linear-start to begin a new task.
+
+---
+📋 Next Steps:
+
+\`\`\`
+/yux-linear-start
+\`\`\`
+Begin a new task
 ```
 
 ### Status Indicators
@@ -148,17 +159,28 @@ Use /yux-linear-start to begin a new task.
 
 ### Next Steps Suggestions
 
-Based on current state, suggest appropriate actions:
+Based on current state, display appropriate next step with copyable command:
 
-| State | Suggestion |
-|-------|------------|
-| No branch | "Use /yux-linear-start to begin" |
+| State | Next Step Output |
+|-------|------------------|
+| No branch | `📋 Next Steps:`<br>`/yux-linear-start`<br>"Begin a new task" |
 | No commits | "Make some changes and commit" |
-| No PR | "Use /yux-linear-pr to create PR" |
-| CI running | "Waiting for CI to complete..." |
-| CI failed | "Fix the failing checks, then push" |
-| CI passed | "Use /yux-linear-merge to merge" |
+| No PR | `📋 Next Steps:`<br>`/yux-linear-pr`<br>"Create a Pull Request" |
+| CI running | `📋 Next Steps:`<br>`/yux-linear-status`<br>"Refresh to check CI progress" |
+| CI failed | "Fix the failing checks, then `git push`" |
+| CI passed | `📋 Next Steps:`<br>`/yux-linear-merge`<br>"Merge the PR to complete" |
 | Needs review | "Waiting for code review approval" |
+
+**Output format for next steps** (always use code blocks for commands):
+```
+---
+📋 Next Steps:
+
+\`\`\`
+/yux-linear-merge
+\`\`\`
+Merge the PR to complete the task
+```
 
 ## Error Handling
 
@@ -178,5 +200,11 @@ Issue:    LIN-456 - 实现用户认证
 状态:     审核中
 分支:     feat/LIN-456-user-auth
 
-下一步:   → 准备合并！使用 /yux-linear-merge
+---
+📋 下一步 / Next Steps:
+
+\`\`\`
+/yux-linear-merge
+\`\`\`
+准备合并！所有 CI 检查已通过
 ```

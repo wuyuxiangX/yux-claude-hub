@@ -75,6 +75,19 @@
       "retry": "Retry? [Y/n]",
       "great_work": "Great work!",
       "ready_next": "Ready for the next task?"
+    },
+    "next_steps": {
+      "section_title": "Next Steps",
+      "after_backlog": "Start the recommended task",
+      "after_start_status": "Check current workflow status",
+      "after_start_pr": "Create a Pull Request when ready",
+      "after_pr_status": "Monitor CI status",
+      "after_pr_merge": "Merge the PR when CI passes",
+      "after_status_no_pr": "Create a Pull Request",
+      "after_status_ci_running": "Wait for CI to complete, then refresh",
+      "after_status_ci_passed": "Merge the PR to complete",
+      "after_status_ci_failed": "Fix the failing checks, then push",
+      "after_merge": "Start the next task"
     }
   },
   "zh": {
@@ -153,6 +166,19 @@
       "retry": "是否重试？[Y/n]",
       "great_work": "做得好！",
       "ready_next": "准备好下一个任务了吗？"
+    },
+    "next_steps": {
+      "section_title": "下一步",
+      "after_backlog": "开始推荐的任务",
+      "after_start_status": "查看当前工作流状态",
+      "after_start_pr": "准备好后创建 Pull Request",
+      "after_pr_status": "监控 CI 状态",
+      "after_pr_merge": "CI 通过后合并 PR",
+      "after_status_no_pr": "创建 Pull Request",
+      "after_status_ci_running": "等待 CI 完成，稍后刷新",
+      "after_status_ci_passed": "合并 PR 完成任务",
+      "after_status_ci_failed": "修复失败的检查，然后推送",
+      "after_merge": "开始下一个任务"
     }
   },
   "ja": {
@@ -199,6 +225,19 @@
       "proceed": "続行しますか？[Y/n]",
       "great_work": "お疲れ様でした！",
       "ready_next": "次のタスクの準備はできましたか？"
+    },
+    "next_steps": {
+      "section_title": "次のステップ",
+      "after_backlog": "推奨タスクを開始",
+      "after_start_status": "現在のワークフロー状態を確認",
+      "after_start_pr": "準備ができたらPRを作成",
+      "after_pr_status": "CIステータスを監視",
+      "after_pr_merge": "CI通過後にPRをマージ",
+      "after_status_no_pr": "Pull Requestを作成",
+      "after_status_ci_running": "CI完了を待って更新",
+      "after_status_ci_passed": "PRをマージして完了",
+      "after_status_ci_failed": "失敗したチェックを修正してプッシュ",
+      "after_merge": "次のタスクを開始"
     }
   },
   "ko": {
@@ -227,6 +266,19 @@
     "general": {
       "proceed": "계속하시겠습니까? [Y/n]",
       "great_work": "수고하셨습니다!"
+    },
+    "next_steps": {
+      "section_title": "다음 단계",
+      "after_backlog": "추천 작업 시작",
+      "after_start_status": "현재 워크플로우 상태 확인",
+      "after_start_pr": "준비되면 PR 생성",
+      "after_pr_status": "CI 상태 모니터링",
+      "after_pr_merge": "CI 통과 후 PR 병합",
+      "after_status_no_pr": "Pull Request 생성",
+      "after_status_ci_running": "CI 완료 대기 후 새로고침",
+      "after_status_ci_passed": "PR 병합하여 완료",
+      "after_status_ci_failed": "실패한 검사 수정 후 푸시",
+      "after_merge": "다음 작업 시작"
     }
   }
 }
