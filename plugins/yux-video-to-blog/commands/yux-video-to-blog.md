@@ -2,7 +2,7 @@
 
 Transform a video URL into a complete blog article in one command.
 
-**Usage**: `/video-to-blog <video-url>`
+**Usage**: `/yux-video-to-blog <video-url>`
 
 This command executes the complete video-to-blog workflow:
 1. Download subtitles from the video
@@ -19,7 +19,7 @@ If no URL is provided, ask the user to provide one.
 
 ### Phase 1: Download Subtitles
 
-Execute the **video-subtitle** skill:
+Execute the **yux-video-subtitle** skill:
 
 1. Verify yt-dlp is installed
 2. Download subtitles from the video URL
@@ -35,7 +35,7 @@ If subtitle download fails:
 
 ### Phase 2: Summarize Content
 
-Execute the **video-summary** skill:
+Execute the **yux-video-summary** skill:
 
 1. Read the transcript file from Phase 1
 2. **Detect languages**:
@@ -53,7 +53,7 @@ Execute the **video-summary** skill:
 
 ### Phase 3: Generate Blog Article
 
-Execute the **blog-writer** skill:
+Execute the **yux-blog-writer** skill:
 
 1. Read the summary file from Phase 2
 2. **Ask user to choose writing style**:
@@ -104,7 +104,7 @@ All files saved to: [current directory]
 ### Example 1: Same Language (Chinese user, Chinese video)
 
 ```
-User: /video-to-blog https://www.bilibili.com/video/BV123456
+User: /yux-video-to-blog https://www.bilibili.com/video/BV123456
 
 Claude: Starting Video to Blog pipeline...
 
@@ -135,7 +135,7 @@ Pipeline complete! All files are in your current directory.
 ### Example 2: Different Languages (Chinese user, English video)
 
 ```
-User: /video-to-blog https://www.youtube.com/watch?v=abc123
+User: /yux-video-to-blog https://www.youtube.com/watch?v=abc123
 
 Claude: Starting Video to Blog pipeline...
 

@@ -2,7 +2,7 @@
 
 Start a new task with Linear issue tracking and proper branch management.
 
-**Usage**: `/linear-start [task description]`
+**Usage**: `/yux-linear-start [task description]`
 
 ## Input
 
@@ -162,8 +162,8 @@ Branch:  feat/LIN-456-user-login
 You can now start coding!
 
 Useful commands:
-- /linear-status  - Check current status
-- /linear-pr      - Create pull request when ready
+- /yux-linear-status  - Check current status
+- /yux-linear-pr      - Create pull request when ready
 ```
 
 **Chinese**:
@@ -177,8 +177,8 @@ Issue:   LIN-456 - 用户登录实现
 现在可以开始编码了！
 
 常用命令：
-- /linear-status  - 查看当前状态
-- /linear-pr      - 准备好后创建 PR
+- /yux-linear-status  - 查看当前状态
+- /yux-linear-pr      - 准备好后创建 PR
 ```
 
 ## Error Handling
@@ -191,7 +191,7 @@ Issue:   LIN-456 - 用户登录实现
 ## Example
 
 ```
-User: /linear-start implement user authentication
+User: /yux-linear-start implement user authentication
 
 Claude: Starting Linear workflow...
 

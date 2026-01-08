@@ -1,5 +1,5 @@
 ---
-name: blog-writer
+name: yux-blog-writer
 description: Generate blog article from video summary. Triggers: "write blog", "generate article", "create post", "blog from video", "写博客", "生成文章", "写文章".
 allowed-tools: Read, Write, Glob, Grep
 ---
@@ -190,6 +190,6 @@ Building AI agents is no longer just for research labs...
 
 ## Error Handling
 
-- **No summary available**: Ask user to run video-summary first
+- **No summary available**: Ask user to run yux-video-summary first
 - **Incomplete content**: Warn about potentially thin article
 - **Style not selected**: Default to Casual Explainer after timeout

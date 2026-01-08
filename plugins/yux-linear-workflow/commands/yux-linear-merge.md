@@ -2,7 +2,7 @@
 
 Complete the workflow by merging the PR, cleaning up branches, and closing the Linear issue.
 
-**Usage**: `/linear-merge [--squash|--rebase|--merge]`
+**Usage**: `/yux-linear-merge [--squash|--rebase|--merge]`
 
 ## Input
 
@@ -159,7 +159,7 @@ Proceed with merge? [Y/n]
 ╚══════════════════════════════════════════════════════════════╝
 
 Great work! Ready for the next task?
-Use /linear-start to begin a new task.
+Use /yux-linear-start to begin a new task.
 ```
 
 ## Error Handling
@@ -172,7 +172,7 @@ Failed checks:
 ├── ✗ test - 3 tests failed
 └── ✗ e2e - Timeout error
 
-Fix the issues and push again, or use /linear-status to check details.
+Fix the issues and push again, or use /yux-linear-status to check details.
 ```
 
 ### Merge Conflicts
@@ -235,13 +235,13 @@ Contact repository admin if you believe this is an error.
 ╚══════════════════════════════════════════════════════════════╝
 
 恭喜完成任务！
-使用 /linear-start 开始下一个任务。
+使用 /yux-linear-start 开始下一个任务。
 ```
 
 ## Example
 
 ```
-User: /linear-merge
+User: /yux-linear-merge
 
 Claude: Checking merge readiness...
 
@@ -273,5 +273,5 @@ LIN-456: Implement user authentication
 Status: Done
 Duration: 5h 15m
 
-Great work! Use /linear-start for your next task.
+Great work! Use /yux-linear-start for your next task.
 ```

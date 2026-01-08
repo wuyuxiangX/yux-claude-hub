@@ -1,5 +1,5 @@
 ---
-name: ci-monitor
+name: yux-ci-monitor
 description: Monitor CI/CD status for pull requests with error reporting. Triggers: "check CI", "CI status", "workflow status", "monitor CI", "检查CI", "CI状态", "查看构建".
 allowed-tools: Read, Bash(gh:*)
 ---
@@ -34,7 +34,7 @@ gh pr view --json number,headRefName,state
 If no PR found:
 ```
 No pull request found for current branch.
-Use /linear-pr to create one.
+Use /yux-linear-pr to create one.
 ```
 
 ### Step 2: Fetch CI Status
@@ -88,7 +88,7 @@ All 5 checks passed!
 
 Preview: https://preview-78.example.com
 
-Ready to merge! Use /linear-merge or say "merge".
+Ready to merge! Use /yux-linear-merge or say "merge".
 ```
 
 ### Step 4: Handle Failures

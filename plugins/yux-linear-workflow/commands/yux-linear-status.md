@@ -2,7 +2,7 @@
 
 Display comprehensive status of the current Linear workflow including issue, branch, PR, and CI status.
 
-**Usage**: `/linear-status`
+**Usage**: `/yux-linear-status`
 
 ## Workflow
 
@@ -120,7 +120,7 @@ Parse results:
 ║                                                               ║
 ║  Next Steps                                                   ║
 ║  ──────────────────────────────────────────────────────────  ║
-║  → Ready to merge! Use /linear-merge                          ║
+║  → Ready to merge! Use /yux-linear-merge                      ║
 ║                                                               ║
 ╚══════════════════════════════════════════════════════════════╝
 ```
@@ -133,7 +133,7 @@ Parse results:
 Current branch: main
 
 No active Linear task detected.
-Use /linear-start to begin a new task.
+Use /yux-linear-start to begin a new task.
 ```
 
 ### Status Indicators
@@ -152,12 +152,12 @@ Based on current state, suggest appropriate actions:
 
 | State | Suggestion |
 |-------|------------|
-| No branch | "Use /linear-start to begin" |
+| No branch | "Use /yux-linear-start to begin" |
 | No commits | "Make some changes and commit" |
-| No PR | "Use /linear-pr to create PR" |
+| No PR | "Use /yux-linear-pr to create PR" |
 | CI running | "Waiting for CI to complete..." |
 | CI failed | "Fix the failing checks, then push" |
-| CI passed | "Use /linear-merge to merge" |
+| CI passed | "Use /yux-linear-merge to merge" |
 | Needs review | "Waiting for code review approval" |
 
 ## Error Handling
@@ -178,5 +178,5 @@ Issue:    LIN-456 - 实现用户认证
 状态:     审核中
 分支:     feat/LIN-456-user-auth
 
-下一步:   → 准备合并！使用 /linear-merge
+下一步:   → 准备合并！使用 /yux-linear-merge
 ```

@@ -30,7 +30,7 @@ plugins/<plugin-name>/
   - `description`: Trigger keywords that activate the skill
   - `allowed-tools`: Tools the skill can use
 
-- **Commands** (`.md` files in `commands/`): Slash commands users invoke explicitly (e.g., `/video-to-blog`)
+- **Commands** (`.md` files in `commands/`): Slash commands users invoke explicitly (e.g., `/yux-video-to-blog`)
 
 - **Marketplace** (`.claude-plugin/marketplace.json`): Root-level registry listing all available plugins
 
@@ -38,8 +38,8 @@ plugins/<plugin-name>/
 
 | Plugin | Purpose |
 |--------|---------|
-| `video-to-blog` | Video-to-article pipeline: subtitles → summary → blog |
-| `linear-workflow` | Linear integration with branch automation and CI monitoring |
+| `yux-video-to-blog` | Video-to-article pipeline: subtitles → summary → blog |
+| `yux-linear-workflow` | Linear integration with branch automation and CI monitoring |
 
 ## Adding a New Plugin
 
@@ -54,5 +54,5 @@ plugins/<plugin-name>/
 
 - All SKILL.md content must be in English
 - Skills must include clear trigger keywords in the `description` frontmatter
-- Branch naming: `<type>/LIN-<id>-<description>` (when using linear-workflow)
+- Branch naming: `<type>/LIN-<id>-<description>` (when using yux-linear-workflow)
 - Commits follow Conventional Commits format
