@@ -208,9 +208,18 @@ Branch:  feat/LIN-456-user-login
 
 You can now start coding!
 
-Useful commands:
-- /yux-linear-status  - Check current status
-- /yux-linear-pr      - Create pull request when ready
+---
+📋 Next Steps:
+
+\`\`\`
+/yux-linear-status
+\`\`\`
+Check current workflow status
+
+\`\`\`
+/yux-linear-pr
+\`\`\`
+Create a Pull Request when ready
 ```
 
 **Chinese**:
@@ -223,9 +232,18 @@ Issue:   LIN-456 - 用户登录实现
 
 现在可以开始编码了！
 
-常用命令：
-- /yux-linear-status  - 查看当前状态
-- /yux-linear-pr      - 准备好后创建 PR
+---
+📋 下一步 / Next Steps:
+
+\`\`\`
+/yux-linear-status
+\`\`\`
+查看当前工作流状态
+
+\`\`\`
+/yux-linear-pr
+\`\`\`
+准备好后创建 Pull Request
 ```
 
 ## Error Handling

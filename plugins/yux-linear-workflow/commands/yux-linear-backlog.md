@@ -130,11 +130,17 @@ Based on priority, deadlines, and current sprint:
    Priority: High | Due: Tomorrow | Status: Todo
    Reason: High priority bug with imminent deadline
 
-   -> Use `/yux-linear-start LIN-789` to begin
-
 Alternative options:
 2. [LIN-456] Implement user auth (already in progress)
 3. [LIN-234] Refactor API endpoints (in current sprint)
+
+---
+📋 Next Steps:
+
+\`\`\`
+/yux-linear-start LIN-789
+\`\`\`
+Start the recommended task
 ```
 
 **Chinese**:
@@ -147,11 +153,17 @@ Alternative options:
    优先级: 高 | 截止: 明天 | 状态: 待办
    推荐理由: 高优先级 Bug，截止日期临近
 
-   -> 使用 `/yux-linear-start LIN-789` 开始
-
 备选任务:
 2. [LIN-456] 实现用户认证 (已在进行中)
 3. [LIN-234] 重构 API 端点 (在当前迭代中)
+
+---
+📋 下一步 / Next Steps:
+
+\`\`\`
+/yux-linear-start LIN-789
+\`\`\`
+开始推荐的任务
 ```
 
 ### Step 6: Interactive Options

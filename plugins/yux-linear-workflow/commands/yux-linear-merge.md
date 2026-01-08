@@ -158,8 +158,13 @@ Proceed with merge? [Y/n]
 ║                                                               ║
 ╚══════════════════════════════════════════════════════════════╝
 
-Great work! Ready for the next task?
-Use /yux-linear-start to begin a new task.
+---
+📋 Next Steps:
+
+\`\`\`
+/yux-linear-backlog
+\`\`\`
+View backlog and start the next task
 ```
 
 ## Error Handling
@@ -234,8 +239,13 @@ Contact repository admin if you believe this is an error.
 ║                                                               ║
 ╚══════════════════════════════════════════════════════════════╝
 
-恭喜完成任务！
-使用 /yux-linear-start 开始下一个任务。
+---
+📋 下一步 / Next Steps:
+
+\`\`\`
+/yux-linear-backlog
+\`\`\`
+查看待办列表，开始下一个任务
 ```
 
 ## Example
@@ -273,5 +283,11 @@ LIN-456: Implement user authentication
 Status: Done
 Duration: 5h 15m
 
-Great work! Use /yux-linear-start for your next task.
+---
+📋 Next Steps:
+
+\`\`\`
+/yux-linear-backlog
+\`\`\`
+View backlog and start the next task
 ```
