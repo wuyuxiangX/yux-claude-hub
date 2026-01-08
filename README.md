@@ -12,27 +12,10 @@ yux-claude-hub is a Claude Code plugin repository providing:
 
 ## Available Plugins
 
-### video-to-blog
-
-Transform video content into blog articles. A complete pipeline for content creators.
-
-**Features:**
-- Download subtitles from multiple platforms (YouTube, Bilibili, Twitter/X, etc.)
-- Summarize video content into structured notes
-- Generate polished blog articles
-
-**Skills included:**
-| Skill | Triggers | Function |
-|-------|----------|----------|
-| video-subtitle | "download subtitle", "字幕下载" | Download video subtitles |
-| video-summary | "summarize video", "视频摘要" | Create structured summary |
-| blog-writer | "write blog", "写博客" | Generate blog article |
-
-**Command:**
-```
-/video-to-blog <video-url>
-```
-One-click pipeline: URL → Subtitles → Summary → Blog Article
+| Plugin | Description | Details |
+|--------|-------------|---------|
+| [video-to-blog](./plugins/video-to-blog/) | Transform video content into blog articles | [README](./plugins/video-to-blog/README.md) |
+| [linear-workflow](./plugins/linear-workflow/) | Linear integration with CI/CD monitoring | [README](./plugins/linear-workflow/README.md) |
 
 ## Installation
 
@@ -43,9 +26,11 @@ One-click pipeline: URL → Subtitles → Summary → Blog Article
 /plugin marketplace add wuyuxiangX/yux-claude-hub
 ```
 
-2. Install the video-to-blog plugin:
+2. Install a plugin:
 ```bash
 /plugin install video-to-blog
+# or
+/plugin install linear-workflow
 ```
 
 ### Option 2: Manual Installation
@@ -54,49 +39,30 @@ One-click pipeline: URL → Subtitles → Summary → Blog Article
 git clone https://github.com/wuyuxiangX/yux-claude-hub.git ~/.claude/plugins/yux-claude-hub
 ```
 
+Or add individual plugins to `.claude/plugins.json`:
+
+```json
+{
+  "plugins": [
+    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/video-to-blog",
+    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/linear-workflow"
+  ]
+}
+```
+
 ## Directory Structure
 
 ```
 yux-claude-hub/
-├── .claude-plugin              # Plugin identifier
 ├── plugins/
-│   └── video-to-blog/          # Video to blog plugin
-│       ├── .claude-plugin
-│       ├── skills/
-│       │   ├── video-subtitle/
-│       │   ├── video-summary/
-│       │   └── blog-writer/
-│       └── commands/
-│           └── video-to-blog.md
+│   ├── video-to-blog/      # Video to blog plugin
+│   │   └── README.md       # Detailed documentation
+│   └── linear-workflow/    # Linear workflow plugin
+│       └── README.md       # Detailed documentation
+├── .claude-plugin/         # Plugin identifier
 ├── settings.json
 ├── LICENSE
-└── README.md
-```
-
-## Usage Examples
-
-### Download Video Subtitles
-```
-User: Download subtitles from https://youtube.com/watch?v=xxx
-Claude: [Executes video-subtitle skill]
-```
-
-### Summarize Video Content
-```
-User: Summarize the video transcript
-Claude: [Executes video-summary skill]
-```
-
-### Generate Blog Article
-```
-User: Write a blog from the summary
-Claude: [Asks for style preference, then generates article]
-```
-
-### Full Pipeline
-```
-User: /video-to-blog https://youtube.com/watch?v=xxx
-Claude: [Downloads subtitles → Summarizes → Generates blog]
+└── README.md               # This file
 ```
 
 ## Contributing
@@ -113,6 +79,7 @@ Contributions welcome!
 - Write all SKILL.md content in English
 - Include clear trigger keywords
 - Provide usage examples
+- Add a README.md in your plugin directory
 - Test before submitting
 
 ## License
