@@ -18,6 +18,17 @@
       },
       "source": "./plugins/video-to-blog",
       "category": "productivity"
+    },
+    {
+      "name": "linear-workflow",
+      "description": "Complete Linear workflow integration with CI/CD monitoring. Automates issue tracking, branch management, PR creation, and merging.",
+      "version": "1.0.0",
+      "author": {
+        "name": "wuyuxiangX",
+        "email": "wuyuxiang@example.com"
+      },
+      "source": "./plugins/linear-workflow",
+      "category": "development"
     }
   ]
 }

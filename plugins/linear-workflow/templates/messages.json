@@ -1,0 +1,232 @@
+{
+  "en": {
+    "workflow": {
+      "start": "Starting Linear workflow...",
+      "complete": "Workflow completed successfully!",
+      "error": "Workflow error occurred"
+    },
+    "issue": {
+      "search_prompt": "Enter search keywords or issue ID:",
+      "create_prompt": "Creating new issue. Please provide details:",
+      "created": "Issue {id} created: {title}",
+      "not_found": "No issues found matching '{query}'",
+      "select_prompt": "Select an issue (enter number):",
+      "status_updated": "Issue {id} status updated to {status}"
+    },
+    "branch": {
+      "creating": "Creating branch: {branch}",
+      "created": "Branch created and checked out: {branch}",
+      "exists": "Branch {branch} already exists. Switch to it?",
+      "pushed": "Branch pushed to remote",
+      "deleted": "Branch {branch} deleted",
+      "type_prompt": "Select branch type:",
+      "types": {
+        "feat": "New feature",
+        "fix": "Bug fix",
+        "docs": "Documentation",
+        "refactor": "Code refactoring",
+        "test": "Tests",
+        "chore": "Maintenance"
+      }
+    },
+    "commit": {
+      "invalid_format": "Invalid commit format. Expected: {format}",
+      "suggest_reference": "Consider adding issue reference: {issue_id}",
+      "valid_types": "Valid types: feat, fix, docs, style, refactor, test, chore"
+    },
+    "pr": {
+      "creating": "Creating pull request...",
+      "created": "PR #{number} created: {url}",
+      "exists": "PR already exists: #{number}",
+      "template": "## Summary\n{summary}\n\n## Linear Issue\nCloses {issue_id}\n\n## Changes\n{changes}",
+      "no_commits": "No commits to create PR. Make some changes first.",
+      "on_main": "Cannot create PR from main branch. Use /linear-start first."
+    },
+    "ci": {
+      "checking": "Checking CI status...",
+      "passed": "All {count} checks passed!",
+      "failed": "CI failed: {check_name}",
+      "running": "CI running: {passed}/{total} checks passed",
+      "pending": "CI checks pending",
+      "error_details": "Error details:\n{details}",
+      "fix_suggestion": "Suggested fix:\n{suggestion}",
+      "monitoring": "Monitoring CI... (will update every 15 seconds)"
+    },
+    "merge": {
+      "prompt": "All checks passed. Merge PR?",
+      "merging": "Merging PR...",
+      "completed": "PR merged! Branch deleted. Issue closed.",
+      "blocked": "Cannot merge: {reason}",
+      "conflicts": "Merge conflicts detected",
+      "reviews_needed": "Waiting for required reviews",
+      "ci_not_passed": "CI checks must pass before merging"
+    },
+    "status": {
+      "title": "Linear Workflow Status",
+      "no_task": "No active Linear task detected.",
+      "use_start": "Use /linear-start to begin a new task.",
+      "next_steps": "Next Steps"
+    },
+    "general": {
+      "proceed": "Proceed? [Y/n]",
+      "yes": "Y",
+      "no": "n",
+      "cancel": "Operation cancelled",
+      "retry": "Retry? [Y/n]",
+      "great_work": "Great work!",
+      "ready_next": "Ready for the next task?"
+    }
+  },
+  "zh": {
+    "workflow": {
+      "start": "正在启动 Linear 工作流...",
+      "complete": "工作流已成功完成！",
+      "error": "工作流出错"
+    },
+    "issue": {
+      "search_prompt": "请输入搜索关键词或 Issue ID：",
+      "create_prompt": "创建新 Issue，请提供详情：",
+      "created": "Issue {id} 已创建：{title}",
+      "not_found": "未找到匹配 '{query}' 的 Issue",
+      "select_prompt": "选择一个 Issue（输入编号）：",
+      "status_updated": "Issue {id} 状态已更新为 {status}"
+    },
+    "branch": {
+      "creating": "正在创建分支：{branch}",
+      "created": "分支已创建并切换：{branch}",
+      "exists": "分支 {branch} 已存在。是否切换？",
+      "pushed": "分支已推送到远程",
+      "deleted": "分支 {branch} 已删除",
+      "type_prompt": "选择分支类型：",
+      "types": {
+        "feat": "新功能",
+        "fix": "Bug 修复",
+        "docs": "文档",
+        "refactor": "代码重构",
+        "test": "测试",
+        "chore": "维护"
+      }
+    },
+    "commit": {
+      "invalid_format": "Commit 格式无效。期望格式：{format}",
+      "suggest_reference": "建议添加 Issue 引用：{issue_id}",
+      "valid_types": "有效类型：feat, fix, docs, style, refactor, test, chore"
+    },
+    "pr": {
+      "creating": "正在创建 Pull Request...",
+      "created": "PR #{number} 已创建：{url}",
+      "exists": "PR 已存在：#{number}",
+      "template": "## 概述\n{summary}\n\n## Linear Issue\n关闭 {issue_id}\n\n## 更改内容\n{changes}",
+      "no_commits": "没有可提交的更改。请先进行一些修改。",
+      "on_main": "无法从 main 分支创建 PR。请先使用 /linear-start"
+    },
+    "ci": {
+      "checking": "正在检查 CI 状态...",
+      "passed": "全部 {count} 项检查通过！",
+      "failed": "CI 失败：{check_name}",
+      "running": "CI 运行中：{passed}/{total} 项检查通过",
+      "pending": "CI 检查等待中",
+      "error_details": "错误详情：\n{details}",
+      "fix_suggestion": "修复建议：\n{suggestion}",
+      "monitoring": "监控 CI 中...（每 15 秒更新）"
+    },
+    "merge": {
+      "prompt": "所有检查已通过。是否合并 PR？",
+      "merging": "正在合并 PR...",
+      "completed": "PR 已合并！分支已删除。Issue 已关闭。",
+      "blocked": "无法合并：{reason}",
+      "conflicts": "检测到合并冲突",
+      "reviews_needed": "等待必要的代码审查",
+      "ci_not_passed": "CI 检查必须通过才能合并"
+    },
+    "status": {
+      "title": "Linear 工作流状态",
+      "no_task": "未检测到活跃的 Linear 任务。",
+      "use_start": "使用 /linear-start 开始新任务。",
+      "next_steps": "下一步"
+    },
+    "general": {
+      "proceed": "是否继续？[Y/n]",
+      "yes": "Y",
+      "no": "n",
+      "cancel": "操作已取消",
+      "retry": "是否重试？[Y/n]",
+      "great_work": "做得好！",
+      "ready_next": "准备好下一个任务了吗？"
+    }
+  },
+  "ja": {
+    "workflow": {
+      "start": "Linear ワークフローを開始しています...",
+      "complete": "ワークフローが正常に完了しました！",
+      "error": "ワークフローエラーが発生しました"
+    },
+    "issue": {
+      "search_prompt": "検索キーワードまたは Issue ID を入力:",
+      "create_prompt": "新しい Issue を作成します。詳細を入力してください:",
+      "created": "Issue {id} を作成しました: {title}",
+      "not_found": "'{query}' に一致する Issue が見つかりません",
+      "select_prompt": "Issue を選択（番号を入力）:",
+      "status_updated": "Issue {id} のステータスを {status} に更新しました"
+    },
+    "branch": {
+      "creating": "ブランチを作成中: {branch}",
+      "created": "ブランチを作成してチェックアウトしました: {branch}",
+      "exists": "ブランチ {branch} は既に存在します。切り替えますか？",
+      "pushed": "ブランチをリモートにプッシュしました",
+      "deleted": "ブランチ {branch} を削除しました",
+      "type_prompt": "ブランチタイプを選択:",
+      "types": {
+        "feat": "新機能",
+        "fix": "バグ修正",
+        "docs": "ドキュメント",
+        "refactor": "リファクタリング",
+        "test": "テスト",
+        "chore": "メンテナンス"
+      }
+    },
+    "ci": {
+      "checking": "CI ステータスを確認中...",
+      "passed": "全 {count} 件のチェックが完了しました！",
+      "failed": "CI が失敗しました: {check_name}",
+      "running": "CI 実行中: {passed}/{total} チェック完了"
+    },
+    "merge": {
+      "prompt": "全てのチェックが完了しました。PR をマージしますか？",
+      "completed": "PR がマージされました！ブランチを削除し、Issue をクローズしました。"
+    },
+    "general": {
+      "proceed": "続行しますか？[Y/n]",
+      "great_work": "お疲れ様でした！",
+      "ready_next": "次のタスクの準備はできましたか？"
+    }
+  },
+  "ko": {
+    "workflow": {
+      "start": "Linear 워크플로우를 시작합니다...",
+      "complete": "워크플로우가 성공적으로 완료되었습니다!",
+      "error": "워크플로우 오류가 발생했습니다"
+    },
+    "issue": {
+      "search_prompt": "검색어 또는 Issue ID를 입력하세요:",
+      "created": "Issue {id} 생성됨: {title}",
+      "not_found": "'{query}'와 일치하는 Issue를 찾을 수 없습니다"
+    },
+    "branch": {
+      "created": "브랜치가 생성되고 체크아웃되었습니다: {branch}",
+      "type_prompt": "브랜치 유형 선택:"
+    },
+    "ci": {
+      "passed": "모든 {count}개 검사를 통과했습니다!",
+      "failed": "CI 실패: {check_name}"
+    },
+    "merge": {
+      "prompt": "모든 검사가 통과되었습니다. PR을 병합하시겠습니까?",
+      "completed": "PR이 병합되었습니다! 브랜치가 삭제되고 Issue가 닫혔습니다."
+    },
+    "general": {
+      "proceed": "계속하시겠습니까? [Y/n]",
+      "great_work": "수고하셨습니다!"
+    }
+  }
+}
