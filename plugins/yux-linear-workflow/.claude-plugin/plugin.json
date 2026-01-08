@@ -1,5 +1,5 @@
 {
-  "name": "linear-workflow",
+  "name": "yux-linear-workflow",
   "version": "1.0.0",
   "description": "Complete Linear workflow integration for Claude Code. Automates issue tracking, branch management, commits, PR creation, CI/CD monitoring, and merging.",
   "author": {

@@ -17,7 +17,7 @@ Complete Linear workflow integration for Claude Code with CI/CD monitoring and m
 Add this plugin to your Claude Code settings:
 
 ```bash
-claude plugin add https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/linear-workflow
+claude plugin add https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-linear-workflow
 ```
 
 Or manually add to `.claude/plugins.json`:
@@ -25,7 +25,7 @@ Or manually add to `.claude/plugins.json`:
 ```json
 {
   "plugins": [
-    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/linear-workflow"
+    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-linear-workflow"
   ]
 }
 ```
@@ -49,12 +49,12 @@ Or manually add to `.claude/plugins.json`:
 
 ## Commands
 
-### `/linear-start [description]`
+### `/yux-linear-start [description]`
 
 Start a new task with Linear integration.
 
 ```
-User: /linear-start implement user authentication
+User: /yux-linear-start implement user authentication
 
 Claude: Starting Linear workflow...
 
@@ -76,12 +76,12 @@ Branch:  feat/LIN-456-user-auth
 You can now start coding!
 ```
 
-### `/linear-pr`
+### `/yux-linear-pr`
 
 Create a pull request with CI monitoring.
 
 ```
-User: /linear-pr
+User: /yux-linear-pr
 
 Claude: Creating pull request...
 
@@ -95,12 +95,12 @@ Linear LIN-456 updated to: In Review
 └── ○ deploy-preview (pending)
 ```
 
-### `/linear-status`
+### `/yux-linear-status`
 
 Check current workflow status.
 
 ```
-User: /linear-status
+User: /yux-linear-status
 
 Claude:
 === Linear Workflow Status ===
@@ -112,15 +112,15 @@ Branch:   feat/LIN-456-user-auth
 PR:       #78 - Open
 CI:       All 5 checks passed
 
-Next Step: Ready to merge! Use /linear-merge
+Next Step: Ready to merge! Use /yux-linear-merge
 ```
 
-### `/linear-merge`
+### `/yux-linear-merge`
 
 Merge PR and complete the workflow.
 
 ```
-User: /linear-merge
+User: /yux-linear-merge
 
 Claude: Checking merge readiness...
 
@@ -266,25 +266,25 @@ The plugin includes hooks for:
 ## File Structure
 
 ```
-plugins/linear-workflow/
+plugins/yux-linear-workflow/
 ├── .claude-plugin/
-│   └── plugin.json           # Plugin manifest
-├── .mcp.json                  # Linear MCP config
+│   └── plugin.json               # Plugin manifest
+├── .mcp.json                     # Linear MCP config
 ├── commands/
-│   ├── linear-start.md       # Start task command
-│   ├── linear-pr.md          # Create PR command
-│   ├── linear-status.md      # Check status command
-│   └── linear-merge.md       # Merge PR command
+│   ├── yux-linear-start.md       # Start task command
+│   ├── yux-linear-pr.md          # Create PR command
+│   ├── yux-linear-status.md      # Check status command
+│   └── yux-linear-merge.md       # Merge PR command
 ├── skills/
-│   ├── linear-workflow/
-│   │   └── SKILL.md          # Main workflow skill
-│   └── ci-monitor/
-│       └── SKILL.md          # CI monitoring skill
+│   ├── yux-linear-workflow/
+│   │   └── SKILL.md              # Main workflow skill
+│   └── yux-ci-monitor/
+│       └── SKILL.md              # CI monitoring skill
 ├── hooks/
-│   └── hooks.json            # Hook configurations
+│   └── hooks.json                # Hook configurations
 ├── templates/
-│   └── messages.json         # Multi-language messages
-└── README.md                 # This file
+│   └── messages.json             # Multi-language messages
+└── README.md                     # This file
 ```
 
 ## Comparison with Reference Project

@@ -14,7 +14,7 @@ Transform video content into blog articles. A complete pipeline for content crea
 Add this plugin to your Claude Code:
 
 ```bash
-claude plugin add https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/video-to-blog
+claude plugin add https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-video-to-blog
 ```
 
 Or manually add to `.claude/plugins.json`:
@@ -22,7 +22,7 @@ Or manually add to `.claude/plugins.json`:
 ```json
 {
   "plugins": [
-    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/video-to-blog"
+    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-video-to-blog"
   ]
 }
 ```
@@ -31,18 +31,18 @@ Or manually add to `.claude/plugins.json`:
 
 | Skill | Triggers | Function |
 |-------|----------|----------|
-| video-subtitle | "download subtitle", "extract subtitle", "video subtitle", "transcript", "字幕下载", "提取字幕", "视频字幕" | Download video subtitles |
-| video-summary | "summarize video", "video summary", "content summary", "organize transcript", "整理视频", "视频摘要", "内容总结" | Create structured summary |
-| blog-writer | "write blog", "generate article", "create post", "blog from video", "写博客", "生成文章", "写文章" | Generate blog article |
+| yux-video-subtitle | "download subtitle", "extract subtitle", "video subtitle", "transcript", "字幕下载", "提取字幕", "视频字幕" | Download video subtitles |
+| yux-video-summary | "summarize video", "video summary", "content summary", "organize transcript", "整理视频", "视频摘要", "内容总结" | Create structured summary |
+| yux-blog-writer | "write blog", "generate article", "create post", "blog from video", "写博客", "生成文章", "写文章" | Generate blog article |
 
 ## Command
 
-### `/video-to-blog <video-url>`
+### `/yux-video-to-blog <video-url>`
 
 One-click pipeline: URL → Subtitles → Summary → Blog Article
 
 ```
-User: /video-to-blog https://youtube.com/watch?v=xxx
+User: /yux-video-to-blog https://youtube.com/watch?v=xxx
 Claude: [Downloads subtitles → Summarizes → Generates blog]
 ```
 
@@ -52,14 +52,14 @@ Claude: [Downloads subtitles → Summarizes → Generates blog]
 
 ```
 User: Download subtitles from https://youtube.com/watch?v=xxx
-Claude: [Executes video-subtitle skill]
+Claude: [Executes yux-video-subtitle skill]
 ```
 
 ### Summarize Video Content
 
 ```
 User: Summarize the video transcript
-Claude: [Executes video-summary skill]
+Claude: [Executes yux-video-summary skill]
 ```
 
 ### Generate Blog Article
@@ -72,7 +72,7 @@ Claude: [Asks for style preference, then generates article]
 ### Full Pipeline
 
 ```
-User: /video-to-blog https://youtube.com/watch?v=xxx
+User: /yux-video-to-blog https://youtube.com/watch?v=xxx
 Claude: [Downloads subtitles → Summarizes → Generates blog]
 ```
 
@@ -94,19 +94,19 @@ Claude: [Downloads subtitles → Summarizes → Generates blog]
 ## File Structure
 
 ```
-plugins/video-to-blog/
+plugins/yux-video-to-blog/
 ├── .claude-plugin/
-│   └── plugin.json           # Plugin manifest
+│   └── plugin.json               # Plugin manifest
 ├── commands/
-│   └── video-to-blog.md      # Pipeline command
+│   └── yux-video-to-blog.md      # Pipeline command
 ├── skills/
-│   ├── video-subtitle/
-│   │   └── SKILL.md          # Subtitle download skill
-│   ├── video-summary/
-│   │   └── SKILL.md          # Video summary skill
-│   └── blog-writer/
-│       └── SKILL.md          # Blog generation skill
-└── README.md                 # This file
+│   ├── yux-video-subtitle/
+│   │   └── SKILL.md              # Subtitle download skill
+│   ├── yux-video-summary/
+│   │   └── SKILL.md              # Video summary skill
+│   └── yux-blog-writer/
+│       └── SKILL.md              # Blog generation skill
+└── README.md                     # This file
 ```
 
 ## License

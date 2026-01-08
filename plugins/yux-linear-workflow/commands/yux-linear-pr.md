@@ -2,7 +2,7 @@
 
 Create a pull request with Linear issue integration and CI/CD monitoring.
 
-**Usage**: `/linear-pr [additional description]`
+**Usage**: `/yux-linear-pr [additional description]`
 
 ## Input
 
@@ -133,7 +133,7 @@ Additional PR description from: $ARGUMENTS (optional)
 
 ### Step 6: Monitor CI/CD
 
-Trigger CI monitoring (invoke ci-monitor skill):
+Trigger CI monitoring (invoke yux-ci-monitor skill):
 
 1. **Initial status check**:
    ```bash
@@ -175,13 +175,13 @@ CI Status: Monitoring...
 ├── ○ test (running)
 └── ○ deploy-preview (pending)
 
-Use /linear-status to check progress
-Use /linear-merge when ready to merge
+Use /yux-linear-status to check progress
+Use /yux-linear-merge when ready to merge
 ```
 
 ## Error Handling
 
-- **On main branch**: "Cannot create PR from main. Use /linear-start first"
+- **On main branch**: "Cannot create PR from main. Use /yux-linear-start first"
 - **No commits**: "No commits to create PR. Make some changes first"
 - **No issue ID in branch**: Warning but allow PR creation
 - **PR already exists**: Show existing PR info, ask to update
@@ -189,7 +189,7 @@ Use /linear-merge when ready to merge
 ## Example
 
 ```
-User: /linear-pr
+User: /yux-linear-pr
 
 Claude: Creating pull request...
 

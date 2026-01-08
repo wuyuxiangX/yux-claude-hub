@@ -1,5 +1,5 @@
 ---
-name: linear-workflow
+name: yux-linear-workflow
 description: Complete Linear workflow automation for development tasks. Triggers: "linear workflow", "start task", "work on issue", "create pr", "merge pr", "开始任务", "处理Issue", "创建PR", "合并PR".
 allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
@@ -100,7 +100,7 @@ When ready for review:
    - Add PR link as comment
 
 4. **Monitor CI**:
-   - Invoke ci-monitor skill
+   - Invoke yux-ci-monitor skill
    - Report status to user
 
 ### 4. Merge Completion
@@ -257,7 +257,7 @@ Issue:   LIN-456 - Implement user authentication
 Status:  Done
 PR:      #78 merged to main
 
-Great work! Use /linear-start for your next task.
+Great work! Use /yux-linear-start for your next task.
 ```
 
 ### Task Completed (Chinese)

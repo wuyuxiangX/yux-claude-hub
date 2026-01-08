@@ -1,5 +1,5 @@
 {
-  "name": "video-to-blog",
+  "name": "yux-video-to-blog",
   "version": "1.0.0",
   "description": "Transform video content into blog articles. Download subtitles, summarize content, and generate polished blog posts.",
   "author": {

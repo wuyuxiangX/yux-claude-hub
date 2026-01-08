@@ -1,5 +1,5 @@
 ---
-name: video-summary
+name: yux-video-summary
 description: Organize video transcript into structured summary. Triggers: "summarize video", "video summary", "content summary", "organize transcript", "整理视频", "视频摘要", "内容总结".
 allowed-tools: Read, Write, Glob, Grep
 ---

@@ -1,5 +1,5 @@
 ---
-name: video-subtitle
+name: yux-video-subtitle
 description: Download subtitles/transcripts from video platforms. Triggers: "download subtitle", "extract subtitle", "video subtitle", "transcript", "字幕下载", "提取字幕", "视频字幕".
 allowed-tools: Read, Write, Glob, Grep, Bash(yt-dlp:*), Bash(which:*), Bash(ls:*), Bash(cat:*)
 ---
@@ -119,4 +119,4 @@ Lines: 245
 Size: 12.5 KB
 ```
 
-The language code (`zh`, `en`, etc.) will be used by the video-summary skill for multi-language output generation.
+The language code (`zh`, `en`, etc.) will be used by the yux-video-summary skill for multi-language output generation.

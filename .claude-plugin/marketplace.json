@@ -9,25 +9,25 @@
   },
   "plugins": [
     {
-      "name": "video-to-blog",
+      "name": "yux-video-to-blog",
       "description": "Transform video content into blog articles. Download subtitles, summarize content, and generate polished blog posts.",
       "version": "1.0.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
       },
-      "source": "./plugins/video-to-blog",
+      "source": "./plugins/yux-video-to-blog",
       "category": "productivity"
     },
     {
-      "name": "linear-workflow",
+      "name": "yux-linear-workflow",
       "description": "Complete Linear workflow integration with CI/CD monitoring. Automates issue tracking, branch management, PR creation, and merging.",
       "version": "1.0.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
       },
-      "source": "./plugins/linear-workflow",
+      "source": "./plugins/yux-linear-workflow",
       "category": "development"
     }
   ]
