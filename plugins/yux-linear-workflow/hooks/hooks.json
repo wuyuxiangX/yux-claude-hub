@@ -7,7 +7,8 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Before processing, check if Linear workflow is relevant:\n\n1. If user mentions task/issue/feature work, remind about /linear-start\n2. If on a Linear branch (contains LIN-xxx), track the context\n3. If discussing PR/merge, remind about /linear-pr or /linear-merge\n\nOnly add reminders if truly relevant, don't interrupt normal conversations."
+            "prompt": "Check if Linear workflow is relevant:\n1. If user mentions task/issue/feature work, remind about /yux-linear-start\n2. If on a Linear branch (LIN-xxx), acknowledge the context\n3. If discussing PR/merge, remind about /yux-linear-pr or /yux-linear-merge\nOnly add reminders if truly relevant.",
+            "timeout": 5
           }
         ]
       }
@@ -17,8 +18,9 @@
         "matcher": "Write|Edit",
         "hooks": [
           {
-            "type": "prompt",
-            "prompt": "Before modifying files, verify branch status:\n\n1. Check current branch: git branch --show-current\n2. If on 'main' or 'master', warn user:\n   - 'You are on the main branch. Consider using /linear-start to create a task branch.'\n3. If branch contains LIN-xxx, this is expected workflow behavior\n4. Allow the operation but log the warning if on main"
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/check_branch.py",
+            "timeout": 5
           }
         ]
       },
@@ -26,8 +28,9 @@
         "matcher": "Bash",
         "hooks": [
           {
-            "type": "prompt",
-            "prompt": "If this is a git commit command:\n\n1. Validate commit message follows Conventional Commits:\n   - Pattern: ^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\\(.+\\))?: .+\n   - If invalid, suggest correct format\n\n2. Check if Linear issue reference is included:\n   - If branch has LIN-xxx but commit doesn't reference it, suggest adding\n   - Format: 'Refs: LIN-xxx' in footer or include in message\n\n3. Allow commit but provide guidance for better practices"
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/validate_commit.py",
+            "timeout": 5
           }
         ]
       }
@@ -37,8 +40,14 @@
         "matcher": "",
         "hooks": [
           {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/sync_progress.py",
+            "timeout": 10
+          },
+          {
             "type": "prompt",
-            "prompt": "Before context compaction, sync progress to Linear:\n\n1. Extract issue ID from current branch (pattern: LIN-\\d+)\n2. If issue ID found:\n   - Summarize work done in this session\n   - List key changes and decisions made\n   - Note any blockers or next steps\n3. Suggest posting this summary as a Linear comment:\n   - Use mcp__linear__createComment if available\n   - Include branch name and commit count\n4. If no issue ID, skip Linear sync"
+            "prompt": "If the sync_progress script returned an issue_id, consider posting a progress summary to Linear using mcp__linear__createComment before context compaction.",
+            "timeout": 10
           }
         ]
       }
@@ -48,8 +57,9 @@
         "matcher": "Bash",
         "hooks": [
           {
-            "type": "prompt",
-            "prompt": "After bash command execution:\n\n1. If command was 'gh pr create':\n   - Extract PR number and URL from output\n   - Remind to update Linear status to 'In Review'\n   - Suggest monitoring CI with /linear-status\n\n2. If command was 'gh pr merge':\n   - Confirm merge success\n   - Remind to update Linear status to 'Done'\n   - Suggest cleanup: delete local branch, pull main\n\n3. If command was 'git push':\n   - Note the push for tracking\n   - If PR exists, mention CI will run"
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/post_command.py",
+            "timeout": 5
           }
         ]
       }
