@@ -32,6 +32,43 @@ Before starting, verify:
 
 ## Workflow
 
+### Step 0: Mandatory Linear Connection Verification
+
+**This step is REQUIRED before proceeding. If Linear is not available, the workflow MUST stop.**
+
+1. **Test Linear MCP connection**:
+   ```
+   mcp__linear__list_teams()
+   ```
+
+2. **If the call fails or returns empty**:
+   - Output error message and stop immediately
+   - **DO NOT proceed with the workflow**
+
+   **English**:
+   ```
+   ❌ Linear Connection Failed
+
+   Cannot connect to Linear. Please check:
+   1. Linear MCP server is configured
+   2. OAuth authorization is valid
+
+   Run /linear-tools:setup to configure Linear.
+   ```
+
+   **Chinese**:
+   ```
+   ❌ Linear 连接失败
+
+   无法连接到 Linear，请检查：
+   1. Linear MCP 是否已配置
+   2. OAuth 授权是否有效
+
+   运行 /linear-tools:setup 进行配置
+   ```
+
+3. **Only if connection succeeds**: Proceed to Step 1
+
 ### Step 1: Detect User Language
 
 Analyze user input to determine preferred language:
@@ -140,7 +177,17 @@ If user chooses to search:
 
    Enter issue number to select, or 'n' for new issue:
    ```
-4. If user selects an issue, proceed to Step 5
+4. If user selects an issue:
+   - **MANDATORY: Verify the selected issue exists**:
+     ```
+     mcp__linear__get_issue(id: "<issue-uuid>")
+     ```
+   - Store issue details:
+     - `ISSUE_ID`: e.g., "LIN-123"
+     - `ISSUE_UUID`: The full UUID
+     - `ISSUE_TITLE`: The issue title
+     - `LINEAR_URL`: The Linear issue URL
+   - Proceed to Step 5
 
 ### Step 4b: Create New Issue
 
@@ -153,7 +200,7 @@ If user chooses to create:
 
 2. **Create issue via Linear MCP** (use team from Step 2):
    ```
-   mcp__linear__createIssue(
+   mcp__linear__create_issue(
      title: "<title>",
      description: "<description>",
      team: "<LINEAR_TEAM>",
@@ -163,6 +210,24 @@ If user chooses to create:
    ```
 
 3. **Get the created issue ID** (e.g., `LIN-456`)
+
+4. **MANDATORY: Verify issue creation succeeded**:
+   ```
+   mcp__linear__get_issue(id: "<issue-uuid>")
+   ```
+   - If verification fails, output error and **stop the workflow**:
+   ```
+   ❌ Issue creation failed
+
+   The issue was not created in Linear. Please try again.
+   ```
+   - Only proceed if the issue is confirmed to exist
+
+5. **Store issue details for later use**:
+   - `ISSUE_ID`: e.g., "LIN-456"
+   - `ISSUE_UUID`: The full UUID returned by Linear
+   - `ISSUE_TITLE`: The issue title
+   - `LINEAR_URL`: The Linear issue URL
 
 ### Step 5: Create Git Branch
 
@@ -189,35 +254,63 @@ If user chooses to create:
    git push -u origin <branch-name>
    ```
 
-### Step 6: Update Linear Issue Status
+### Step 6: Update Linear Issue Status & Save Local State
 
-Update the issue status to "In Progress":
-```
-mcp__linear__updateIssue(
-  issueId: "<issue-id>",
-  stateId: "<in-progress-state-id>"
-)
-```
+1. **Update the issue status to "In Progress"**:
+   ```
+   mcp__linear__update_issue(
+     id: "<issue-uuid>",
+     state: "In Progress"
+   )
+   ```
 
-Add a comment to track the start:
-```
-mcp__linear__createComment(
-  issueId: "<issue-id>",
-  body: "Started working on this issue.\nBranch: `<branch-name>`"
-)
-```
+2. **Add a comment to track the start**:
+   ```
+   mcp__linear__create_comment(
+     issueId: "<issue-uuid>",
+     body: "Started working on this issue.\nBranch: `<branch-name>`"
+   )
+   ```
+
+3. **MANDATORY: Save local state file**:
+
+   Create the directory if needed:
+   ```bash
+   mkdir -p .claude/linear-tasks
+   ```
+
+   Write state to `.claude/linear-tasks/<ISSUE_ID>.json`:
+   ```json
+   {
+     "issue_id": "LIN-456",
+     "issue_uuid": "cfef1fd0-...",
+     "issue_title": "User login implementation",
+     "branch_name": "feat/LIN-456-user-login",
+     "status": "in_progress",
+     "linear_url": "https://linear.app/team/issue/LIN-456",
+     "started_at": "2026-01-09T10:30:00Z",
+     "verified": true
+   }
+   ```
+
+   **Note**: This file will be tracked by git and persists across sessions.
 
 ### Step 7: Output Summary
 
-Display completion message (in user's language):
+Display completion message with verification status (in user's language):
 
 **English**:
 ```
 === Task Started ===
 
+✓ Linear issue verified: LIN-456
+✓ Status updated: In Progress
+✓ Local state saved: .claude/linear-tasks/LIN-456.json
+
 Issue:   LIN-456 - User login implementation
 Status:  In Progress
 Branch:  feat/LIN-456-user-login
+URL:     https://linear.app/team/issue/LIN-456
 
 You can now start coding!
 
@@ -239,9 +332,14 @@ Create a Pull Request when ready
 ```
 === 任务已启动 ===
 
+✓ Linear issue 已验证: LIN-456
+✓ 状态已更新: In Progress
+✓ 本地状态已保存: .claude/linear-tasks/LIN-456.json
+
 Issue:   LIN-456 - 用户登录实现
 状态:    In Progress
 分支:    feat/LIN-456-user-login
+URL:     https://linear.app/team/issue/LIN-456
 
 现在可以开始编码了！
 

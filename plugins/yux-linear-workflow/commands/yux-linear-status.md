@@ -6,7 +6,9 @@ Display comprehensive status of the current Linear workflow including issue, bra
 
 ## Workflow
 
-### Step 0: Load Team Configuration
+### Step 0: Load Configuration and Sync Local State
+
+**This step loads config and ensures local state is synchronized with Linear.**
 
 1. **Read** `.claude/linear-config.json` if exists
 2. Use team/project info for display header (e.g., "Wyx Team - subloom-api Project")
@@ -14,6 +16,49 @@ Display comprehensive status of the current Linear workflow including issue, bra
    ```
    Note: Linear configuration not found. Run `/yux-linear-start` to set up team/project for full workflow.
    ```
+
+4. **Get current branch** and extract Linear issue ID:
+   ```bash
+   git branch --show-current
+   ```
+   Extract pattern: `LIN-\d+`
+
+5. **Check for local state file**:
+   - Path: `.claude/linear-tasks/<ISSUE_ID>.json`
+   - If exists, load and verify
+
+6. **If local state is missing or outdated**:
+   - Fetch issue from Linear:
+     ```
+     mcp__linear__get_issue(id: "<issue-uuid-or-identifier>")
+     ```
+   - **Rebuild local state file**:
+     ```bash
+     mkdir -p .claude/linear-tasks
+     ```
+     Write to `.claude/linear-tasks/<ISSUE_ID>.json`:
+     ```json
+     {
+       "issue_id": "LIN-456",
+       "issue_uuid": "<uuid-from-linear>",
+       "issue_title": "<title-from-linear>",
+       "branch_name": "<current-branch>",
+       "status": "<current-status>",
+       "linear_url": "<url-from-linear>",
+       "synced_at": "<current-timestamp>",
+       "verified": true
+     }
+     ```
+   - Output sync status:
+     ```
+     ✓ Local state synchronized from Linear
+     ```
+
+7. **If Linear issue not found**:
+   - Output warning:
+     ```
+     ⚠️ Issue not found in Linear. The issue may have been deleted.
+     ```
 
 ### Step 1: Gather Git Information
 
@@ -40,7 +85,7 @@ Display comprehensive status of the current Linear workflow including issue, bra
 
 If issue ID found:
 ```
-mcp__linear__getIssue(issueId: "LIN-xxx")
+mcp__linear__get_issue(id: "LIN-xxx")
 ```
 
 Extract:
@@ -136,6 +181,28 @@ Parse results:
 /yux-linear-merge
 \`\`\`
 Ready to merge! All CI checks passed.
+```
+
+### Status Output with Local State Info
+
+Include local state file information in the output:
+
+```
+=== Linear Workflow Status ===
+
+Issue:   LIN-456 - User authentication
+Status:  In Progress
+Branch:  feat/LIN-456-user-auth
+URL:     https://linear.app/team/issue/LIN-456
+
+Local State
+──────────────────────────────────────
+File:    .claude/linear-tasks/LIN-456.json ✓
+Synced:  2026-01-09 10:30:00
+
+Next Steps
+──────────────────────────────────────
+→ Make some changes and commit
 ```
 
 ### Simplified Output (when not on task branch)

@@ -238,7 +238,7 @@ All 5 checks passed! Ready to merge.
 When CI fails, optionally update Linear issue:
 
 ```
-mcp__linear__createComment(
+mcp__linear__create_comment(
   issueId: "LIN-456",
   body: "CI failed: test\n\nError: ...\n\nWorking on fix."
 )
@@ -247,7 +247,7 @@ mcp__linear__createComment(
 When CI passes:
 
 ```
-mcp__linear__createComment(
+mcp__linear__create_comment(
   issueId: "LIN-456",
   body: "All CI checks passed! Ready for review and merge."
 )

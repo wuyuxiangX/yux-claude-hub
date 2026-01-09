@@ -52,7 +52,7 @@ Additional PR description from: $ARGUMENTS (optional)
 
 3. **Fetch issue details from Linear**:
    ```
-   mcp__linear__getIssue(issueId: "LIN-456")
+   mcp__linear__get_issue(id: "LIN-456")
    ```
    - Get title, description, labels
 
@@ -126,15 +126,15 @@ Additional PR description from: $ARGUMENTS (optional)
 
 1. **Update status to "In Review"**:
    ```
-   mcp__linear__updateIssue(
-     issueId: "LIN-456",
-     stateId: "<in-review-state-id>"
+   mcp__linear__update_issue(
+     id: "LIN-456",
+     state: "In Review"
    )
    ```
 
 2. **Add PR link as comment**:
    ```
-   mcp__linear__createComment(
+   mcp__linear__create_comment(
      issueId: "LIN-456",
      body: "Pull Request created: <PR URL>\n\nChanges:\n<commit list>"
    )

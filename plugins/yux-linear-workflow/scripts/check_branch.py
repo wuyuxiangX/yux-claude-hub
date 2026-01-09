@@ -11,8 +11,10 @@ Exit codes:
 """
 
 import json
+import re
 import subprocess
 import sys
+from pathlib import Path
 
 PROTECTED_BRANCHES = ['main', 'master', 'develop', 'release']
 
@@ -35,8 +37,19 @@ def get_current_branch() -> str | None:
 
 def is_linear_branch(branch: str) -> bool:
     """Check if branch follows Linear naming convention (contains LIN-xxx)."""
-    import re
     return bool(re.search(r'LIN-\d+', branch, re.IGNORECASE))
+
+
+def extract_linear_id(branch: str) -> str | None:
+    """Extract Linear issue ID from branch name."""
+    match = re.search(r'(LIN-\d+)', branch, re.IGNORECASE)
+    return match.group(1).upper() if match else None
+
+
+def check_local_state_exists(linear_id: str) -> bool:
+    """Check if the local state file exists for the given issue ID."""
+    state_file = Path(f'.claude/linear-tasks/{linear_id}.json')
+    return state_file.exists()
 
 
 def main():
@@ -62,16 +75,28 @@ def main():
     if branch.lower() in [b.lower() for b in PROTECTED_BRANCHES]:
         # Output warning (this goes to Claude, not blocking)
         warning = (
-            f"⚠️  WARNING: You are on the '{branch}' branch.\n"
+            f"[Branch Warning]\n"
+            f"You are on the '{branch}' branch.\n"
             f"Consider using /yux-linear-start to create a feature branch.\n"
             f"Direct commits to {branch} may bypass code review."
         )
         print(warning)  # stdout - informational
         # Note: We allow the operation but Claude sees the warning
 
-    # If on a Linear branch, confirm it's tracked
+    # If on a Linear branch, check for local state
     elif is_linear_branch(branch):
-        print(f"✓ Working on Linear branch: {branch}")
+        linear_id = extract_linear_id(branch)
+        if linear_id and check_local_state_exists(linear_id):
+            print(f"[Linear Branch] Working on: {branch}")
+        else:
+            warning = (
+                f"[Linear Branch - No Local State]\n"
+                f"Branch: {branch}\n"
+                f"Issue: {linear_id}\n"
+                f"No local state file found at: .claude/linear-tasks/{linear_id}.json\n"
+                f"Run /yux-linear-status to sync state from Linear."
+            )
+            print(warning)
 
     sys.exit(0)
 

@@ -118,15 +118,15 @@ Proceed with merge? [Y/n]
 
 1. **Update status to "Done"**:
    ```
-   mcp__linear__updateIssue(
-     issueId: "LIN-456",
-     stateId: "<done-state-id>"
+   mcp__linear__update_issue(
+     id: "LIN-456",
+     state: "Done"
    )
    ```
 
 2. **Add completion comment**:
    ```
-   mcp__linear__createComment(
+   mcp__linear__create_comment(
      issueId: "LIN-456",
      body: "Task completed!\n\nPR #78 merged to main.\nMerge commit: <sha>"
    )
@@ -202,7 +202,7 @@ To resolve:
 2. Resolve conflicts
 3. git add . && git commit
 4. git push
-5. Run /linear-merge again
+5. Run /yux-linear-merge again
 ```
 
 ### Missing Reviews

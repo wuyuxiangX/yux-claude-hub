@@ -77,6 +77,54 @@ Branch:  feat/LIN-456-user-auth
 You can now start coding!
 ```
 
+### `/yux-linear-commit [description]`
+
+Stage commit with file selection and Linear sync.
+
+```
+User: /yux-linear-commit
+
+Claude:
+=== 当前变更 ===
+
+📁 新增文件 (1):
+   [1] src/components/LoginForm.tsx
+
+📝 修改文件 (2):
+   [2] src/App.tsx
+   [3] src/routes/index.ts
+
+请选择要提交的文件：
+1. 提交所有变更 (3 个文件)
+2. 选择特定文件
+3. 排除特定文件
+4. 取消
+
+User: 1
+
+Claude:
+生成的提交信息：
+feat(auth): add LoginForm component with routing integration
+
+确认？(y/修改/n)
+
+User: y
+
+Claude:
+✓ 已提交 3 个文件
+✓ 已同步到 Linear: LIN-456
+
+=== 提交完成 ===
+提交哈希: a1b2c3d
+关联 Issue: LIN-456
+```
+
+**Features**:
+- Display changed files by category (new/modified/deleted)
+- User selects which files to commit (not automatic)
+- Auto-generate commit message (user input is reference only)
+- **Mandatory** sync to Linear issue
+
 ### `/yux-linear-pr`
 
 Create a pull request with CI monitoring.
@@ -267,7 +315,7 @@ Duration: 5h 15m
 └───────────────────────────────────────┘
 ```
 
-### Phase 3: Development (Hooks Active)
+### Phase 3: Development & Commit (`/yux-linear-commit`)
 
 ```
 ┌───────────────────────────────────────┐
@@ -286,7 +334,13 @@ Duration: 5h 15m
                     │ exit 0 (allow)
                     ▼
 ┌───────────────────────────────────────┐
-│           git commit -m "..."         │
+│       /yux-linear-commit              │
+│                                       │
+│  1. Show changed files by category    │
+│  2. User selects files to commit      │
+│  3. Auto-generate commit message      │
+│  4. git add + git commit              │
+│  5. Sync to Linear (mandatory)        │
 └───────────────────┬───────────────────┘
                     │
                     ▼
@@ -543,6 +597,7 @@ plugins/yux-linear-workflow/
 ├── .mcp.json                     # Linear MCP config
 ├── commands/
 │   ├── yux-linear-start.md       # Start task command
+│   ├── yux-linear-commit.md      # Stage commit command
 │   ├── yux-linear-backlog.md     # View & recommend issues
 │   ├── yux-linear-pr.md          # Create PR command
 │   ├── yux-linear-status.md      # Check status command

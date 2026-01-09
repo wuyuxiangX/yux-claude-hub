@@ -105,7 +105,7 @@ def main():
             f"Branch: {branch}\n"
             f"Commits: {commit_count}\n"
             f"Recent work:\n" + "\n".join(f"  - {c}" for c in recent_commits if c) + "\n\n"
-            f"Use mcp__linear__createComment to post a progress summary if significant work was done."
+            f"Use mcp__linear__create_comment to post a progress summary if significant work was done."
         )
     }
 

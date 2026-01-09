@@ -40,7 +40,7 @@
       "exists": "PR already exists: #{number}",
       "template": "## Summary\n{summary}\n\n## Linear Issue\nCloses {issue_id}\n\n## Changes\n{changes}",
       "no_commits": "No commits to create PR. Make some changes first.",
-      "on_main": "Cannot create PR from main branch. Use /linear-start first."
+      "on_main": "Cannot create PR from main branch. Use /yux-linear-start first."
     },
     "ci": {
       "checking": "Checking CI status...",
@@ -64,7 +64,7 @@
     "status": {
       "title": "Linear Workflow Status",
       "no_task": "No active Linear task detected.",
-      "use_start": "Use /linear-start to begin a new task.",
+      "use_start": "Use /yux-linear-start to begin a new task.",
       "next_steps": "Next Steps"
     },
     "general": {
@@ -131,7 +131,7 @@
       "exists": "PR 已存在：#{number}",
       "template": "## 概述\n{summary}\n\n## Linear Issue\n关闭 {issue_id}\n\n## 更改内容\n{changes}",
       "no_commits": "没有可提交的更改。请先进行一些修改。",
-      "on_main": "无法从 main 分支创建 PR。请先使用 /linear-start"
+      "on_main": "无法从 main 分支创建 PR。请先使用 /yux-linear-start"
     },
     "ci": {
       "checking": "正在检查 CI 状态...",
@@ -155,7 +155,7 @@
     "status": {
       "title": "Linear 工作流状态",
       "no_task": "未检测到活跃的 Linear 任务。",
-      "use_start": "使用 /linear-start 开始新任务。",
+      "use_start": "使用 /yux-linear-start 开始新任务。",
       "next_steps": "下一步"
     },
     "general": {
