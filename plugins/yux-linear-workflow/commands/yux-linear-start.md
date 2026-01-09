@@ -244,12 +244,22 @@ If user chooses to create:
    - Example: `feat/LIN-456-user-login`
    - Sanitize description: lowercase, replace spaces with hyphens, max 30 chars
 
-3. **Create and checkout branch**:
+3. **Create and checkout branch** (MANDATORY - must execute this command):
    ```bash
    git checkout -b <branch-name>
    ```
 
-4. **Push branch to remote**:
+   **CRITICAL**: This command MUST be executed. Do NOT use `git branch` separately.
+   The `-b` flag creates AND switches to the new branch in one command.
+
+4. **Verify branch switch succeeded** (MANDATORY):
+   ```bash
+   git branch --show-current
+   ```
+   - Output MUST match the created branch name
+   - If still on main/master, the checkout failed - retry the checkout command
+
+5. **Push branch to remote**:
    ```bash
    git push -u origin <branch-name>
    ```
@@ -305,6 +315,8 @@ Display completion message with verification status (in user's language):
 
 ✓ Linear issue verified: LIN-456
 ✓ Status updated: In Progress
+✓ Branch created and switched: feat/LIN-456-user-login
+✓ Current branch verified: feat/LIN-456-user-login
 ✓ Local state saved: .claude/linear-tasks/LIN-456.json
 
 Issue:   LIN-456 - User login implementation
@@ -312,6 +324,7 @@ Status:  In Progress
 Branch:  feat/LIN-456-user-login
 URL:     https://linear.app/team/issue/LIN-456
 
+You are now on branch: feat/LIN-456-user-login
 You can now start coding!
 
 ---
@@ -334,6 +347,8 @@ Create a Pull Request when ready
 
 ✓ Linear issue 已验证: LIN-456
 ✓ 状态已更新: In Progress
+✓ 分支已创建并切换: feat/LIN-456-user-login
+✓ 当前分支已验证: feat/LIN-456-user-login
 ✓ 本地状态已保存: .claude/linear-tasks/LIN-456.json
 
 Issue:   LIN-456 - 用户登录实现
@@ -341,6 +356,7 @@ Issue:   LIN-456 - 用户登录实现
 分支:    feat/LIN-456-user-login
 URL:     https://linear.app/team/issue/LIN-456
 
+当前所在分支: feat/LIN-456-user-login
 现在可以开始编码了！
 
 ---
