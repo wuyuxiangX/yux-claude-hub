@@ -6,6 +6,15 @@ Display comprehensive status of the current Linear workflow including issue, bra
 
 ## Workflow
 
+### Step 0: Load Team Configuration
+
+1. **Read** `.claude/linear-config.json` if exists
+2. Use team/project info for display header (e.g., "Wyx Team - subloom-api Project")
+3. If no config exists, show warning but continue with git-only info:
+   ```
+   Note: Linear configuration not found. Run `/yux-linear-start` to set up team/project for full workflow.
+   ```
+
 ### Step 1: Gather Git Information
 
 1. **Get current branch**:
@@ -75,7 +84,7 @@ Parse results:
 
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║                    Linear Workflow Status                     ║
+║       Linear Workflow Status (Wyx - subloom-api)             ║
 ╠══════════════════════════════════════════════════════════════╣
 ║                                                               ║
 ║  Issue                                                        ║
