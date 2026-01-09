@@ -17,8 +17,23 @@ Optional filter from: $ARGUMENTS
 ### Step 1: Load Team Configuration
 
 1. **Check cached config** in `.claude/linear-config.json`
-2. **If no config**, run team discovery (same as `/yux-linear-start` Step 2)
-3. Store `LINEAR_TEAM` for API calls
+2. **If no config exists**:
+   - Run team/project discovery (same as `/yux-linear-start` Step 2)
+   - **MUST create** `.claude/linear-config.json` with discovered values:
+     ```bash
+     mkdir -p .claude
+     ```
+     ```json
+     {
+       "team_id": "cfef1fd0-...",
+       "team_name": "Wyx",
+       "project_id": "abc123...",
+       "project_name": "subloom-api",
+       "created_at": "2024-01-15T10:30:00Z"
+     }
+     ```
+   - Inform user: "Configuration saved to `.claude/linear-config.json`. Future commands will use this team/project."
+3. Store `LINEAR_TEAM` and `LINEAR_PROJECT` for API calls
 
 ### Step 2: Fetch Issues
 
@@ -55,7 +70,7 @@ Format issues in a table (in user's language):
 
 **English**:
 ```
-=== Linear Backlog (Wyx Team) ===
+=== Linear Backlog (Wyx Team - subloom-api Project) ===
 
 | # | ID       | Title                        | Priority | Status      | Assignee | Due      |
 |---|----------|------------------------------|----------|-------------|----------|----------|
@@ -70,7 +85,7 @@ Total: 5 issues (1 urgent, 1 high, 1 medium, 1 low, 1 none)
 
 **Chinese**:
 ```
-=== Linear 待办列表 (Wyx 团队) ===
+=== Linear 待办列表 (Wyx 团队 - subloom-api 项目) ===
 
 | # | 编号     | 标题                         | 优先级   | 状态        | 负责人   | 截止日期 |
 |---|----------|------------------------------|----------|-------------|----------|----------|

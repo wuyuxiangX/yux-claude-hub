@@ -78,11 +78,24 @@ Store as `USER_LANG` for all subsequent messages.
    - If user's task mentions a project name, try to match it
    - Otherwise, issues will be created without a project
 
-5. **Cache the selection** for future use:
-   - Save to `.claude/linear-config.json`
-   - Or remember in conversation context
+5. **MUST save config** to `.claude/linear-config.json`:
+   ```bash
+   mkdir -p .claude
+   ```
+   ```json
+   {
+     "team_id": "cfef1fd0-...",
+     "team_name": "Wyx",
+     "project_id": "abc123...",
+     "project_name": "subloom-api",
+     "created_at": "2024-01-15T10:30:00Z"
+   }
+   ```
+   - Create `.claude/` directory if not exists
+   - This file is **REQUIRED** for other Linear commands to work correctly
+   - `project_id` and `project_name` are optional but recommended
 
-Store as `LINEAR_TEAM` and optionally `LINEAR_PROJECT` for subsequent calls.
+Store as `LINEAR_TEAM` and `LINEAR_PROJECT` for subsequent calls.
 
 ### Step 3: Issue Selection
 

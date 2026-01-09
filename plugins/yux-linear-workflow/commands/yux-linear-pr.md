@@ -8,6 +8,17 @@ Create a pull request with Linear issue integration and CI/CD monitoring.
 
 Additional PR description from: $ARGUMENTS (optional)
 
+## Workflow
+
+### Step 0: Load Team Configuration
+
+1. **Read** `.claude/linear-config.json`
+2. **If not exists**, prompt user:
+   ```
+   Linear configuration not found. Please run `/yux-linear-start` first to set up team/project.
+   ```
+3. Store `LINEAR_TEAM` and `LINEAR_PROJECT` for API calls
+
 ## Prerequisites Check
 
 1. **Verify current branch**:
@@ -27,8 +38,6 @@ Additional PR description from: $ARGUMENTS (optional)
    ```bash
    gh auth status
    ```
-
-## Workflow
 
 ### Step 1: Extract Issue Information
 

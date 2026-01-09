@@ -13,6 +13,17 @@ Options:
 - `--rebase`: Rebase and merge
 - `--merge`: Create merge commit
 
+## Workflow
+
+### Step 0: Load Team Configuration
+
+1. **Read** `.claude/linear-config.json`
+2. **If not exists**, prompt user:
+   ```
+   Linear configuration not found. Please run `/yux-linear-start` first to set up team/project.
+   ```
+3. Store `LINEAR_TEAM` for Linear API state updates
+
 ## Prerequisites Check
 
 1. **Verify PR exists**:
@@ -29,8 +40,6 @@ Options:
 3. **Check merge eligibility**:
    - No merge conflicts
    - Required reviews approved (if configured)
-
-## Workflow
 
 ### Step 1: Validate Merge Readiness
 
