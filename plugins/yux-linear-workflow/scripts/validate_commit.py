@@ -2,6 +2,10 @@
 """
 Validate git commit messages follow Conventional Commits format.
 
+Supports two formats:
+1. Standard: <type>(<scope>): <description>
+2. Extended: <emoji> <type>(<scope>): <subject (中文支持)>
+
 Exit codes:
   0 - Allow operation
   2 - Block operation (invalid commit message)
@@ -11,12 +15,18 @@ import json
 import re
 import sys
 
-# Conventional Commits pattern
+# Emoji mapping for commit types
+VALID_EMOJIS = ['✨', '🐛', '📝', '💄', '♻️', '⚡️', '✅', '📦', '👷', '🔧']
+
+# Conventional Commits pattern (supports optional emoji prefix and Chinese characters)
 COMMIT_PATTERN = re.compile(
-    r'^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)'
+    r'^'
+    r'(?:[✨🐛📝💄♻️⚡️✅📦👷🔧]\s+)?'  # Optional emoji prefix
+    r'(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)'
     r'(\([a-zA-Z0-9_-]+\))?'
     r'!?'
-    r': .{1,100}'
+    r': .{1,100}',
+    re.UNICODE
 )
 
 # Pattern to extract commit message from git commit command
@@ -26,9 +36,23 @@ COMMIT_MSG_PATTERNS = [
     r'-m\s+([^\s]+)',       # -m message (no quotes, single word)
 ]
 
+# Pattern for HEREDOC format: -m "$(cat <<'EOF' ... EOF )"
+HEREDOC_PATTERN = re.compile(
+    r'-m\s+"\$\(cat\s+<<[\'"]?EOF[\'"]?\s*\n(.*?)\nEOF\s*\)"',
+    re.DOTALL
+)
+
 
 def extract_commit_message(command: str) -> str | None:
     """Extract commit message from git commit command."""
+    # Try HEREDOC format first
+    heredoc_match = HEREDOC_PATTERN.search(command)
+    if heredoc_match:
+        # Return only the first line (subject) for validation
+        full_message = heredoc_match.group(1).strip()
+        return full_message.split('\n')[0]
+
+    # Try standard patterns
     for pattern in COMMIT_MSG_PATTERNS:
         match = re.search(pattern, command)
         if match:
@@ -57,9 +81,12 @@ def validate_commit_message(message: str) -> tuple[bool, str]:
     if not COMMIT_PATTERN.match(message):
         return False, (
             f"Invalid commit format: '{message}'\n"
-            f"Expected: <type>(<scope>): <description>\n"
+            f"Expected: [emoji] <type>(<scope>): <description>\n"
             f"Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert\n"
-            f"Example: feat(auth): add login validation"
+            f"Emojis: ✨ feat, 🐛 fix, 📝 docs, 💄 style, ♻️ refactor, ⚡️ perf, ✅ test, 🔧 chore\n"
+            f"Examples:\n"
+            f"  feat(auth): add login validation\n"
+            f"  ✨ feat(auth): 添加登录验证"
         )
 
     return True, ""
