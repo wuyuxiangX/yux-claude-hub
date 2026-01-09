@@ -1,93 +1,93 @@
-# Linear Commit - 阶段性提交
+# Linear Commit - Stage Changes
 
-在开发过程中进行阶段性提交，关联 Linear issue，并同步记录到 Linear。
+Make incremental commits during development, linking to Linear issue and syncing progress.
 
 **Usage**: `/yux-linear-commit [description]`
 
 ## Input
 
-可选的提交描述（仅作为参考，不直接使用）: $ARGUMENTS
+Optional commit description (reference only, Claude auto-generates the message): $ARGUMENTS
 
 ## Workflow
 
-### Step 1: 检测当前状态
+### Step 1: Detect Current State
 
-1. **获取当前分支**:
+1. **Get current branch**:
    ```bash
    git branch --show-current
    ```
 
-2. **提取 Linear issue ID** (LIN-xxx pattern)
-   - 如果不在 Linear 分支上，提示用户先运行 `/yux-linear-start`
+2. **Extract Linear issue ID** (LIN-xxx pattern)
+   - If not on a Linear branch, prompt user to run `/yux-linear-start` first
 
-3. **读取本地状态文件**:
-   - 路径: `.claude/linear-tasks/<ISSUE_ID>.json`
-   - 获取 issue_uuid 用于后续 Linear API 调用
+3. **Read local state file**:
+   - Path: `.claude/linear-tasks/<ISSUE_ID>.json`
+   - Get issue_uuid for subsequent Linear API calls
 
-4. **检查未提交变更**:
+4. **Check uncommitted changes**:
    ```bash
    git status --porcelain
    ```
-   - 如果没有变更，提示 "没有需要提交的变更" 并结束
+   - If no changes, display "No changes to commit" and exit
 
-### Step 2: 显示变更文件列表
+### Step 2: Display Changed Files
 
-运行 `git status --porcelain` 并分类显示：
+Run `git status --porcelain` and categorize:
 
 **Chinese**:
 ```
-=== 当前变更 ===
+=== Current Changes ===
 
-📁 新增文件 (3):
+New files (3):
    [1] src/components/Login.tsx
    [2] src/utils/auth.ts
    [3] tests/login.test.ts
 
-📝 修改文件 (2):
+Modified files (2):
    [4] src/App.tsx
    [5] package.json
 
-🗑️ 删除文件 (1):
+Deleted files (1):
    [6] src/old-login.js
 
-⚠️ 建议忽略 (不计入编号):
-   - .env.local (敏感文件)
-   - .DS_Store (系统文件)
+Suggested to ignore (not numbered):
+   - .env.local (sensitive file)
+   - .DS_Store (system file)
 ```
 
 **English**:
 ```
 === Current Changes ===
 
-📁 New files (3):
+New files (3):
    [1] src/components/Login.tsx
    [2] src/utils/auth.ts
    [3] tests/login.test.ts
 
-📝 Modified files (2):
+Modified files (2):
    [4] src/App.tsx
    [5] package.json
 
-🗑️ Deleted files (1):
+Deleted files (1):
    [6] src/old-login.js
 
-⚠️ Suggested to ignore (not numbered):
+Suggested to ignore (not numbered):
    - .env.local (sensitive file)
    - .DS_Store (system file)
 ```
 
-### Step 3: 用户选择提交文件
+### Step 3: User Selects Files to Commit
 
-使用 AskUserQuestion 工具让用户选择：
+Use AskUserQuestion tool to let user choose:
 
 **Chinese**:
 ```
-请选择要提交的文件：
+Select files to commit:
 
-1. 提交所有变更 (6 个文件)
-2. 选择特定文件 (输入编号，如: 1,2,4)
-3. 排除特定文件 (输入要排除的编号，如: -5,-6)
-4. 取消提交
+1. Commit all changes (6 files)
+2. Select specific files (enter numbers, e.g.: 1,2,4)
+3. Exclude specific files (enter numbers to exclude, e.g.: -5,-6)
+4. Cancel
 ```
 
 **English**:
@@ -100,34 +100,19 @@ Select files to commit:
 4. Cancel
 ```
 
-### Step 3.5: 原子性分析 (Atomic Check)
+### Step 3.5: Atomic Check
 
-**在生成提交信息前，先分析变更的原子性**：
+**Before generating commit message, analyze atomicity of changes**:
 
-1. **分析变更内容**:
-   - 读取选中文件的 diff
-   - 判断变更是否包含多个不相关的改动
+1. **Analyze changes**:
+   - Read diff of selected files
+   - Determine if changes contain multiple unrelated modifications
 
-2. **如果变更包含多个独立功能**，建议拆分：
+2. **If changes contain multiple independent features**, suggest splitting:
 
 **Chinese**:
 ```
-⚠️ 建议拆分提交
-
-检测到变更包含多个独立功能：
-1. UI 变更: src/components/Login.tsx, src/App.tsx
-2. API 变更: src/api/auth.ts
-
-建议：
-- 第一次提交: UI 相关文件 (选择 1,2)
-- 第二次提交: API 相关文件 (选择 3)
-
-是否拆分提交？(y/n 继续当前选择)
-```
-
-**English**:
-```
-⚠️ Suggest splitting commit
+Suggest splitting commit
 
 Detected multiple independent changes:
 1. UI changes: src/components/Login.tsx, src/App.tsx
@@ -140,62 +125,77 @@ Suggestion:
 Split commit? (y/n to continue with current selection)
 ```
 
-3. **如果变更是原子的**，显示确认并继续：
+**English**:
 ```
-✓ 原子性检查通过 (所有变更属于同一功能模块)
+Suggest splitting commit
+
+Detected multiple independent changes:
+1. UI changes: src/components/Login.tsx, src/App.tsx
+2. API changes: src/api/auth.ts
+
+Suggestion:
+- First commit: UI files (select 1,2)
+- Second commit: API files (select 3)
+
+Split commit? (y/n to continue with current selection)
 ```
 
-### Step 4: 生成提交信息
+3. **If changes are atomic**, display confirmation and continue:
+```
+Atomic check passed (all changes belong to same feature)
+```
 
-**Claude 自动生成提交信息**（用户输入仅作为参考）：
+### Step 4: Generate Commit Message
 
-1. **分析变更内容**:
-   - 读取选中文件的 diff
-   - 判断变更类型和影响范围
+**Claude auto-generates commit message** (user input is reference only):
 
-2. **自动决定提交信息**:
-   - `emoji`: 根据类型选择表情符号
+1. **Analyze changes**:
+   - Read diff of selected files
+   - Determine change type and scope
+
+2. **Auto-determine commit message**:
+   - `emoji`: Choose emoji based on type
    - `type`: feat/fix/docs/refactor/test/chore/style/perf
-   - `scope`: 根据变更文件推断模块（如 auth, ui, api）
-   - `subject`: **中文**描述，不超过 50 字符
+   - `scope`: Infer module from changed files (e.g., auth, ui, api)
+   - `subject`: **Chinese** description, max 50 characters
 
-3. **Emoji 映射表**:
+3. **Emoji mapping**:
 
-| Type | Emoji | 含义 |
-|------|-------|------|
-| feat | ✨ | 新功能 |
-| fix | 🐛 | 修复 Bug |
-| docs | 📝 | 文档 |
-| style | 💄 | 格式/样式 |
-| refactor | ♻️ | 重构 |
-| perf | ⚡️ | 性能 |
-| test | ✅ | 测试 |
-| build | 📦 | 构建 |
+| Type | Emoji | Meaning |
+|------|-------|---------|
+| feat | ✨ | New feature |
+| fix | 🐛 | Bug fix |
+| docs | 📝 | Documentation |
+| style | 💄 | Format/style |
+| refactor | ♻️ | Refactoring |
+| perf | ⚡️ | Performance |
+| test | ✅ | Tests |
+| build | 📦 | Build |
 | ci | 👷 | CI/CD |
-| chore | 🔧 | 杂项 |
+| chore | 🔧 | Chores |
 
-4. **显示生成的提交信息**让用户确认：
+4. **Show generated commit message** for user confirmation:
 
 **Chinese**:
 ```
-生成的提交信息：
+Generated commit message:
 
 ✨ feat(auth): 增加登录组件和认证工具
 
-**What (做了什么)**
-- 在 `src/components` 中添加 LoginForm.tsx 组件
-- 添加 `auth.ts` 认证工具类
-- 更新 App.tsx 集成登录路由
+**What**
+- Add LoginForm.tsx component in `src/components`
+- Add `auth.ts` authentication utility
+- Update App.tsx to integrate login route
 
-**Why (为什么做)**
-为用户提供登录入口，实现基础认证流程。
+**Why**
+Provide login entry for users and implement basic authentication flow.
 
 Refs: LIN-456
 
-**Who (谁做的)**
+**Who**
 Co-Authored-By: wuyuxiang 🤖 Generated by Claude AI
 
-确认？(y/修改内容/n取消)
+Confirm? (y/modify/n)
 ```
 
 **English**:
@@ -204,114 +204,115 @@ Generated commit message:
 
 ✨ feat(auth): 增加登录组件和认证工具
 
-**What (做了什么)**
+**What**
 - Add LoginForm.tsx component in `src/components`
 - Add `auth.ts` authentication utility
 - Update App.tsx to integrate login route
 
-**Why (为什么做)**
+**Why**
 Provide login entry for users and implement basic authentication flow.
 
 Refs: LIN-456
 
-**Who (谁做的)**
+**Who**
 Co-Authored-By: wuyuxiang 🤖 Generated by Claude AI
 
 Confirm? (y/modify/n)
 ```
 
-5. **固定格式**:
+5. **Fixed format**:
    ```
-   <emoji> <type>(<scope>): <subject (中文)>
+   <emoji> <type>(<scope>): <subject (Chinese)>
 
-   **What (做了什么)**
-   - 具体改动点 1
-   - 具体改动点 2
+   **What**
+   - Change point 1
+   - Change point 2
 
-   **Why (为什么做)**
-   解释改动动机
+   **Why**
+   Explain motivation
 
    Refs: LIN-456
 
-   **Who (谁做的)**
+   **Who**
    Co-Authored-By: wuyuxiang 🤖 Generated by Claude AI
    ```
 
-**重要规则**:
-- Subject 必须使用**中文**
-- 不执行 `git push`，只执行 `git add` 和 `git commit`
-- 用户手动执行 `git push`
+**Important rules**:
+- Subject must use **Chinese**
+- Do NOT execute `git push`, only `git add` and `git commit`
+- User manually executes `git push`
 
-### Step 5: 执行提交
+### Step 5: Execute Commit
 
-1. **暂存选中的文件**:
+1. **Stage selected files**:
    ```bash
    git add <file1> <file2> ...
    ```
 
-2. **创建提交**:
+2. **Create commit**:
    ```bash
    git commit -m "<message>"
    ```
 
-3. **显示提交结果**:
+3. **Display commit result**:
 
 **Chinese**:
 ```
-✓ 已提交 4 个文件
-
-提交哈希: abc1234
-提交信息: feat(auth): add login component
-关联 Issue: LIN-456
-```
-
-**English**:
-```
-✓ Committed 4 files
+Committed 4 files
 
 Commit hash: abc1234
 Message: feat(auth): add login component
 Related Issue: LIN-456
 ```
 
-### Step 6: 同步到 Linear (必须)
+**English**:
+```
+Committed 4 files
 
-提交成功后，**必须**在 Linear issue 上添加评论记录：
+Commit hash: abc1234
+Message: feat(auth): add login component
+Related Issue: LIN-456
+```
+
+### Step 6: Sync to Linear (Required)
+
+After successful commit, **must** add comment to Linear issue:
 
 ```
 mcp__linear__create_comment(
   issueId: "<issue-uuid>",
-  body: "📝 **Commit**: `abc1234`\n\n```\nfeat(auth): add login component\n```\n\n**Files changed**: 4\n- src/components/Login.tsx\n- src/utils/auth.ts\n- ..."
+  body: "**Commit**: `abc1234`\n\n```\nfeat(auth): add login component\n```\n\n**Files changed**: 4\n- src/components/Login.tsx\n- src/utils/auth.ts\n- ..."
 )
 ```
 
-显示同步结果：
+Display sync result:
 
 **Chinese**:
 ```
-✓ 已同步到 Linear: LIN-456
+Synced to Linear: LIN-456
 ```
 
 **English**:
 ```
-✓ Synced to Linear: LIN-456
+Synced to Linear: LIN-456
 ```
 
-### Step 7: 输出完成摘要
+### Step 7: Output Completion Summary
 
 **Chinese**:
 ```
-=== 提交完成 ===
+=== Commit Complete ===
 
-提交哈希: abc1234
-提交信息: feat(auth): add login component
-文件数量: 4
-Linear:   LIN-456 ✓
+Commit hash: abc1234
+Message: feat(auth): add login component
+Files: 4
+Linear: LIN-456
 
-下一步：
-- 继续开发
-- /yux-linear-commit 再次提交
-- /yux-linear-pr 创建 PR
+Next steps:
+- Continue development
+- /yux-linear-commit to commit again
+- /yux-linear-pr to create PR
+- git push (manual)
 ```
 
 **English**:
@@ -321,202 +322,250 @@ Linear:   LIN-456 ✓
 Commit hash: abc1234
 Message: feat(auth): add login component
 Files: 4
-Linear: LIN-456 ✓
+Linear: LIN-456
 
 Next steps:
 - Continue development
 - /yux-linear-commit to commit again
 - /yux-linear-pr to create PR
+- git push (manual)
 ```
 
-## 特殊文件处理
+## Special File Handling
 
-### 自动建议忽略的文件模式
+### Auto-suggested Ignore Patterns
 
-| 模式 | 原因 |
-|------|------|
-| `.env*` | 敏感配置 |
-| `*.local` | 本地配置 |
-| `node_modules/**` | 依赖目录 |
-| `.DS_Store` | macOS 系统文件 |
-| `Thumbs.db` | Windows 系统文件 |
-| `*.log` | 日志文件 |
-| `credentials*` | 凭证文件 |
-| `*.key` | 密钥文件 |
-| `*.pem` | 证书文件 |
-| `.claude/` | Claude 配置目录（除 linear-tasks） |
+| Pattern | Reason |
+|---------|--------|
+| `.env*` | Sensitive config |
+| `*.local` | Local config |
+| `node_modules/**` | Dependencies |
+| `.DS_Store` | macOS system file |
+| `Thumbs.db` | Windows system file |
+| `*.log` | Log files |
+| `credentials*` | Credential files |
+| `*.key` | Key files |
+| `*.pem` | Certificate files |
+| `.claude/` | Claude config (except linear-tasks) |
 
-### 处理方式
+### Handling
 
-- 这些文件会显示在 "建议忽略" 列表中
-- 不会自动编号，用户需要明确选择才能提交
-- 如果用户强制要提交敏感文件，显示警告确认
+- These files shown in "Suggested to ignore" list
+- Not auto-numbered, user must explicitly select to commit
+- If user forces commit of sensitive files, show warning confirmation
 
 ## Error Handling
 
-### 不在 Linear 分支上
+### Not on Linear Branch
 
+**Chinese**:
 ```
-❌ 当前不在 Linear 分支上
+Not on a Linear branch
 
-当前分支: main
+Current branch: main
 
-请先使用 /yux-linear-start 创建任务分支。
-```
-
-### 没有本地状态文件
-
-```
-⚠️ 没有找到本地状态文件
-
-请运行 /yux-linear-status 同步状态后再提交。
+Please run /yux-linear-start to create a task branch first.
 ```
 
-### 没有变更
-
+**English**:
 ```
-ℹ️ 没有需要提交的变更
+Not on a Linear branch
 
-工作区是干净的。
-```
+Current branch: main
 
-### 提交失败
-
-```
-❌ 提交失败
-
-错误: <git error message>
-
-请检查问题后重试。
+Please run /yux-linear-start to create a task branch first.
 ```
 
-### Linear 同步失败
+### No Local State File
 
+**Chinese**:
 ```
-⚠️ Linear 同步失败
+Local state file not found
 
-提交已完成 (abc1234)，但无法同步到 Linear。
-错误: <error message>
-
-请手动在 Linear 上记录此提交。
+Please run /yux-linear-status to sync state before committing.
 ```
 
-## 示例
+**English**:
+```
+Local state file not found
 
-### 示例 1: 标准流程
+Please run /yux-linear-status to sync state before committing.
+```
+
+### No Changes
+
+**Chinese**:
+```
+No changes to commit
+
+Working directory is clean.
+```
+
+**English**:
+```
+No changes to commit
+
+Working directory is clean.
+```
+
+### Commit Failed
+
+**Chinese**:
+```
+Commit failed
+
+Error: <git error message>
+
+Please fix the issue and try again.
+```
+
+**English**:
+```
+Commit failed
+
+Error: <git error message>
+
+Please fix the issue and try again.
+```
+
+### Linear Sync Failed
+
+**Chinese**:
+```
+Linear sync failed
+
+Commit completed (abc1234), but failed to sync to Linear.
+Error: <error message>
+
+Please manually record this commit on Linear.
+```
+
+**English**:
+```
+Linear sync failed
+
+Commit completed (abc1234), but failed to sync to Linear.
+Error: <error message>
+
+Please manually record this commit on Linear.
+```
+
+## Examples
+
+### Example 1: Standard Flow
 
 ```
-User: /yux-linear-commit 实现了登录表单
+User: /yux-linear-commit implemented login form
 
 Claude:
-=== 当前变更 ===
+=== Current Changes ===
 
-📁 新增文件 (1):
+New files (1):
    [1] src/components/LoginForm.tsx
 
-📝 修改文件 (2):
+Modified files (2):
    [2] src/App.tsx
    [3] src/routes/index.ts
 
-请选择要提交的文件：
-1. 提交所有变更 (3 个文件)
-2. 选择特定文件
-3. 排除特定文件
-4. 取消
+Select files to commit:
+1. Commit all changes (3 files)
+2. Select specific files
+3. Exclude specific files
+4. Cancel
 
 User: 1
 
 Claude:
-✓ 原子性检查通过 (所有变更属于同一功能模块)
+Atomic check passed (all changes belong to same feature)
 
-生成的提交信息：
+Generated commit message:
 
 ✨ feat(auth): 增加登录表单组件和路由集成
 
-**What (做了什么)**
-- 创建 `LoginForm.tsx` 组件实现用户登录界面
-- 更新 `App.tsx` 集成登录组件
-- 更新 `routes/index.ts` 添加登录路由
+**What**
+- Create `LoginForm.tsx` component for user login UI
+- Update `App.tsx` to integrate login component
+- Update `routes/index.ts` to add login route
 
-**Why (为什么做)**
-为用户提供登录入口，实现基础认证流程。
+**Why**
+Provide login entry for users and implement basic authentication flow.
 
 Refs: LIN-456
 
-**Who (谁做的)**
+**Who**
 Co-Authored-By: wuyuxiang 🤖 Generated by Claude AI
 
-确认？(y/修改/n)
+Confirm? (y/modify/n)
 
 User: y
 
 Claude:
-✓ 已提交 3 个文件
-✓ 已同步到 Linear: LIN-456
+Committed 3 files
+Synced to Linear: LIN-456
 
-=== 提交完成 ===
+=== Commit Complete ===
 
-提交哈希: a1b2c3d
-Linear:   LIN-456 ✓
+Commit hash: a1b2c3d
+Linear: LIN-456
 
-下一步：
-- 继续开发
-- /yux-linear-commit 再次提交
-- /yux-linear-pr 创建 PR
-- git push (手动推送)
+Next steps:
+- Continue development
+- /yux-linear-commit to commit again
+- /yux-linear-pr to create PR
+- git push (manual)
 ```
 
-### 示例 2: 选择性提交
+### Example 2: Selective Commit
 
 ```
 User: /yux-linear-commit
 
 Claude:
-=== 当前变更 ===
+=== Current Changes ===
 
-📁 新增文件 (1):
+New files (1):
    [1] src/utils/auth.ts
 
-📝 修改文件 (3):
+Modified files (3):
    [2] src/App.tsx
    [3] package.json
    [4] package-lock.json
 
-请选择要提交的文件：
+Select files to commit:
 ...
 
 User: 1,2
 
 Claude:
-✓ 原子性检查通过
+Atomic check passed
 
-生成的提交信息：
+Generated commit message:
 
 ✨ feat(auth): 增加认证工具模块
 
-**What (做了什么)**
-- 创建 `auth.ts` 认证工具类
-- 更新 `App.tsx` 集成认证模块
+**What**
+- Create `auth.ts` authentication utility
+- Update `App.tsx` to integrate auth module
 
-**Why (为什么做)**
-提供统一的认证逻辑处理。
+**Why**
+Provide unified authentication logic handling.
 
 Refs: LIN-456
 
-**Who (谁做的)**
+**Who**
 Co-Authored-By: wuyuxiang 🤖 Generated by Claude AI
 
-确认？(y/修改/n)
+Confirm? (y/modify/n)
 
 User: y
 
 Claude:
-✓ 已提交 2 个文件
-✓ 已同步到 Linear: LIN-456
+Committed 2 files
+Synced to Linear: LIN-456
 ...
 ```
 
-### 示例 3: 修改提交信息
+### Example 3: Modify Commit Message
 
 ```
 User: /yux-linear-commit
@@ -524,46 +573,46 @@ User: /yux-linear-commit
 Claude:
 ...
 
-生成的提交信息：
+Generated commit message:
 
 ✨ feat(auth): 增加登录验证
 
-**What (做了什么)**
-- 添加登录验证逻辑
+**What**
+- Add login validation logic
 
-**Why (为什么做)**
-确保用户输入有效。
+**Why**
+Ensure valid user input.
 
 Refs: LIN-456
 
-**Who (谁做的)**
+**Who**
 Co-Authored-By: wuyuxiang 🤖 Generated by Claude AI
 
-确认？(y/修改/n)
+Confirm? (y/modify/n)
 
-User: 改成 fix 类型，修复了验证逻辑
+User: Change to fix type, fixed validation logic
 
 Claude:
-修改后的提交信息：
+Modified commit message:
 
 🐛 fix(auth): 修复登录验证逻辑
 
-**What (做了什么)**
-- 修复登录验证逻辑中的边界条件
+**What**
+- Fix boundary conditions in login validation logic
 
-**Why (为什么做)**
-解决用户无法正常登录的问题。
+**Why**
+Resolve issue preventing users from logging in properly.
 
 Refs: LIN-456
 
-**Who (谁做的)**
+**Who**
 Co-Authored-By: wuyuxiang 🤖 Generated by Claude AI
 
-确认？(y/修改/n)
+Confirm? (y/modify/n)
 
 User: y
 
 Claude:
-✓ 已提交 2 个文件
+Committed 2 files
 ...
 ```
