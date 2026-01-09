@@ -74,7 +74,37 @@ Additional PR description from: $ARGUMENTS (optional)
    - Format: `[LIN-456] <Issue Title>`
    - Example: `[LIN-456] Implement user authentication`
 
-2. **Create PR body**:
+2. **Create PR body** (based on user language):
+
+   **Chinese format**:
+   ```markdown
+   ## 概要
+
+   <来自 Linear 的 Issue 描述>
+
+   <用户提供的额外描述（如有）>
+
+   ## Linear Issue
+
+   Closes LIN-456
+
+   ## 变更内容
+
+   - feat(auth): 增加登录组件
+   - feat(auth): 增加 JWT token 处理
+   - test(auth): 增加认证测试
+
+   ## 测试计划
+
+   - [ ] 单元测试通过
+   - [ ] 集成测试通过
+   - [ ] 手动测试完成
+
+   ---
+   由 Linear Workflow Plugin 生成
+   ```
+
+   **English format**:
    ```markdown
    ## Summary
 
@@ -168,7 +198,37 @@ Trigger CI monitoring (invoke yux-ci-monitor skill):
 
 ### Step 7: Output Summary
 
-**Success output**:
+**Chinese output**:
+```
+=== Pull Request 已创建 ===
+
+PR:      #78 - [LIN-456] 实现用户认证
+URL:     https://github.com/org/repo/pull/78
+分支:    feat/LIN-456-user-auth → main
+
+Linear:  LIN-456 状态已更新为 "In Review"
+
+CI 状态: 监控中...
+├── ✓ lint (通过)
+├── ✓ build (通过)
+├── ○ test (运行中)
+└── ○ deploy-preview (等待中)
+
+---
+📋 下一步:
+
+\`\`\`
+/yux-linear-status
+\`\`\`
+监控 CI 状态
+
+\`\`\`
+/yux-linear-merge
+\`\`\`
+CI 通过后合并 PR
+```
+
+**English output**:
 ```
 === Pull Request Created ===
 
