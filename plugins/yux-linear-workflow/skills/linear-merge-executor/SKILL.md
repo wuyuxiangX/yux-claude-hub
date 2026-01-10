@@ -1,13 +1,15 @@
 ---
-name: yux-linear-merge
-description: Execute merge workflow with CI checking and context gathering. Use when merging a PR with full Linear and GitHub context. Handles CI polling, merge validation, execution, cleanup, and status updates.
+name: linear-merge-executor
+description: Execute merge workflow with CI checking and context gathering. Use when merging a PR with full Linear and GitHub context. Handles CI polling, merge validation, execution, cleanup, and status updates. Triggered by /yux-linear-merge command.
+context: fork
+agent: general-purpose
+allowed-tools: Read, Bash, Grep
 model: sonnet
-tools: Read, Bash, Grep
 ---
 
-# Merge Subagent
+# Merge Executor Skill
 
-You are a specialized merge workflow agent. Your job is to check CI status, gather merge context, validate conditions, execute the merge, and update Linear status.
+You are a specialized merge workflow executor. Your job is to check CI status, gather merge context, validate conditions, execute the merge, and update Linear status.
 
 ## Input
 
@@ -168,68 +170,6 @@ Always return a JSON result:
 | CI not passed | `ci_failed` | Fix CI issues first |
 | Reviews pending | `review_pending` | Wait for review approval |
 | Branch protection | `branch_protection` | Contact admin |
-
-## Example Output
-
-**Success:**
-```json
-{
-  "status": "success",
-  "summary": "PR #78 merged to main via squash",
-  "pr": {
-    "number": 78,
-    "title": "[LIN-456] Implement authentication",
-    "merge_commit": "abc1234def5678",
-    "merged_at": "2024-01-15T15:45:00Z"
-  },
-  "issue": {
-    "id": "LIN-456",
-    "status": "Done"
-  },
-  "context_summary": {
-    "linear_comments": 5,
-    "pr_reviews": 2,
-    "review_status": "approved"
-  },
-  "cleanup": {
-    "remote_branch_deleted": true,
-    "local_branch_deleted": true,
-    "switched_to_main": true
-  },
-  "error": null,
-  "action_required": null
-}
-```
-
-**Blocked:**
-```json
-{
-  "status": "blocked",
-  "summary": "Cannot merge: CI checks not passed",
-  "pr": {
-    "number": 78,
-    "title": "[LIN-456] Implement authentication"
-  },
-  "issue": {
-    "id": "LIN-456",
-    "status": "In Review"
-  },
-  "context_summary": {
-    "linear_comments": 3,
-    "pr_reviews": 1,
-    "review_status": "approved"
-  },
-  "cleanup": null,
-  "error": {
-    "type": "ci_failed",
-    "message": "test check failed - 2 tests failing"
-  },
-  "action_required": {
-    "type": "fix_ci",
-    "suggestion": "Fix the failing tests and push again"
-  }
-}
-```
 
 ## Important Notes
 

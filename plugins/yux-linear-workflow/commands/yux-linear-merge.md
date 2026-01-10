@@ -15,7 +15,7 @@ Options:
 
 ## Overview
 
-This command delegates the heavy merge workflow to a subagent to reduce main agent context consumption. The subagent handles context gathering, validation, and execution, while user confirmation remains in the main agent.
+This command performs quick validation and confirmation in the main agent, then delegates the heavy merge workflow to the `linear-merge-executor` skill running in a forked subagent context.
 
 ## Workflow
 
@@ -34,7 +34,7 @@ This command delegates the heavy merge workflow to a subagent to reduce main age
 
 ### Step 1: Quick Pre-check
 
-Before delegating to subagent, do a quick validation:
+Before delegating, do a quick validation:
 
 ```bash
 gh pr view --json number,state,mergeable,mergeStateStatus
@@ -60,21 +60,27 @@ This will:
 Proceed with merge? [Y/n]
 ```
 
-### Step 3: Delegate to Merge Subagent
+### Step 3: Execute via linear-merge-executor Skill
 
-After user confirms, use the Task tool to spawn merge agent:
+After user confirms, **use the linear-merge-executor skill** to execute the full merge workflow in a forked subagent context. Pass the following parameters:
 
-```json
-{
-  "subagent_type": "yux-linear-workflow:merge",
-  "description": "Merge PR #<number>",
-  "prompt": "Execute merge workflow for PR #<number>:\n- issue_id: <issue_id>\n- issue_uuid: <issue_uuid>\n- merge_strategy: <strategy>\n- branch_name: <branch>\n\nGather context, validate conditions, execute merge, update Linear status. Return structured JSON result."
-}
-```
+- `pr_number`: The PR number
+- `issue_id`: The Linear issue ID
+- `issue_uuid`: The Linear issue UUID
+- `merge_strategy`: squash, rebase, or merge
+- `branch_name`: The current branch name
 
-### Step 4: Handle Subagent Result
+The skill will:
+- Poll CI status until completion
+- Gather merge context from Linear and GitHub
+- Validate merge readiness
+- Execute merge with specified strategy
+- Clean up local and remote branches
+- Update Linear issue status to Done
 
-Parse the structured result from subagent:
+### Step 4: Handle Skill Result
+
+Parse the structured result from the skill:
 
 **Success result:**
 ```json
@@ -156,7 +162,7 @@ To resolve:
 
 ## Error Handling
 
-Blocking conditions are handled by the subagent and returned as structured errors:
+Blocking conditions are handled by the skill and returned as structured errors:
 
 | Error Type | Message | Suggestion |
 |------------|---------|------------|
@@ -171,16 +177,12 @@ Blocking conditions are handled by the subagent and returned as structured error
 
 Completion message and all status updates are displayed in the configured language.
 
-## Subagent Details
+## Skill Details
 
-The merge subagent (`yux-linear-workflow:merge`) is defined in:
-`plugins/yux-linear-workflow/agents/linear-merge.md`
+The merge executor skill (`linear-merge-executor`) is defined in:
+`plugins/yux-linear-workflow/skills/linear-merge-executor/SKILL.md`
 
-It handles:
-- Fetching Linear comments and GitHub reviews (context gathering)
-- Validating merge conditions
-- Executing merge and cleanup
-- Updating Linear status
+It runs with `context: fork` which ensures execution in an isolated subagent context.
 
 This delegation reduces main agent context consumption from ~5000 tokens to ~500 tokens.
 
@@ -204,9 +206,9 @@ Proceed with merge? [Y/n]
 
 User: Y
 
-Claude: Delegating merge to subagent...
+Claude: Executing merge via linear-merge-executor skill...
 
-[Subagent executes: gather context, validate, merge, update Linear]
+[Skill executes in forked context: gather context, validate, merge, update Linear]
 
 ╔══════════════════════════════════════════════════════════════╗
 ║                     Task Completed!                           ║
@@ -247,7 +249,7 @@ Proceed with merge? [Y/n]
 
 User: Y
 
-Claude: Delegating merge to subagent...
+Claude: Executing merge via linear-merge-executor skill...
 
 Cannot merge: CI checks not passed
 
