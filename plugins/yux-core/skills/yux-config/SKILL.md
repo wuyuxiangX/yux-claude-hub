@@ -36,10 +36,6 @@ Parse user request to determine what they want to change:
 - "한국어로 변경" → `"ko"`
 - "设置为中文" → `"zh"`
 
-**Preference changes**:
-- "enable emoji" → `preferences.emoji: true`
-- "disable verbose" → `preferences.verbose: false`
-
 **View settings**:
 - "show config", "view settings" → display current config
 
@@ -72,8 +68,6 @@ Before generating output, read `.claude/yux-config.json`:
 === Current Configuration ===
 
 Language: Chinese (zh)
-Emoji: disabled
-Verbose: disabled
 
 File: .claude/yux-config.json
 ```

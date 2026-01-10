@@ -38,10 +38,6 @@ Ask user for preferred output language using AskUserQuestion:
 ```json
 {
   "language": "<selected-language-code>",
-  "preferences": {
-    "emoji": false,
-    "verbose": false
-  },
   "created_at": "<ISO-8601-timestamp>",
   "version": "1.0.0"
 }

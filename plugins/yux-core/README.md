@@ -38,10 +38,6 @@ Location: `.claude/yux-config.json`
 ```json
 {
   "language": "zh",
-  "preferences": {
-    "emoji": false,
-    "verbose": false
-  },
   "created_at": "2026-01-10T10:00:00Z",
   "version": "1.0.0"
 }
@@ -52,8 +48,6 @@ Location: `.claude/yux-config.json`
 | Field | Description | Values |
 |-------|-------------|--------|
 | `language` | Output language | `en`, `zh`, `ja`, `ko` |
-| `preferences.emoji` | Use emoji in output | `true`, `false` |
-| `preferences.verbose` | Verbose output mode | `true`, `false` |
 
 ## For Plugin Developers
 
