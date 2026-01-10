@@ -9,5 +9,6 @@
   "homepage": "https://github.com/wuyuxiangX/linear-workflow",
   "license": "MIT",
   "keywords": ["linear", "workflow", "ci-cd", "git", "issue-tracking", "automation"],
-  "commands": "./commands"
+  "commands": "./commands",
+  "agents": "./agents/"
 }

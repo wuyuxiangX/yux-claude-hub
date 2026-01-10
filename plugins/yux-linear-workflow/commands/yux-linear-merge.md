@@ -13,157 +13,95 @@ Options:
 - `--rebase`: Rebase and merge
 - `--merge`: Create merge commit
 
+## Overview
+
+This command delegates the heavy merge workflow to a subagent to reduce main agent context consumption. The subagent handles context gathering, validation, and execution, while user confirmation remains in the main agent.
+
 ## Workflow
 
-### Step 0: Load Team Configuration
+### Step 0: Load Configuration
 
 1. **Read** `.claude/linear-config.json`
 2. **If not exists**, prompt user:
    ```
    Linear configuration not found. Please run `/yux-linear-start` first to set up team/project.
    ```
-3. Store `LINEAR_TEAM` for Linear API state updates
 
-## Prerequisites Check
+3. **Read local state file** `.claude/linear-tasks/<ISSUE_ID>.json` to get:
+   - `issue_id`: Linear issue ID (e.g., "LIN-456")
+   - `issue_uuid`: Linear issue UUID for API calls
+   - `branch_name`: Current branch name
 
-1. **Verify PR exists**:
-   ```bash
-   gh pr view --json number,state,mergeable
-   ```
+### Step 1: Quick Pre-check
 
-2. **Check CI status**:
-   ```bash
-   gh pr checks --json state,conclusion
-   ```
-   - All checks must pass
+Before delegating to subagent, do a quick validation:
 
-3. **Check merge eligibility**:
-   - No merge conflicts
-   - Required reviews approved (if configured)
+```bash
+gh pr view --json number,state,mergeable,mergeStateStatus
+```
 
-### Step 1: Validate Merge Readiness
+If PR doesn't exist or is already merged, inform user immediately.
 
-1. **Get PR details**:
-   ```bash
-   gh pr view --json number,title,state,mergeable,mergeStateStatus,headRefName
-   ```
+### Step 2: Ask User Confirmation
 
-2. **Verify all CI checks passed**:
-   ```bash
-   gh pr checks --json name,state,conclusion
-   ```
-
-3. **Check for blocking conditions**:
-   - `mergeable: false` → "Merge conflicts detected"
-   - `mergeStateStatus: BLOCKED` → "Branch protection rules not satisfied"
-   - Required reviewers not approved → "Waiting for review approval"
-
-### Step 2: Confirm with User
-
-Display merge summary:
+Display merge summary (without fetching full context):
 
 ```
 === Ready to Merge ===
 
 PR:       #78 - [LIN-456] Implement user authentication
-Commits:  5
-CI:       All checks passed
-
-Merge strategy: squash (default)
+Strategy: squash (default)
 
 This will:
 1. Merge PR #78 into main
 2. Delete branch feat/LIN-456-user-auth
-3. Close Linear issue LIN-456
+3. Mark Linear issue LIN-456 as Done
 
 Proceed with merge? [Y/n]
 ```
 
-### Step 3: Execute Merge
+### Step 3: Delegate to Merge Subagent
 
-1. **Merge the PR**:
-   ```bash
-   gh pr merge <number> --squash --delete-branch
-   ```
+After user confirms, use the Task tool to spawn merge agent:
 
-   Or with other strategies:
-   ```bash
-   gh pr merge <number> --rebase --delete-branch
-   gh pr merge <number> --merge --delete-branch
-   ```
+```json
+{
+  "subagent_type": "yux-linear-workflow:merge",
+  "description": "Merge PR #<number>",
+  "prompt": "Execute merge workflow for PR #<number>:\n- issue_id: <issue_id>\n- issue_uuid: <issue_uuid>\n- merge_strategy: <strategy>\n- branch_name: <branch>\n\nGather context, validate conditions, execute merge, update Linear status. Return structured JSON result."
+}
+```
 
-2. **Verify merge success**:
-   ```bash
-   gh pr view <number> --json state,mergedAt,mergeCommit
-   ```
+### Step 4: Handle Subagent Result
 
-### Step 4: Clean Up Local Branch
+Parse the structured result from subagent:
 
-1. **Switch to main**:
-   ```bash
-   git checkout main
-   ```
+**Success result:**
+```json
+{
+  "status": "success",
+  "summary": "PR #78 merged to main via squash",
+  "pr": { "number": 78, "merge_commit": "abc1234" },
+  "issue": { "id": "LIN-456", "status": "Done" },
+  "context_summary": { "linear_comments": 5, "pr_reviews": 2 },
+  "cleanup": { "remote_branch_deleted": true, "local_branch_deleted": true }
+}
+```
 
-2. **Pull latest changes**:
-   ```bash
-   git pull origin main
-   ```
-
-3. **Delete local branch**:
-   ```bash
-   git branch -d <branch-name>
-   ```
-
-### Step 5: Update Linear Issue
-
-1. **Update status to "Done"**:
-   ```
-   mcp__linear__update_issue(
-     id: "LIN-456",
-     state: "Done"
-   )
-   ```
-
-2. **Add completion comment**:
-   ```
-   mcp__linear__create_comment(
-     issueId: "LIN-456",
-     body: "Task completed!\n\nPR #78 merged to main.\nMerge commit: <sha>"
-   )
-   ```
-
-### Step 6: Output Completion Report
-
-**Success output**:
-
+Display to user:
 ```
 ╔══════════════════════════════════════════════════════════════╗
 ║                     Task Completed!                           ║
 ╠══════════════════════════════════════════════════════════════╣
 ║                                                               ║
-║  Issue                                                        ║
-║  ──────────────────────────────────────────────────────────  ║
-║  LIN-456: Implement user authentication                       ║
-║  Status:  ✓ Done                                              ║
-║                                                               ║
-║  Pull Request                                                 ║
-║  ──────────────────────────────────────────────────────────  ║
-║  PR #78: Merged to main                                       ║
-║  Commit: abc1234                                              ║
+║  Issue: LIN-456 → Done                                        ║
+║  PR: #78 merged to main (abc1234)                             ║
 ║  Method: Squash merge                                         ║
 ║                                                               ║
-║  Cleanup                                                      ║
-║  ──────────────────────────────────────────────────────────  ║
+║  Cleanup:                                                     ║
 ║  ✓ Remote branch deleted                                      ║
 ║  ✓ Local branch deleted                                       ║
 ║  ✓ Switched to main branch                                    ║
-║                                                               ║
-║  Summary                                                      ║
-║  ──────────────────────────────────────────────────────────  ║
-║  Started:   2024-01-15 10:30                                  ║
-║  Completed: 2024-01-15 15:45                                  ║
-║  Duration:  5h 15m                                            ║
-║  Commits:   5 (squashed to 1)                                 ║
 ║                                                               ║
 ╚══════════════════════════════════════════════════════════════╝
 
@@ -176,26 +114,37 @@ Proceed with merge? [Y/n]
 View backlog and start the next task
 ```
 
-## Error Handling
+**Blocked result:**
+```json
+{
+  "status": "blocked",
+  "summary": "Cannot merge: CI checks not passed",
+  "error": { "type": "ci_failed", "message": "test check failed" },
+  "action_required": { "type": "fix_ci", "suggestion": "Fix the failing tests and push again" }
+}
+```
 
-### CI Not Passed
+Display to user:
 ```
 Cannot merge: CI checks not passed
 
-Failed checks:
-├── ✗ test - 3 tests failed
-└── ✗ e2e - Timeout error
+Error: test check failed
 
-Fix the issues and push again, or use /yux-linear-status to check details.
+Suggestion: Fix the failing tests and push again
 ```
 
-### Merge Conflicts
+**Failed result:**
+```json
+{
+  "status": "failed",
+  "summary": "Merge failed",
+  "error": { "type": "merge_conflict", "message": "Conflicts in src/auth.ts" }
+}
 ```
-Cannot merge: Merge conflicts detected
 
-Conflicting files:
-- src/auth/login.ts
-- src/components/LoginForm.tsx
+Display to user:
+```
+Merge failed: Conflicts in src/auth.ts
 
 To resolve:
 1. git pull origin main
@@ -205,92 +154,74 @@ To resolve:
 5. Run /yux-linear-merge again
 ```
 
-### Missing Reviews
-```
-Cannot merge: Required reviews not approved
+## Error Handling
 
-Review status:
-- @reviewer1: Pending
-- @reviewer2: Pending
+Blocking conditions are handled by the subagent and returned as structured errors:
 
-Required: 2 approvals
-Current:  0 approvals
-
-Please wait for reviews or request reviews from your team.
-```
-
-### Branch Protection
-```
-Cannot merge: Branch protection rules not satisfied
-
-Missing requirements:
-- Status checks must pass
-- Required reviewers must approve
-
-Contact repository admin if you believe this is an error.
-```
+| Error Type | Message | Suggestion |
+|------------|---------|------------|
+| `ci_failed` | CI checks not passed | Fix and push |
+| `merge_conflict` | Merge conflicts detected | Resolve conflicts |
+| `review_pending` | Reviews not approved | Wait for reviews |
+| `branch_protection` | Protection rules not met | Contact admin |
 
 ## Multi-language Support
 
-**Chinese completion message**:
-```
-╔══════════════════════════════════════════════════════════════╗
-║                       任务完成！                              ║
-╠══════════════════════════════════════════════════════════════╣
-║                                                               ║
-║  Issue: LIN-456 - 实现用户认证                                ║
-║  状态:  ✓ 已完成                                              ║
-║                                                               ║
-║  PR #78 已合并到 main 分支                                    ║
-║  分支已清理完毕                                               ║
-║                                                               ║
-║  用时: 5小时15分钟                                            ║
-║                                                               ║
-╚══════════════════════════════════════════════════════════════╝
+> All output messages follow `.claude/yux-config.json` setting
 
----
-📋 下一步 / Next Steps:
+Completion message and all status updates are displayed in the configured language.
 
-\`\`\`
-/yux-linear-backlog
-\`\`\`
-查看待办列表，开始下一个任务
-```
+## Subagent Details
+
+The merge subagent (`yux-linear-workflow:merge`) is defined in:
+`plugins/yux-linear-workflow/agents/linear-merge.md`
+
+It handles:
+- Fetching Linear comments and GitHub reviews (context gathering)
+- Validating merge conditions
+- Executing merge and cleanup
+- Updating Linear status
+
+This delegation reduces main agent context consumption from ~5000 tokens to ~500 tokens.
 
 ## Example
 
 ```
 User: /yux-linear-merge
 
-Claude: Checking merge readiness...
-
-PR #78: [LIN-456] Implement user authentication
-CI Status: All 5 checks passed
-Reviews: 2/2 approved
-Conflicts: None
-
+Claude:
 === Ready to Merge ===
 
-This will:
-1. Squash merge PR #78 into main
-2. Delete branch feat/LIN-456-user-auth
-3. Mark LIN-456 as Done
+PR:       #78 - [LIN-456] Implement user authentication
+Strategy: squash (default)
 
-Proceed? [Y/n]
+This will:
+1. Merge PR #78 into main
+2. Delete branch feat/LIN-456-user-auth
+3. Mark Linear issue LIN-456 as Done
+
+Proceed with merge? [Y/n]
 
 User: Y
 
-Claude: Merging...
-✓ PR #78 merged to main
-✓ Remote branch deleted
-✓ Local branch deleted
-✓ Linear LIN-456 marked as Done
+Claude: Delegating merge to subagent...
 
-=== Task Completed! ===
+[Subagent executes: gather context, validate, merge, update Linear]
 
-LIN-456: Implement user authentication
-Status: Done
-Duration: 5h 15m
+╔══════════════════════════════════════════════════════════════╗
+║                     Task Completed!                           ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                               ║
+║  Issue: LIN-456 → Done                                        ║
+║  PR: #78 merged to main (abc1234)                             ║
+║  Method: Squash merge                                         ║
+║                                                               ║
+║  Cleanup:                                                     ║
+║  ✓ Remote branch deleted                                      ║
+║  ✓ Local branch deleted                                       ║
+║  ✓ Switched to main branch                                    ║
+║                                                               ║
+╚══════════════════════════════════════════════════════════════╝
 
 ---
 📋 Next Steps:
@@ -299,4 +230,28 @@ Duration: 5h 15m
 /yux-linear-backlog
 \`\`\`
 View backlog and start the next task
+```
+
+### Example: Blocked by CI
+
+```
+User: /yux-linear-merge
+
+Claude:
+=== Ready to Merge ===
+
+PR:       #78 - [LIN-456] Implement user authentication
+Strategy: squash (default)
+
+Proceed with merge? [Y/n]
+
+User: Y
+
+Claude: Delegating merge to subagent...
+
+Cannot merge: CI checks not passed
+
+Error: test check failed - 2 tests failing
+
+Suggestion: Fix the failing tests and push again
 ```

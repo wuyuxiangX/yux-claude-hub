@@ -8,6 +8,12 @@ allowed-tools: Read, Write, Glob, Grep
 
 Input: Transcript file path from $ARGUMENTS
 
+## Configuration
+
+Before generating output, read `.claude/yux-config.json`:
+- If `language` is set, use as `user_language` for output
+- If file doesn't exist, detect from user input
+
 ## Step 1: Load & Detect Languages
 
 1. Read transcript file (`.txt` in current directory if not specified)

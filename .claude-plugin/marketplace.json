@@ -9,6 +9,17 @@
   },
   "plugins": [
     {
+      "name": "yux-core",
+      "description": "Core configuration management for yux-claude-hub plugins. Provides unified language settings and cross-plugin configuration.",
+      "version": "1.0.0",
+      "author": {
+        "name": "wuyuxiangX",
+        "email": "wuyuxiang@example.com"
+      },
+      "source": "./plugins/yux-core",
+      "category": "core"
+    },
+    {
       "name": "yux-video-to-blog",
       "description": "Transform video content into blog articles. Download subtitles, summarize content, and generate polished blog posts.",
       "version": "1.0.0",

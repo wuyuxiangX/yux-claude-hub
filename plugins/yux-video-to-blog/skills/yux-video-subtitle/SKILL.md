@@ -12,6 +12,12 @@ Supported platforms: YouTube, Bilibili, Twitter/X, Vimeo, TikTok, and all other 
 
 Input Video URL: $ARGUMENTS
 
+## Configuration
+
+Before generating output, read `.claude/yux-config.json`:
+- If `language` is set, output messages in that language
+- If file doesn't exist, detect from user input or default to English
+
 ## Step 1: Verify Tool Availability
 
 1. **Check yt-dlp installation**:

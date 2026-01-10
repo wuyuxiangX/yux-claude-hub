@@ -266,21 +266,6 @@ Merge the PR to complete the task
 
 ## Multi-language Support
 
-Detect user language and display messages accordingly:
+> All output messages follow `.claude/yux-config.json` setting
 
-**Chinese**:
-```
-=== Linear 工作流状态 ===
-
-Issue:    LIN-456 - 实现用户认证
-状态:     审核中
-分支:     feat/LIN-456-user-auth
-
----
-📋 下一步 / Next Steps:
-
-\`\`\`
-/yux-linear-merge
-\`\`\`
-准备合并！所有 CI 检查已通过
-```
+Status display and all messages are output in the configured language.

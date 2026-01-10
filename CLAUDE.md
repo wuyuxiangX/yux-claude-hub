@@ -38,6 +38,7 @@ plugins/<plugin-name>/
 
 | Plugin | Purpose |
 |--------|---------|
+| `yux-core` | Core configuration management for all yux plugins |
 | `yux-video-to-blog` | Video-to-article pipeline: subtitles → summary → blog |
 | `yux-linear-workflow` | Linear integration with branch automation and CI monitoring |
 

@@ -10,6 +10,12 @@ Transform a video summary into a polished blog article with engaging writing and
 
 Input: Summary file path or content from $ARGUMENTS
 
+## Configuration
+
+Before generating output, read `.claude/yux-config.json`:
+- If `language` is set, use that language for article content
+- If file doesn't exist, detect from user input or default to English
+
 ## Step 1: Load Source Content
 
 1. **Identify the source file**:

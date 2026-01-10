@@ -9,6 +9,12 @@ This command executes the complete video-to-blog workflow:
 2. Summarize the video content
 3. Generate a blog article
 
+## Configuration
+
+Before generating output, read `.claude/yux-config.json`:
+- If `language` is set, use as user language preference
+- If file doesn't exist, detect from user input or default to English
+
 ## Input
 
 Video URL from: $ARGUMENTS

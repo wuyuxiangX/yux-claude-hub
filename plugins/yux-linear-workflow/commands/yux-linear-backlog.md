@@ -66,9 +66,10 @@ For each issue, gather:
 
 ### Step 4: Display Issues
 
-Format issues in a table (in user's language):
+Format issues in a table (in configured language):
 
-**English**:
+> Output language follows `.claude/yux-config.json` setting
+
 ```
 === Linear Backlog (Wyx Team - subloom-api Project) ===
 
@@ -81,19 +82,6 @@ Format issues in a table (in user's language):
 | 5 | LIN-567  | Update documentation         | None     | Backlog     | -        | -        |
 
 Total: 5 issues (1 urgent, 1 high, 1 medium, 1 low, 1 none)
-```
-
-**Chinese**:
-```
-=== Linear 待办列表 (Wyx 团队 - subloom-api 项目) ===
-
-| # | 编号     | 标题                         | 优先级   | 状态        | 负责人   | 截止日期 |
-|---|----------|------------------------------|----------|-------------|----------|----------|
-| 1 | LIN-456  | 实现用户认证                 | 紧急     | 进行中      | @你      | 1月10日  |
-| 2 | LIN-789  | 修复登录页面崩溃             | 高       | 待办        | -        | 1月8日   |
-...
-
-共 5 个问题 (1 紧急, 1 高, 1 中, 1 低, 1 无)
 ```
 
 ### Step 5: AI Recommendation
@@ -136,6 +124,8 @@ if is_blocked: score -= 100
 
 **Recommendation Output**:
 
+> Output language follows `.claude/yux-config.json` setting
+
 ```
 === Recommended Next Task ===
 
@@ -152,33 +142,7 @@ Alternative options:
 ---
 📋 Next Steps:
 
-\`\`\`
-/yux-linear-start LIN-789
-\`\`\`
-Start the recommended task
-```
-
-**Chinese**:
-```
-=== 推荐下一个任务 ===
-
-基于优先级、截止日期和当前迭代分析：
-
-1. [LIN-789] 修复登录页面崩溃
-   优先级: 高 | 截止: 明天 | 状态: 待办
-   推荐理由: 高优先级 Bug，截止日期临近
-
-备选任务:
-2. [LIN-456] 实现用户认证 (已在进行中)
-3. [LIN-234] 重构 API 端点 (在当前迭代中)
-
----
-📋 下一步 / Next Steps:
-
-\`\`\`
-/yux-linear-start LIN-789
-\`\`\`
-开始推荐的任务
+/yux-linear-start LIN-789  - Start the recommended task
 ```
 
 ### Step 6: Interactive Options

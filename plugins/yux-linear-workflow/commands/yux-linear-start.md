@@ -45,7 +45,8 @@ Before starting, verify:
    - Output error message and stop immediately
    - **DO NOT proceed with the workflow**
 
-   **English**:
+   > Output language follows `.claude/yux-config.json` setting
+
    ```
    ❌ Linear Connection Failed
 
@@ -56,26 +57,13 @@ Before starting, verify:
    Run /linear-tools:setup to configure Linear.
    ```
 
-   **Chinese**:
-   ```
-   ❌ Linear 连接失败
-
-   无法连接到 Linear，请检查：
-   1. Linear MCP 是否已配置
-   2. OAuth 授权是否有效
-
-   运行 /linear-tools:setup 进行配置
-   ```
-
 3. **Only if connection succeeds**: Proceed to Step 1
 
-### Step 1: Detect User Language
+### Step 1: Load Configuration
 
-Analyze user input to determine preferred language:
-- Chinese characters > 30% → `zh`
-- Japanese hiragana/katakana → `ja`
-- Korean hangul → `ko`
-- Default → `en`
+Read `.claude/yux-config.json` to get user language preference:
+- If `language` is set, use that language for all messages
+- If file doesn't exist, detect from user input or default to English
 
 Store as `USER_LANG` for all subsequent messages.
 
@@ -136,24 +124,16 @@ Store as `LINEAR_TEAM` and `LINEAR_PROJECT` for subsequent calls.
 
 ### Step 3: Issue Selection
 
-Present options to user (in detected language):
+Present options to user (in configured language):
 
-**English**:
+> Output language follows `.claude/yux-config.json` setting
+
 ```
 How would you like to proceed?
 1. Search existing Linear issues
 2. Create a new issue
 
 Enter your choice:
-```
-
-**Chinese**:
-```
-请选择操作方式：
-1. 搜索现有 Linear Issue
-2. 创建新 Issue
-
-请输入选择：
 ```
 
 ### Step 4a: Search Existing Issues
@@ -307,9 +287,10 @@ If user chooses to create:
 
 ### Step 7: Output Summary
 
-Display completion message with verification status (in user's language):
+Display completion message with verification status (in configured language):
 
-**English**:
+> Output language follows `.claude/yux-config.json` setting
+
 ```
 === Task Started ===
 
@@ -330,47 +311,8 @@ You can now start coding!
 ---
 📋 Next Steps:
 
-\`\`\`
-/yux-linear-status
-\`\`\`
-Check current workflow status
-
-\`\`\`
-/yux-linear-pr
-\`\`\`
-Create a Pull Request when ready
-```
-
-**Chinese**:
-```
-=== 任务已启动 ===
-
-✓ Linear issue 已验证: LIN-456
-✓ 状态已更新: In Progress
-✓ 分支已创建并切换: feat/LIN-456-user-login
-✓ 当前分支已验证: feat/LIN-456-user-login
-✓ 本地状态已保存: .claude/linear-tasks/LIN-456.json
-
-Issue:   LIN-456 - 用户登录实现
-状态:    In Progress
-分支:    feat/LIN-456-user-login
-URL:     https://linear.app/team/issue/LIN-456
-
-当前所在分支: feat/LIN-456-user-login
-现在可以开始编码了！
-
----
-📋 下一步 / Next Steps:
-
-\`\`\`
-/yux-linear-status
-\`\`\`
-查看当前工作流状态
-
-\`\`\`
-/yux-linear-pr
-\`\`\`
-准备好后创建 Pull Request
+/yux-linear-status  - Check current workflow status
+/yux-linear-pr      - Create a Pull Request when ready
 ```
 
 ## Error Handling

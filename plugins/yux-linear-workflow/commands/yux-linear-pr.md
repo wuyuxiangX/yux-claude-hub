@@ -1,6 +1,6 @@
 # Linear PR - Create Pull Request
 
-Create a pull request with Linear issue integration and CI/CD monitoring.
+Create a pull request with Linear issue integration.
 
 **Usage**: `/yux-linear-pr [additional description]`
 
@@ -74,37 +74,10 @@ Additional PR description from: $ARGUMENTS (optional)
    - Format: `[LIN-456] <Issue Title>`
    - Example: `[LIN-456] Implement user authentication`
 
-2. **Create PR body** (based on user language):
+2. **Create PR body** (based on configured language):
 
-   **Chinese format**:
-   ```markdown
-   ## 概要
+   > PR content language follows `.claude/yux-config.json` setting
 
-   <来自 Linear 的 Issue 描述>
-
-   <用户提供的额外描述（如有）>
-
-   ## Linear Issue
-
-   Closes LIN-456
-
-   ## 变更内容
-
-   - feat(auth): 增加登录组件
-   - feat(auth): 增加 JWT token 处理
-   - test(auth): 增加认证测试
-
-   ## 测试计划
-
-   - [ ] 单元测试通过
-   - [ ] 集成测试通过
-   - [ ] 手动测试完成
-
-   ---
-   由 Linear Workflow Plugin 生成
-   ```
-
-   **English format**:
    ```markdown
    ## Summary
 
@@ -170,65 +143,35 @@ Additional PR description from: $ARGUMENTS (optional)
    )
    ```
 
-### Step 6: Monitor CI/CD
+### Step 6: Check Initial CI Status (No Polling)
 
-Trigger CI monitoring (invoke yux-ci-monitor skill):
+Display initial CI status once, then finish:
 
-1. **Initial status check**:
+1. **Check CI status**:
    ```bash
-   gh pr checks <pr-number> --json name,state,conclusion
+   gh pr checks <pr-number> --json name,state,conclusion 2>/dev/null || echo "[]"
    ```
 
-2. **Display initial status**:
+2. **Display initial status** (one-time, no polling):
    ```
    === CI Status ===
    ├── ○ lint (pending)
    ├── ○ build (pending)
    ├── ○ test (pending)
    └── ○ deploy-preview (pending)
-
-   Monitoring CI... (will update every 15 seconds)
    ```
 
-3. **Poll for updates** until all checks complete or timeout (30 min)
+   Or if no CI configured:
+   ```
+   CI Status: No checks configured
+   ```
 
-4. **On completion**:
-   - All passed → Prompt for merge
-   - Any failed → Show error details
+**Note**: This command does NOT poll for CI updates. Use `/yux-linear-merge` when ready to merge - it will check CI status at that time.
 
 ### Step 7: Output Summary
 
-**Chinese output**:
-```
-=== Pull Request 已创建 ===
+> Output language follows `.claude/yux-config.json` setting
 
-PR:      #78 - [LIN-456] 实现用户认证
-URL:     https://github.com/org/repo/pull/78
-分支:    feat/LIN-456-user-auth → main
-
-Linear:  LIN-456 状态已更新为 "In Review"
-
-CI 状态: 监控中...
-├── ✓ lint (通过)
-├── ✓ build (通过)
-├── ○ test (运行中)
-└── ○ deploy-preview (等待中)
-
----
-📋 下一步:
-
-\`\`\`
-/yux-linear-status
-\`\`\`
-监控 CI 状态
-
-\`\`\`
-/yux-linear-merge
-\`\`\`
-CI 通过后合并 PR
-```
-
-**English output**:
 ```
 === Pull Request Created ===
 
@@ -238,24 +181,17 @@ Branch:  feat/LIN-456-user-auth → main
 
 Linear:  LIN-456 status updated to "In Review"
 
-CI Status: Monitoring...
-├── ✓ lint (passed)
-├── ✓ build (passed)
-├── ○ test (running)
+CI Status:
+├── ○ lint (pending)
+├── ○ build (pending)
+├── ○ test (pending)
 └── ○ deploy-preview (pending)
 
 ---
 📋 Next Steps:
 
-\`\`\`
-/yux-linear-status
-\`\`\`
-Monitor CI status
-
-\`\`\`
-/yux-linear-merge
-\`\`\`
-Merge the PR when CI passes
+/yux-linear-status  - Check current status
+/yux-linear-merge   - Merge the PR (will check CI at that time)
 ```
 
 ## Error Handling
@@ -284,11 +220,15 @@ Creating PR...
 ✓ PR #78 created: https://github.com/org/repo/pull/78
 ✓ Linear LIN-456 updated to "In Review"
 
-=== CI Monitoring ===
-├── ○ lint (queued)
-├── ○ build (queued)
-├── ○ test (queued)
-└── ○ deploy-preview (queued)
+CI Status:
+├── ○ lint (pending)
+├── ○ build (pending)
+├── ○ test (pending)
+└── ○ deploy-preview (pending)
 
-Waiting for CI to start...
+---
+📋 Next Steps:
+
+/yux-linear-status  - Check current status
+/yux-linear-merge   - Merge the PR (will check CI at that time)
 ```

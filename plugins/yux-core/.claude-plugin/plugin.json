@@ -1,0 +1,19 @@
+{
+  "name": "yux-core",
+  "version": "1.0.0",
+  "description": "Core configuration management for yux-claude-hub plugins. Provides unified language settings and cross-plugin configuration.",
+  "author": {
+    "name": "Yux",
+    "url": "https://github.com/yuxiang"
+  },
+  "homepage": "https://github.com/yuxiang/yux-claude-hub",
+  "license": "MIT",
+  "keywords": [
+    "config",
+    "settings",
+    "language",
+    "i18n",
+    "core"
+  ],
+  "commands": "./commands"
+}
