@@ -8,6 +8,5 @@
   },
   "homepage": "https://github.com/wuyuxiangX/video-to-blog",
   "license": "MIT",
-  "keywords": ["video", "blog", "subtitle", "content-creation", "youtube", "bilibili"],
-  "commands": "./commands"
+  "keywords": ["video", "blog", "subtitle", "content-creation", "youtube", "bilibili"]
 }

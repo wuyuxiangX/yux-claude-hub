@@ -14,6 +14,5 @@
     "language",
     "i18n",
     "core"
-  ],
-  "commands": "./commands"
+  ]
 }
