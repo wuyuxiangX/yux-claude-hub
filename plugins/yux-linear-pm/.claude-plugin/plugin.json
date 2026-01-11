@@ -1,0 +1,12 @@
+{
+  "name": "yux-linear-pm",
+  "version": "1.0.0",
+  "description": "Product Manager workflow for Linear. Initiative-centric planning with auto task decomposition across sub-projects.",
+  "author": {
+    "name": "wuyuxiangX",
+    "email": "wuyuxiang@example.com"
+  },
+  "homepage": "https://github.com/wuyuxiangX/yux-claude-hub",
+  "license": "MIT",
+  "keywords": ["linear", "product-management", "triage", "prd", "planning", "initiative"]
+}

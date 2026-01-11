@@ -40,6 +40,17 @@
       },
       "source": "./plugins/yux-linear-workflow",
       "category": "development"
+    },
+    {
+      "name": "yux-linear-pm",
+      "description": "Product Manager workflow for Linear. Initiative-centric planning with auto task decomposition across sub-projects.",
+      "version": "1.0.0",
+      "author": {
+        "name": "wuyuxiangX",
+        "email": "wuyuxiang@example.com"
+      },
+      "source": "./plugins/yux-linear-pm",
+      "category": "productivity"
     }
   ]
 }
