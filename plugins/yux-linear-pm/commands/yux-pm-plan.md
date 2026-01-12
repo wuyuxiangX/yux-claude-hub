@@ -1,3 +1,7 @@
+---
+description: Sprint planning and capacity management
+---
+
 # PM Plan - Sprint/Cycle Planning
 
 Plan your next sprint: calculate capacity, suggest scope, and assign issues to cycle.

@@ -1,3 +1,7 @@
+---
+description: Display initiative dashboard and status
+---
+
 # PM Overview - Initiative Dashboard
 
 Display a quick overview dashboard for your configured Initiative.

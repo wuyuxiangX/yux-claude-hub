@@ -5,6 +5,7 @@ context: fork
 agent: general-purpose
 allowed-tools: Read, Bash, Grep
 model: sonnet
+user-invocable: false
 ---
 
 # Merge Executor Skill
@@ -58,24 +59,7 @@ Check for blocking conditions:
 
 If blocked, return immediately with `blocked` status.
 
-### Step 3: Gather Context (for summary only)
-
-**Fetch Linear issue comments:**
-```
-mcp__linear__list_comments(issueId: "<issue_uuid>")
-```
-
-**Fetch GitHub PR reviews:**
-```bash
-gh pr view <pr_number> --json reviews,comments
-```
-
-Summarize the context (do not output full content):
-- Number of Linear comments
-- Number of PR reviews and their status
-- Any unresolved review comments
-
-### Step 4: Execute Merge
+### Step 3: Execute Merge
 
 ```bash
 gh pr merge <pr_number> --<strategy> --delete-branch
@@ -83,13 +67,13 @@ gh pr merge <pr_number> --<strategy> --delete-branch
 
 Where `<strategy>` is squash, rebase, or merge.
 
-### Step 5: Verify Merge Success
+### Step 4: Verify Merge Success
 
 ```bash
 gh pr view <pr_number> --json state,mergedAt,mergeCommit
 ```
 
-### Step 6: Clean Up Local Branch
+### Step 5: Clean Up Local Branch
 
 ```bash
 git checkout main
@@ -97,7 +81,7 @@ git pull origin main
 git branch -d <branch_name>
 ```
 
-### Step 7: Update Linear Issue
+### Step 6: Update Linear Issue
 
 **Update status to "Done":**
 ```
@@ -115,7 +99,7 @@ mcp__linear__create_comment(
 )
 ```
 
-### Step 8: Return Structured Result
+### Step 7: Return Structured Result
 
 Always return a JSON result:
 
@@ -132,11 +116,6 @@ Always return a JSON result:
   "issue": {
     "id": "LIN-456",
     "status": "Done"
-  },
-  "context_summary": {
-    "linear_comments": 5,
-    "pr_reviews": 2,
-    "review_status": "approved"
   },
   "cleanup": {
     "remote_branch_deleted": true,
@@ -173,7 +152,7 @@ Always return a JSON result:
 
 ## Important Notes
 
-1. **Context efficiency**: Gather context but only return summaries, not full content
-2. **Atomic operations**: If any step fails, report current state and stop
-3. **Cleanup safety**: Only delete local branch if merge succeeded
-4. **Linear sync**: Always update Linear status after successful merge
+1. **Atomic operations**: If any step fails, report current state and stop
+2. **Cleanup safety**: Only delete local branch if merge succeeded
+3. **Linear sync**: Always update Linear status after successful merge
+4. **No comment collection**: Comment/review collection is handled by the main agent before calling this skill

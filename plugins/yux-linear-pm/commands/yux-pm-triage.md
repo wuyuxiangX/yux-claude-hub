@@ -1,3 +1,7 @@
+---
+description: Triage and classify inbox issues
+---
+
 # PM Triage - Process Inbox Issues
 
 Process inbox/triage issues: classify type, assign to projects, set priority, and structure descriptions.

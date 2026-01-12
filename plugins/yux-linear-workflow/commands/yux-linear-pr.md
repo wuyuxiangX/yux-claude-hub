@@ -1,3 +1,7 @@
+---
+description: Create pull request with Linear integration
+---
+
 # Linear PR - Create Pull Request
 
 Create a pull request with Linear issue integration.

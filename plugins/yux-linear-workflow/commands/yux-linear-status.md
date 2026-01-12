@@ -1,3 +1,7 @@
+---
+description: Check current task and workflow status
+---
+
 # Linear Status - Check Workflow Status
 
 Display comprehensive status of the current Linear workflow including issue, branch, PR, and CI status.

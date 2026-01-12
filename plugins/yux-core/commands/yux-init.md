@@ -1,3 +1,7 @@
+---
+description: Initialize yux configuration settings
+---
+
 # Initialize yux-core Configuration
 
 Initialize project configuration for yux-claude-hub plugins.

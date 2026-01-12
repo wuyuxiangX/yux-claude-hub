@@ -1,3 +1,7 @@
+---
+description: Merge PR and close Linear issue
+---
+
 # Linear Merge - Merge Pull Request
 
 Complete the workflow by merging the PR, cleaning up branches, and closing the Linear issue.
@@ -42,9 +46,86 @@ gh pr view --json number,state,mergeable,mergeStateStatus
 
 If PR doesn't exist or is already merged, inform user immediately.
 
-### Step 2: Ask User Confirmation
+### Step 1.5: Collect and Summarize Pending Issues
 
-Display merge summary (without fetching full context):
+**IMPORTANT**: Before asking for merge confirmation, collect and display any pending issues from both GitHub PR and Linear issue.
+
+**1. Get GitHub PR reviews and comments:**
+```bash
+gh pr view <pr_number> --json reviews,comments,reviewDecision
+```
+
+**2. Get Linear issue comments:**
+```
+mcp__linear__list_comments(issueId: "<issue_uuid>")
+```
+
+**3. Filter and summarize issues:**
+
+Only extract and display:
+- Reviews with `CHANGES_REQUESTED` state
+- Comments containing questions (?)
+- Comments suggesting changes/improvements
+- Unresolved discussion threads
+
+**Do NOT display:**
+- `APPROVED` reviews with positive-only content (e.g., "LGTM", "Looks good", "+1")
+- Already resolved discussions
+- Pure status updates
+
+**4. Display format (only if issues exist):**
+
+```
+=== Pending Issues Summary ===
+
+From GitHub PR:
+┌─────────────────────────────────────────────────────────────┐
+│ [CHANGES_REQUESTED] @reviewer:                              │
+│ "Please add error handling for the API call on line 45"     │
+├─────────────────────────────────────────────────────────────┤
+│ [Comment] @user:                                            │
+│ "Should we add tests for this edge case?"                   │
+└─────────────────────────────────────────────────────────────┘
+
+From Linear:
+┌─────────────────────────────────────────────────────────────┐
+│ @pm_user:                                                   │
+│ "Can you also update the documentation for this change?"    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**5. If no issues found:**
+- Skip this section entirely, proceed directly to confirmation
+- Do NOT display "No issues found" message
+
+**6. If more than 5 issues:**
+- Display the most recent 5 issues
+- Add note: "... and N more issues"
+
+### Step 2: Ask User Confirmation (MANDATORY)
+
+**CRITICAL**: You MUST use `AskUserQuestion` tool to get explicit user confirmation. Do NOT proceed without it.
+
+**If pending issues exist:**
+
+Display the issues summary from Step 1.5, then use AskUserQuestion:
+
+```
+=== Ready to Merge ===
+
+PR:       #78 - [LIN-456] Implement user authentication
+Strategy: squash (default)
+
+⚠️  N pending issues shown above
+```
+
+Then call AskUserQuestion with:
+- Question: "How would you like to proceed?"
+- Options:
+  - "Proceed with merge" - Continue merging despite pending issues
+  - "Cancel and address issues" - Stop and handle the issues first
+
+**If no pending issues:**
 
 ```
 === Ready to Merge ===
@@ -53,12 +134,20 @@ PR:       #78 - [LIN-456] Implement user authentication
 Strategy: squash (default)
 
 This will:
-1. Merge PR #78 into main
-2. Delete branch feat/LIN-456-user-auth
-3. Mark Linear issue LIN-456 as Done
-
-Proceed with merge? [Y/n]
+1. Merge PR into main
+2. Delete the feature branch
+3. Mark Linear issue as Done
 ```
+
+Then call AskUserQuestion with:
+- Question: "Ready to merge?"
+- Options:
+  - "Proceed with merge" - Execute the merge
+  - "Cancel" - Abort the operation
+
+**Handle user response:**
+- If user selects "Cancel" or "Cancel and address issues": Display cancellation message and stop
+- If user selects "Proceed with merge": Continue to Step 3
 
 ### Step 3: Execute via linear-merge-executor Skill
 
@@ -89,7 +178,6 @@ Parse the structured result from the skill:
   "summary": "PR #78 merged to main via squash",
   "pr": { "number": 78, "merge_commit": "abc1234" },
   "issue": { "id": "LIN-456", "status": "Done" },
-  "context_summary": { "linear_comments": 5, "pr_reviews": 2 },
   "cleanup": { "remote_branch_deleted": true, "local_branch_deleted": true }
 }
 ```
@@ -188,6 +276,42 @@ This delegation reduces main agent context consumption from ~5000 tokens to ~500
 
 ## Example
 
+### Example: With Pending Issues
+
+```
+User: /yux-linear-merge
+
+Claude:
+=== Pending Issues Summary ===
+
+From GitHub PR:
+┌─────────────────────────────────────────────────────────────┐
+│ [CHANGES_REQUESTED] @bob:                                   │
+│ "Please add error handling for the API call on line 45"     │
+└─────────────────────────────────────────────────────────────┘
+
+From Linear:
+┌─────────────────────────────────────────────────────────────┐
+│ @pm_user:                                                   │
+│ "Can you also update the documentation?"                    │
+└─────────────────────────────────────────────────────────────┘
+
+=== Ready to Merge ===
+
+PR:       #78 - [LIN-456] Implement user authentication
+Strategy: squash (default)
+
+⚠️  2 pending issues shown above
+
+[Claude uses AskUserQuestion tool - waits for user response]
+
+User selects: "Cancel and address issues"
+
+Claude: Merge cancelled. You can address the issues and run /yux-linear-merge again.
+```
+
+### Example: No Pending Issues
+
 ```
 User: /yux-linear-merge
 
@@ -202,13 +326,13 @@ This will:
 2. Delete branch feat/LIN-456-user-auth
 3. Mark Linear issue LIN-456 as Done
 
-Proceed with merge? [Y/n]
+[Claude uses AskUserQuestion tool - waits for user response]
 
-User: Y
+User selects: "Proceed with merge"
 
 Claude: Executing merge via linear-merge-executor skill...
 
-[Skill executes in forked context: gather context, validate, merge, update Linear]
+[Skill executes in forked context: validate, merge, update Linear]
 
 ╔══════════════════════════════════════════════════════════════╗
 ║                     Task Completed!                           ║
@@ -245,9 +369,9 @@ Claude:
 PR:       #78 - [LIN-456] Implement user authentication
 Strategy: squash (default)
 
-Proceed with merge? [Y/n]
+[Claude uses AskUserQuestion tool - waits for user response]
 
-User: Y
+User selects: "Proceed with merge"
 
 Claude: Executing merge via linear-merge-executor skill...
 

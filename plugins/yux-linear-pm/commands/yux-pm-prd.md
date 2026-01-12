@@ -1,3 +1,7 @@
+---
+description: Create feature PRD with task decomposition
+---
+
 # PM PRD - Generate PRD with Cross-Project Task Decomposition
 
 Generate Product Requirements Document with automatic task decomposition across sub-projects.

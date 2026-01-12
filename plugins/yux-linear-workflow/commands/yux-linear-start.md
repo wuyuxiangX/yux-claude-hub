@@ -1,3 +1,7 @@
+---
+description: Start working on a Linear issue
+---
+
 # Linear Start - Begin New Task
 
 Start a new task with Linear issue tracking and proper branch management.

@@ -1,3 +1,7 @@
+---
+description: Initialize PM workspace and configure projects
+---
+
 # PM Init - Initialize PM Workspace
 
 Initialize the PM workspace by selecting an Initiative and configuring sub-projects.

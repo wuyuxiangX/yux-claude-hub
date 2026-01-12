@@ -1,3 +1,7 @@
+---
+description: Convert video to blog article pipeline
+---
+
 # Video to Blog - Full Pipeline
 
 Transform a video URL into a complete blog article in one command.

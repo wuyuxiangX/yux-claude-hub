@@ -1,3 +1,7 @@
+---
+description: Add note to Linear issue or project
+---
+
 # Linear Note - Save Important Information
 
 Save notes, scripts, or important information to Linear as project documents.

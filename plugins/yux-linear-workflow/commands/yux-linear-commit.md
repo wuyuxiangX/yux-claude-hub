@@ -1,3 +1,7 @@
+---
+description: Stage and commit changes with Linear sync
+---
+
 # Linear Commit - Stage Changes
 
 Make incremental commits during development, linking to Linear issue and syncing progress.

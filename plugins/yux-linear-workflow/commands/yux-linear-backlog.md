@@ -1,3 +1,7 @@
+---
+description: View Linear backlog and recommendations
+---
+
 # Linear Backlog - View & Recommend Issues
 
 View current project issues and get AI-powered recommendations for what to work on next.
