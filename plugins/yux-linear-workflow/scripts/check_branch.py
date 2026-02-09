@@ -11,10 +11,14 @@ Exit codes:
 """
 
 import json
+import os
 import re
 import subprocess
 import sys
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _linear_guard import is_linear_project
 
 PROTECTED_BRANCHES = ['main', 'master', 'develop', 'release']
 
@@ -57,6 +61,10 @@ def main():
     try:
         input_data = json.load(sys.stdin)
     except json.JSONDecodeError:
+        sys.exit(0)
+
+    # Skip if not a Linear-active project
+    if not is_linear_project():
         sys.exit(0)
 
     tool_name = input_data.get("tool_name", "")

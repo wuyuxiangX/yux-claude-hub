@@ -11,8 +11,8 @@
             "timeout": 5
           },
           {
-            "type": "prompt",
-            "prompt": "Check if Linear workflow is relevant:\n1. If user mentions task/issue/feature work, remind about /yux-linear-start\n2. If on a Linear branch (LIN-xxx), acknowledge the context\n3. If discussing PR/merge, remind about /yux-linear-pr or /yux-linear-merge\nOnly add reminders if truly relevant.",
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/prompt_linear_reminder.py",
             "timeout": 5
           }
         ]
@@ -50,8 +50,8 @@
             "timeout": 10
           },
           {
-            "type": "prompt",
-            "prompt": "If the sync_progress script returned an issue_id, consider posting a progress summary to Linear using mcp__linear__create_comment before context compaction.",
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/prompt_sync_reminder.py",
             "timeout": 10
           }
         ]

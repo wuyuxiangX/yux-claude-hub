@@ -12,8 +12,12 @@ Exit codes:
 """
 
 import json
+import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _linear_guard import is_linear_project
 
 # Emoji mapping for commit types
 VALID_EMOJIS = ['✨', '🐛', '📝', '💄', '♻️', '⚡️', '✅', '📦', '👷', '🔧']
@@ -98,6 +102,10 @@ def main():
         input_data = json.load(sys.stdin)
     except json.JSONDecodeError:
         # If no valid JSON, allow operation
+        sys.exit(0)
+
+    # Skip if not a Linear-active project
+    if not is_linear_project():
         sys.exit(0)
 
     tool_name = input_data.get("tool_name", "")

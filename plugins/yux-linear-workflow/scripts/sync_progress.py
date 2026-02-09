@@ -10,9 +10,13 @@ Exit codes:
 """
 
 import json
+import os
 import re
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _linear_guard import is_linear_project
 
 
 def get_current_branch() -> str | None:
@@ -77,6 +81,10 @@ def main():
         input_data = json.load(sys.stdin)
     except json.JSONDecodeError:
         input_data = {}
+
+    # Skip if not a Linear-active project
+    if not is_linear_project():
+        sys.exit(0)
 
     # Get current branch
     branch = get_current_branch()

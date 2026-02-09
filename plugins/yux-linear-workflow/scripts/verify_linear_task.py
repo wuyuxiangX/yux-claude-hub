@@ -12,10 +12,14 @@ Exit codes:
 """
 
 import json
+import os
 import re
 import subprocess
 import sys
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _linear_guard import is_linear_project
 
 
 def get_current_branch() -> str | None:
@@ -56,6 +60,10 @@ def load_state(state_file: Path) -> dict | None:
 
 
 def main():
+    # Skip if not a Linear-active project
+    if not is_linear_project():
+        sys.exit(0)
+
     # Get current branch
     branch = get_current_branch()
     if not branch:

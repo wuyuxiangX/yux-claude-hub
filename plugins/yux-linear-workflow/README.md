@@ -560,6 +560,18 @@ Set in `.claude/settings.json`:
 
 The plugin uses Linear MCP for API access. Configure via `/mcp` command.
 
+## Project-Level Activation Guard
+
+All hooks include a project-level guard that prevents them from interfering with non-Linear projects. A project is considered "Linear-active" if **any** of the following conditions are met:
+
+1. `.claude/linear-tasks/` directory exists
+2. `.claude/linear-config.json` file exists
+3. Current git branch matches `LIN-*` pattern (e.g., `feat/LIN-123-feature`)
+
+When none of these conditions are met, all hooks silently pass (`exit 0`) — no warnings, no commit blocking, no prompt injection.
+
+This guard is implemented in `scripts/_linear_guard.py` and imported by every hook script.
+
 ## Hooks
 
 The plugin uses **code-based hooks** (Python scripts) for reliable, deterministic validation:
@@ -610,10 +622,14 @@ plugins/yux-linear-workflow/
 ├── hooks/
 │   └── hooks.json                # Hook configurations
 ├── scripts/
+│   ├── _linear_guard.py          # Shared project-level activation guard
 │   ├── validate_commit.py        # Commit message validator
 │   ├── check_branch.py           # Branch protection check
+│   ├── verify_linear_task.py     # Linear task context detector
 │   ├── sync_progress.py          # Progress sync extractor
-│   └── post_command.py           # Post-command analyzer
+│   ├── post_command.py           # Post-command analyzer
+│   ├── prompt_linear_reminder.py # Guarded Linear workflow reminder
+│   └── prompt_sync_reminder.py   # Guarded sync reminder before compaction
 ├── templates/
 │   └── messages.json             # Multi-language messages
 └── README.md                     # This file
