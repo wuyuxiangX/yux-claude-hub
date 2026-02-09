@@ -1,0 +1,70 @@
+{
+  "setup": {
+    "missing_api_key": {
+      "en": "OPENROUTER_API_KEY is not set. Please configure it using one of the following methods:\n1. (Recommended) Add to ~/.claude/settings.json: { \"env\": { \"OPENROUTER_API_KEY\": \"sk-or-...\" } }\n2. Add to shell profile (~/.zshrc or ~/.bashrc): export OPENROUTER_API_KEY=\"sk-or-...\"\n3. Set in current session: export OPENROUTER_API_KEY=\"sk-or-...\"\n\nGet your API key at: https://openrouter.ai/keys",
+      "zh": "OPENROUTER_API_KEY 未设置。请通过以下方式配置：\n1.（推荐）添加到 ~/.claude/settings.json：{ \"env\": { \"OPENROUTER_API_KEY\": \"sk-or-...\" } }\n2. 添加到 shell 配置文件（~/.zshrc 或 ~/.bashrc）：export OPENROUTER_API_KEY=\"sk-or-...\"\n3. 在当前会话中设置：export OPENROUTER_API_KEY=\"sk-or-...\"\n\n获取 API Key：https://openrouter.ai/keys",
+      "ja": "OPENROUTER_API_KEY が設定されていません。以下のいずれかの方法で設定してください：\n1.（推奨）~/.claude/settings.json に追加：{ \"env\": { \"OPENROUTER_API_KEY\": \"sk-or-...\" } }\n2. シェルプロファイル（~/.zshrc または ~/.bashrc）に追加：export OPENROUTER_API_KEY=\"sk-or-...\"\n3. 現在のセッションで設定：export OPENROUTER_API_KEY=\"sk-or-...\"\n\nAPIキーの取得：https://openrouter.ai/keys",
+      "ko": "OPENROUTER_API_KEY가 설정되지 않았습니다. 다음 방법 중 하나로 설정해 주세요:\n1. (권장) ~/.claude/settings.json에 추가: { \"env\": { \"OPENROUTER_API_KEY\": \"sk-or-...\" } }\n2. 셸 프로필(~/.zshrc 또는 ~/.bashrc)에 추가: export OPENROUTER_API_KEY=\"sk-or-...\"\n3. 현재 세션에서 설정: export OPENROUTER_API_KEY=\"sk-or-...\"\n\nAPI 키 발급: https://openrouter.ai/keys"
+    },
+    "missing_tools": {
+      "en": "Required tools are missing: {tools}. Please install them before using this plugin.",
+      "zh": "缺少必要工具：{tools}。请先安装后再使用此插件。",
+      "ja": "必要なツールがありません：{tools}。このプラグインを使用する前にインストールしてください。",
+      "ko": "필수 도구가 없습니다: {tools}. 이 플러그인을 사용하기 전에 설치해 주세요."
+    }
+  },
+  "generate": {
+    "starting": {
+      "en": "Generating image with {model}...",
+      "zh": "正在使用 {model} 生成图片...",
+      "ja": "{model} で画像を生成中...",
+      "ko": "{model}로 이미지 생성 중..."
+    },
+    "editing": {
+      "en": "Editing image with {model}...",
+      "zh": "正在使用 {model} 编辑图片...",
+      "ja": "{model} で画像を編集中...",
+      "ko": "{model}로 이미지 편집 중..."
+    }
+  },
+  "result": {
+    "success": {
+      "en": "Image saved to: {path}\nSize: {size}\nModel: {model}",
+      "zh": "图片已保存至：{path}\n大小：{size}\n模型：{model}",
+      "ja": "画像の保存先：{path}\nサイズ：{size}\nモデル：{model}",
+      "ko": "이미지 저장 위치: {path}\n크기: {size}\n모델: {model}"
+    }
+  },
+  "error": {
+    "auth_failed": {
+      "en": "Authentication failed (401). Your OPENROUTER_API_KEY may be invalid. Check your key at https://openrouter.ai/keys",
+      "zh": "认证失败（401）。您的 OPENROUTER_API_KEY 可能无效。请在 https://openrouter.ai/keys 检查密钥。",
+      "ja": "認証に失敗しました（401）。OPENROUTER_API_KEY が無効な可能性があります。https://openrouter.ai/keys でキーを確認してください。",
+      "ko": "인증 실패(401). OPENROUTER_API_KEY가 유효하지 않을 수 있습니다. https://openrouter.ai/keys 에서 키를 확인하세요."
+    },
+    "insufficient_funds": {
+      "en": "Insufficient funds (402). Please add credits at https://openrouter.ai/credits",
+      "zh": "余额不足（402）。请在 https://openrouter.ai/credits 充值。",
+      "ja": "残高不足（402）。https://openrouter.ai/credits でクレジットを追加してください。",
+      "ko": "잔액 부족(402). https://openrouter.ai/credits 에서 크레딧을 충전하세요."
+    },
+    "rate_limited": {
+      "en": "Rate limited (429). Please wait a moment and try again.",
+      "zh": "请求频率超限（429）。请稍等片刻后重试。",
+      "ja": "レート制限（429）。しばらく待ってから再試行してください。",
+      "ko": "요청 빈도 제한(429). 잠시 후 다시 시도해 주세요."
+    },
+    "no_image": {
+      "en": "No image was returned. The content may have been filtered by the safety system. Try rephrasing your prompt.",
+      "zh": "未返回图片。内容可能被安全系统过滤。请尝试修改提示词。",
+      "ja": "画像が返されませんでした。コンテンツがセーフティシステムによりフィルタされた可能性があります。プロンプトを変更してみてください。",
+      "ko": "이미지가 반환되지 않았습니다. 콘텐츠가 안전 시스템에 의해 필터링되었을 수 있습니다. 프롬프트를 수정해 보세요."
+    },
+    "network": {
+      "en": "Network error. Please check your internet connection and try again.",
+      "zh": "网络错误。请检查网络连接后重试。",
+      "ja": "ネットワークエラー。インターネット接続を確認して再試行してください。",
+      "ko": "네트워크 오류. 인터넷 연결을 확인하고 다시 시도해 주세요."
+    }
+  }
+}

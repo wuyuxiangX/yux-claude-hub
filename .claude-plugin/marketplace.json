@@ -51,6 +51,17 @@
       },
       "source": "./plugins/yux-linear-pm",
       "category": "productivity"
+    },
+    {
+      "name": "yux-nano-banana",
+      "description": "Generate images using OpenRouter API with Gemini models. Supports text-to-image and image editing.",
+      "version": "1.0.0",
+      "author": {
+        "name": "wuyuxiangX",
+        "email": "wuyuxiang@example.com"
+      },
+      "source": "./plugins/yux-nano-banana",
+      "category": "creativity"
     }
   ]
 }
