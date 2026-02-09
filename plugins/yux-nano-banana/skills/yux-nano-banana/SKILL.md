@@ -1,6 +1,6 @@
 ---
 name: yux-nano-banana
-description: Generate images using OpenRouter API. Triggers: "generate image", "create image", "draw", "nano banana", "生成图片", "画图", "画像生成", "이미지 생성".
+description: Generate images using OpenRouter API. Triggers: "generate image", "create image", "draw", "nano banana", "infographic", "info card", "生成图片", "画图", "信息图", "信息卡片", "科普卡片", "手绘卡片", "画像生成", "インフォグラフィック", "이미지 생성", "인포그래픽".
 allowed-tools: Bash(curl:*), Bash(base64:*), Bash(jq:*), Bash(which:*), Bash(ls:*), Bash(date:*), Bash(wc:*), Bash(uname:*), Bash(file:*), Read, Write, Glob, AskUserQuestion
 ---
 
@@ -12,6 +12,8 @@ Generate images using OpenRouter API with Google Gemini models.
 
 Before generating output, read `.claude/yux-config.json`:
 - If `language` is set, use that language for user-facing messages
+- If `output_dir` is set, save generated images to that directory (expand `~` to home directory; create directory if it doesn't exist using `mkdir -p`)
+- If `output_dir` is not set, save to the current working directory
 - If file doesn't exist, detect from user input or default to English
 - Load message templates from `templates/messages.json` in this plugin directory
 
@@ -46,15 +48,50 @@ Determine the operation type and parameters from the user's request:
 - **model** (optional): User-specified model shorthand (see Model Table below)
 - **source image** (optional, for edit): Path to an existing image file
 - **aspect ratio / dimensions** (optional): Include in prompt if specified by user
+- **style preset** (optional): A predefined style template (see Style Presets below)
+
+## Step 2.5: Style Presets
+
+When the user's request matches a style preset, wrap their content with the preset's prompt template. The user only needs to provide the **topic/content** — the style instructions are injected automatically.
+
+### Available Presets
+
+#### `infographic` — Hand-drawn Infographic Card
+
+**Trigger keywords**: "infographic", "info card", "信息图", "信息卡片", "科普卡片", "手绘卡片", "インフォグラフィック", "인포그래픽"
+
+**Prompt template** (wrap around the user's topic/content):
+
+```
+Create a hand-drawn style infographic card in landscape orientation (16:9 ratio).
+
+Subject: {USER_CONTENT}
+
+Style requirements:
+- Hand-drawn / sketch illustration style with a warm, friendly, artisanal aesthetic
+- Background: beige / cream color with subtle paper grain texture (NOT kraft paper, NO wrinkles or creases)
+- NO border or frame around the edges of the card
+- Clean, uncluttered layout with generous whitespace
+- Use hand-drawn icons, diagrams, and illustrations as the primary way to convey information
+- Minimal text — only short labels or annotations where necessary, the illustrations should tell the story
+- Color palette: warm earth tones, muted pastels, with occasional accent colors for emphasis
+- The overall feel should be like a beautifully illustrated notebook page — approachable and educational
+```
+
+**When this preset is detected**:
+1. Extract the user's actual topic/content (the subject they want illustrated)
+2. Replace `{USER_CONTENT}` in the template with their topic
+3. Use the assembled prompt as the final prompt sent to the API
+4. The user can still specify model choice (flash/pro) — pro is recommended for this style
 
 ## Step 3: Model Selection
 
 | Shorthand | Model ID | When to use |
 |-----------|----------|-------------|
-| flash (default) | `google/gemini-2.5-flash-preview:image` | Default — fast and cost-effective |
-| pro | `google/gemini-2.5-pro-preview:image` | User says "pro", "high quality", "best quality", "高质量", "高品質", "고품질" |
+| flash | `google/gemini-2.5-flash-image` | User says "flash", "fast", "quick", "快速" |
+| pro (default) | `google/gemini-3-pro-image-preview` | Default — highest quality |
 
-If the user does not specify a model, use **flash**.
+If the user does not specify a model, use **pro**.
 
 ## Step 4: Build and Execute API Call
 
@@ -140,28 +177,37 @@ Check the HTTP status code returned by curl:
 
 ### 5.2 Extract image data
 
-```bash
-jq -r '.choices[0].message.content[] | select(.type == "image_url") | .image_url.url' /tmp/nano-banana-response.json
-```
-
-This returns a data URI like `data:image/png;base64,iVBOR...`. If the result is empty or null, the content may have been safety-filtered — show `error.no_image` message.
-
-If the above path returns nothing, also try the text content path — the model might return inline base64 in different structures. Check the raw response structure with:
+The image data is located in the `images` array of the response message:
 
 ```bash
-jq '.choices[0].message' /tmp/nano-banana-response.json
+jq -r '.choices[0].message.images[0].image_url.url' /tmp/nano-banana-response.json
 ```
+
+This returns a data URI like `data:image/jpeg;base64,/9j/4AAQ...`. If the result is empty, null, or the `images` array doesn't exist, the content may have been safety-filtered — show `error.no_image` message.
+
+If the above path returns nothing, also check alternative response structures:
+
+```bash
+jq '.choices[0].message | keys' /tmp/nano-banana-response.json
+```
+
+The model may return multiple images — use `images[0]` for the first one.
 
 ### 5.3 Decode and save
 
 Extract the base64 portion (everything after `base64,`) and decode:
 
 ```bash
-# Generate output filename
-FILENAME="nano-banana-$(date +%Y%m%d-%H%M%S).png"
+# Determine output directory from config (output_dir) or use current directory
+# If output_dir is set in .claude/yux-config.json, expand ~ and ensure directory exists:
+#   OUTPUT_DIR=$(echo "$OUTPUT_DIR_FROM_CONFIG" | sed "s|^~|$HOME|")
+#   mkdir -p "$OUTPUT_DIR"
+# Otherwise: OUTPUT_DIR="."
+
+FILENAME="$OUTPUT_DIR/nano-banana-$(date +%Y%m%d-%H%M%S).png"
 
 # Extract base64 data (remove the data:image/...;base64, prefix)
-jq -r '.choices[0].message.content[] | select(.type == "image_url") | .image_url.url' /tmp/nano-banana-response.json \
+jq -r '.choices[0].message.images[0].image_url.url' /tmp/nano-banana-response.json \
   | sed 's|^data:image/[^;]*;base64,||' \
   | base64 -D > "$FILENAME"   # Use -d on Linux
 ```

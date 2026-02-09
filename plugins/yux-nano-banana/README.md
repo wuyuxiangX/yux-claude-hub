@@ -50,8 +50,8 @@ export OPENROUTER_API_KEY="sk-or-..."
 
 | Shorthand | Model ID | Description |
 |-----------|----------|-------------|
-| flash (default) | `google/gemini-2.5-flash-preview:image` | Fast and cost-effective |
-| pro | `google/gemini-2.5-pro-preview:image` | Highest quality |
+| flash | `google/gemini-2.5-flash-image` | Fast and cost-effective |
+| pro (default) | `google/gemini-3-pro-image-preview` | Highest quality |
 
 ## Usage
 

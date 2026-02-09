@@ -36,6 +36,11 @@ Parse user request to determine what they want to change:
 - "한국어로 변경" → `"ko"`
 - "设置为中文" → `"zh"`
 
+**Output directory changes**:
+- "set output dir to ~/images" → `"~/images"`
+- "change save path" → ask user for new path
+- "设置输出目录", "更改保存路径" → ask user for new path
+
 **View settings**:
 - "show config", "view settings" → display current config
 
@@ -68,6 +73,7 @@ Before generating output, read `.claude/yux-config.json`:
 === Current Configuration ===
 
 Language: Chinese (zh)
+Output Directory: ~/Desktop/blog-images
 
 File: .claude/yux-config.json
 ```
@@ -103,8 +109,17 @@ Run /yux-init to initialize configuration.
 | `ja` | 日本語 (Japanese) |
 | `ko` | 한국어 (Korean) |
 
+## Supported Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `language` | string | Output language code (`en`, `zh`, `ja`, `ko`) |
+| `output_dir` | string | Directory for saving generated files (images, etc.). Supports `~` for home directory. If not set, files save to the current working directory. |
+
 ## Notes
 
 - Changes take effect immediately for all yux plugins
 - Invalid language codes will be rejected
 - Config file must be valid JSON
+- When `output_dir` is set, all image generation plugins (nano-banana, blog-image) save files to this directory
+- The directory will be created automatically if it doesn't exist

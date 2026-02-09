@@ -34,6 +34,22 @@ Ask user for preferred output language using AskUserQuestion:
 - 日本語 (Japanese)
 - 한국어 (Korean)
 
+### Step 2.5: Output Directory (Optional)
+
+Ask user if they want to set a custom output directory for generated files (images, etc.) using AskUserQuestion:
+
+**Question**: "Set a custom output directory for generated images? (leave empty to save in current working directory)"
+**Options**:
+- Use current directory (default)
+- Custom path (user provides a path like `~/Desktop/blog-images`)
+
+If user provides a custom path:
+- Store it as `output_dir` in the config
+- Support `~` as home directory shorthand
+
+If user chooses current directory:
+- Omit `output_dir` from the config (plugins will default to current working directory)
+
 ### Step 3: Create Configuration
 
 1. Create `.claude/` directory if not exists
@@ -42,6 +58,7 @@ Ask user for preferred output language using AskUserQuestion:
 ```json
 {
   "language": "<selected-language-code>",
+  "output_dir": "<optional-output-directory>",
   "created_at": "<ISO-8601-timestamp>",
   "version": "1.0.0"
 }
@@ -52,6 +69,8 @@ Language codes:
 - 中文 → `"zh"`
 - 日本語 → `"ja"`
 - 한국어 → `"ko"`
+
+Note: `output_dir` is only included if user specified a custom path.
 
 ### Step 4: Confirmation
 
