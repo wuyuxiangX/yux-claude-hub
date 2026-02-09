@@ -1,12 +1,15 @@
-# Video to Blog Plugin
+# yux-blog
 
-Transform video content into blog articles. A complete pipeline for content creators.
+Blog content toolkit for Claude Code. Video-to-article pipeline, article image analysis and generation.
 
 ## Features
 
 - **Subtitle Download**: Extract subtitles from multiple platforms (YouTube, Bilibili, Twitter/X, etc.)
 - **Video Summary**: Summarize video content into structured notes
 - **Blog Generation**: Generate polished blog articles from summaries
+- **Article Image Analysis**: Analyze articles for optimal image placement
+- **Image Generation**: Generate AI images via OpenRouter API and insert them into articles
+- **OSS Upload**: Upload images to Alibaba Cloud OSS and replace local paths with CDN URLs
 - **Multi-language Support**: English, Chinese, Japanese, Korean
 
 ## Installation
@@ -14,7 +17,7 @@ Transform video content into blog articles. A complete pipeline for content crea
 Add this plugin to your Claude Code:
 
 ```bash
-claude plugin add https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-video-to-blog
+claude plugin add https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-blog
 ```
 
 Or manually add to `.claude/plugins.json`:
@@ -22,7 +25,7 @@ Or manually add to `.claude/plugins.json`:
 ```json
 {
   "plugins": [
-    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-video-to-blog"
+    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-blog"
   ]
 }
 ```
@@ -34,6 +37,8 @@ Or manually add to `.claude/plugins.json`:
 | yux-video-subtitle | "download subtitle", "extract subtitle", "video subtitle", "transcript", "字幕下载", "提取字幕", "视频字幕" | Download video subtitles |
 | yux-video-summary | "summarize video", "video summary", "content summary", "organize transcript", "整理视频", "视频摘要", "内容总结" | Create structured summary |
 | yux-blog-writer | "write blog", "generate article", "create post", "blog from video", "写博客", "生成文章", "写文章" | Generate blog article |
+| yux-blog-image | "analyze article images", "suggest images", "article image plan", "generate article images", "insert article images", "分析文章配图", "生成文章配图" | Analyze articles for image placement and generate AI images |
+| yux-blog-oss | "upload to oss", "upload images to oss", "oss upload", "上传到oss", "上传图片到oss", "上传博客图片" | Upload images to Alibaba Cloud OSS and update article with CDN URLs |
 
 ## Command
 
@@ -69,6 +74,32 @@ User: Write a blog from the summary
 Claude: [Asks for style preference, then generates article]
 ```
 
+### Analyze Article Images
+
+```
+User: Analyze article images for ./my-article.md
+Claude: [Reads article, identifies insertion points, saves plan]
+```
+
+### Generate Article Images
+
+```
+User: Generate article images
+Claude: [Reads plan, generates images via OpenRouter, inserts into article]
+```
+
+### Upload Images to OSS
+
+```
+User: Upload to oss
+Claude: [Reads plan, uploads completed images to Alibaba Cloud OSS, updates article with CDN URLs]
+```
+
+```
+User: Upload ./image1.png ./image2.png to oss
+Claude: [Uploads specified files to OSS, returns CDN URLs]
+```
+
 ### Full Pipeline
 
 ```
@@ -78,10 +109,20 @@ Claude: [Downloads subtitles → Summarizes → Generates blog]
 
 ## Workflow
 
+### Video to Blog Pipeline
+
 ```
 [Video URL] → [Subtitles] → [Summary] → [Blog Article]
      │            │             │             │
    Input      Download      Organize      Generate
+```
+
+### Article Image Pipeline
+
+```
+[Article] → [Analyze] → [Image Plan] → [Generate] → [Insert] → [Upload to OSS]
+    │           │            │              │            │             │
+  Input     Structure    Placement      OpenRouter   Markdown     CDN URLs
 ```
 
 ## Supported Platforms
@@ -94,18 +135,20 @@ Claude: [Downloads subtitles → Summarizes → Generates blog]
 ## File Structure
 
 ```
-plugins/yux-video-to-blog/
+plugins/yux-blog/
 ├── .claude-plugin/
 │   └── plugin.json               # Plugin manifest
-├── commands/
-│   └── yux-video-to-blog.md      # Pipeline command
 ├── skills/
 │   ├── yux-video-subtitle/
 │   │   └── SKILL.md              # Subtitle download skill
 │   ├── yux-video-summary/
 │   │   └── SKILL.md              # Video summary skill
-│   └── yux-blog-writer/
-│       └── SKILL.md              # Blog generation skill
+│   ├── yux-blog-writer/
+│   │   └── SKILL.md              # Blog generation skill
+│   ├── yux-blog-image/
+│   │   └── SKILL.md              # Article image analysis & generation skill
+│   └── yux-blog-oss/
+│       └── SKILL.md              # OSS upload skill
 └── README.md                     # This file
 ```
 

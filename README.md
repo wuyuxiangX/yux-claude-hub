@@ -14,7 +14,7 @@ yux-claude-hub is a Claude Code plugin repository providing:
 
 | Plugin | Description | Details |
 |--------|-------------|---------|
-| [yux-video-to-blog](./plugins/yux-video-to-blog/) | Transform video content into blog articles | [README](./plugins/yux-video-to-blog/README.md) |
+| [yux-blog](./plugins/yux-blog/) | Blog content toolkit: video-to-article pipeline, image analysis & generation | [README](./plugins/yux-blog/README.md) |
 | [yux-linear-workflow](./plugins/yux-linear-workflow/) | Linear integration with CI/CD monitoring | [README](./plugins/yux-linear-workflow/README.md) |
 
 ## Installation
@@ -28,7 +28,7 @@ yux-claude-hub is a Claude Code plugin repository providing:
 
 2. Install a plugin:
 ```bash
-/plugin install yux-video-to-blog
+/plugin install yux-blog
 # or
 /plugin install yux-linear-workflow
 ```
@@ -44,7 +44,7 @@ Or add individual plugins to `.claude/plugins.json`:
 ```json
 {
   "plugins": [
-    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-video-to-blog",
+    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-blog",
     "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-linear-workflow"
   ]
 }
@@ -55,7 +55,7 @@ Or add individual plugins to `.claude/plugins.json`:
 ```
 yux-claude-hub/
 ├── plugins/
-│   ├── yux-video-to-blog/      # Video to blog plugin
+│   ├── yux-blog/               # Blog content toolkit
 │   │   └── README.md           # Detailed documentation
 │   └── yux-linear-workflow/    # Linear workflow plugin
 │       └── README.md           # Detailed documentation

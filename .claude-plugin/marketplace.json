@@ -20,14 +20,14 @@
       "category": "core"
     },
     {
-      "name": "yux-video-to-blog",
-      "description": "Transform video content into blog articles. Download subtitles, summarize content, and generate polished blog posts.",
+      "name": "yux-blog",
+      "description": "Blog content toolkit. Video-to-article pipeline, article image analysis and generation.",
       "version": "1.0.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
       },
-      "source": "./plugins/yux-video-to-blog",
+      "source": "./plugins/yux-blog",
       "category": "productivity"
     },
     {

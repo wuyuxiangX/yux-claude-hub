@@ -1,0 +1,12 @@
+{
+  "name": "yux-blog",
+  "version": "1.0.0",
+  "description": "Blog content toolkit. Video-to-article pipeline, article image analysis and generation.",
+  "author": {
+    "name": "wuyuxiangX",
+    "email": "wuyuxiang@example.com"
+  },
+  "homepage": "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-blog",
+  "license": "MIT",
+  "keywords": ["video", "blog", "subtitle", "content-creation", "youtube", "bilibili", "image", "article"]
+}
