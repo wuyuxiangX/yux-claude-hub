@@ -206,10 +206,12 @@ Extract the base64 portion (everything after `base64,`) and decode:
 
 FILENAME="$OUTPUT_DIR/nano-banana-$(date +%Y%m%d-%H%M%S).png"
 
-# Extract base64 data (remove the data:image/...;base64, prefix)
+# Extract base64 data to temp file (avoids shell pipe buffer limits with large images)
 jq -r '.choices[0].message.images[0].image_url.url' /tmp/nano-banana-response.json \
-  | sed 's|^data:image/[^;]*;base64,||' \
-  | base64 -D > "$FILENAME"   # Use -d on Linux
+  | sed 's|^data:image/[^;]*;base64,||' > /tmp/nano-banana-b64.txt
+
+# Decode from file
+base64 -D < /tmp/nano-banana-b64.txt > "$FILENAME"   # Use -d on Linux
 ```
 
 Verify the file was created and is non-empty:
@@ -221,7 +223,7 @@ ls -la "$FILENAME"
 ### 5.4 Cleanup
 
 ```bash
-rm -f /tmp/nano-banana-response.json /tmp/nano-banana-request.json
+rm -f /tmp/nano-banana-response.json /tmp/nano-banana-request.json /tmp/nano-banana-b64.txt
 ```
 
 ## Step 6: Output Results

@@ -269,9 +269,12 @@ Check the HTTP status code:
 ```bash
 FILENAME="$ARTICLE_DIR/blog-image-<ID>.png"
 
+# Extract base64 data to temp file (avoids shell pipe buffer limits with large images)
 jq -r '.choices[0].message.images[0].image_url.url' /tmp/blog-image-response.json \
-  | sed 's|^data:image/[^;]*;base64,||' \
-  | base64 -D > "$FILENAME"   # Use -d on Linux
+  | sed 's|^data:image/[^;]*;base64,||' > /tmp/blog-image-b64.txt
+
+# Decode from file
+base64 -D < /tmp/blog-image-b64.txt > "$FILENAME"   # Use -d on Linux
 ```
 
 If the above jq path returns nothing, check the raw response structure:
@@ -292,7 +295,7 @@ After each successful generation, update the image entry in `.claude/blog-image-
 #### Cleanup temp files
 
 ```bash
-rm -f /tmp/blog-image-response.json
+rm -f /tmp/blog-image-response.json /tmp/blog-image-b64.txt
 ```
 
 ### 5.7 Insert images into article
