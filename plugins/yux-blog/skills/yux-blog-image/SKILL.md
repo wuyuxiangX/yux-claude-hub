@@ -8,6 +8,17 @@ allowed-tools: Read, Write, Glob, Grep, AskUserQuestion, Bash(curl:*), Bash(base
 
 Analyze blog articles for optimal image placement, then generate AI images via OpenRouter API and insert them into the article.
 
+## CRITICAL: Image Data Safety Rules
+
+The API response contains ~1MB base64-encoded image data. If this data is printed to stdout, Claude Code's bash tool will attempt to process it as an image, causing `"Could not process image"` API errors and task failure.
+
+**Rules:**
+1. **NEVER** output raw base64/data-URI content to stdout — always redirect jq output to a file
+2. **NEVER** use `head`, `cat`, `less`, or `tail` on files containing base64 image data
+3. **NEVER** run jq commands that extract `image_url.url` without redirecting to a file (e.g., `> /tmp/file.txt`)
+4. **Validate** image extraction by checking **file size** (`wc -c`), not by inspecting content
+5. **NEVER** explore the response structure with commands like `jq '.choices[0].message | keys'` — the structure is documented below and does not vary
+
 ## Configuration
 
 Before generating output, read `.claude/yux-config.json`:
@@ -264,26 +275,41 @@ Check the HTTP status code:
 - **429**: Rate limited — stop with error
 - **Other non-200**: Show raw error, stop
 
-#### Extract and save image
+#### Validate image exists in response
+
+The API response structure is fixed and does NOT vary:
+- `choices[0].message.content` = empty string (NOT an array — do not try `content[0]`)
+- `choices[0].message.images` = array of image objects
+- Each image object: `{ "image_url": { "url": "data:image/jpeg;base64,..." } }`
+
+Validate that the response contains images (this outputs only a safe integer):
+
+```bash
+jq -r '.choices[0].message.images | length' /tmp/blog-image-response.json
+```
+
+- If the result is `0`, `null`, or the command fails → safety-filtered. Show warning, skip this image, continue with next.
+- If `1` or more → proceed to extraction.
+
+**DO NOT** run any other jq commands to explore the response structure.
+
+#### Extract, decode, and save (single pipeline)
 
 ```bash
 FILENAME="$ARTICLE_DIR/blog-image-<ID>.png"
 
-# Extract base64 data to temp file (avoids shell pipe buffer limits with large images)
 jq -r '.choices[0].message.images[0].image_url.url' /tmp/blog-image-response.json \
-  | sed 's|^data:image/[^;]*;base64,||' > /tmp/blog-image-b64.txt
-
-# Decode from file
-base64 -D < /tmp/blog-image-b64.txt > "$FILENAME"   # Use -d on Linux
+  | sed 's|^data:image/[^;]*;base64,||' \
+  | base64 -D > "$FILENAME"   # Use -d on Linux
 ```
 
-If the above jq path returns nothing, check the raw response structure:
+Verify the file was created and has reasonable size (should be >100KB for a real image):
 
 ```bash
-jq '.choices[0].message | keys' /tmp/blog-image-response.json
+wc -c < "$FILENAME"
 ```
 
-Verify the file was created and is non-empty with `ls -la "$FILENAME"`.
+If the file is 0 bytes or very small, extraction failed — skip this image and continue.
 
 #### Update plan
 
@@ -295,7 +321,7 @@ After each successful generation, update the image entry in `.claude/blog-image-
 #### Cleanup temp files
 
 ```bash
-rm -f /tmp/blog-image-response.json /tmp/blog-image-b64.txt
+rm -f /tmp/blog-image-response.json
 ```
 
 ### 5.7 Insert images into article
@@ -327,6 +353,16 @@ Images inserted into: /path/to/my-article.md
 Plan updated: .claude/blog-image-plans/my-article.json
 ```
 
+## Common Mistakes — DO NOT DO THESE
+
+| Anti-pattern | Why it fails | Correct approach |
+|-------------|-------------|-----------------|
+| `jq -r '.choices[0].message.images[0].image_url.url' response.json` (no redirect) | Outputs ~1MB base64 to stdout → Claude tries to process as image → API error | Always pipe to `sed` + `base64 -D > file` |
+| `jq ... \| head -c 50` to "peek" at data | Even 50 chars of `data:image/...` triggers image processing | Validate with `jq '... \| length'` (returns integer) |
+| `jq '.choices[0].message \| keys'` to explore structure | Encourages further exploration; structure is fixed | Trust the documented path: `.choices[0].message.images[0].image_url.url` |
+| `jq -r '.choices[0].message.content[0]...'` | `content` is an empty string, NOT an array | Use `.choices[0].message.images[0].image_url.url` |
+| `cat /tmp/blog-image-b64.txt` | Dumps base64 to stdout | Use `wc -c < file` to check size |
+
 ## Error Handling
 
 | Situation | Action |
@@ -336,5 +372,5 @@ Plan updated: .claude/blog-image-plans/my-article.json
 | Multiple plans, user didn't specify | List plans and ask user to choose |
 | API key not set | Show setup instructions, stop |
 | API error (401/402/429) | Show specific error, stop all remaining images |
-| No image in API response | Likely safety-filtered — show warning, skip this image, continue with next |
+| No image in API response | Likely safety-filtered — show warning, skip this image, continue with next. Do NOT explore alternative jq paths — the response structure is fixed |
 | Empty article | Inform user, stop |

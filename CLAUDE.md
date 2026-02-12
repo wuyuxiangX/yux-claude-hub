@@ -58,3 +58,5 @@ plugins/<plugin-name>/
 - Skills must include clear trigger keywords in the `description` frontmatter
 - Branch naming: `<type>/LIN-<id>-<description>` (when using yux-linear-workflow)
 - Commits follow Conventional Commits format
+
+每一次更新插件的时候注意更新对应的版本号

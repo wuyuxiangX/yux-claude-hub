@@ -1,6 +1,6 @@
 {
   "name": "yux-blog",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Blog content toolkit. Video-to-article pipeline, article image analysis and generation.",
   "author": {
     "name": "wuyuxiangX",

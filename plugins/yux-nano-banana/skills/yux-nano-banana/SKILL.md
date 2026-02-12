@@ -8,6 +8,17 @@ allowed-tools: Bash(curl:*), Bash(base64:*), Bash(jq:*), Bash(which:*), Bash(ls:
 
 Generate images using OpenRouter API with Google Gemini models.
 
+## CRITICAL: Image Data Safety Rules
+
+The API response contains ~1MB base64-encoded image data. If this data is printed to stdout, Claude Code's bash tool will attempt to process it as an image, causing `"Could not process image"` API errors and task failure.
+
+**Rules:**
+1. **NEVER** output raw base64/data-URI content to stdout — always redirect jq output to a file
+2. **NEVER** use `head`, `cat`, `less`, or `tail` on files containing base64 image data
+3. **NEVER** run jq commands that extract `image_url.url` without redirecting to a file (e.g., `> /tmp/file.txt`)
+4. **Validate** image extraction by checking **file size** (`wc -c`), not by inspecting content
+5. **NEVER** explore the response structure with commands like `jq '.choices[0].message | keys'` — the structure is documented below and does not vary
+
 ## Configuration
 
 Before generating output, read `.claude/yux-config.json`:
@@ -175,27 +186,27 @@ Check the HTTP status code returned by curl:
 - **429**: Rate limited — show `error.rate_limited` message, stop
 - **Other non-200**: Show `error.network` message with the raw error from response, stop
 
-### 5.2 Extract image data
+### 5.2 Validate image exists in response
 
-The image data is located in the `images` array of the response message:
+The API response structure is fixed and does NOT vary:
+- `choices[0].message.content` = empty string (NOT an array — do not try `content[0]`)
+- `choices[0].message.images` = array of image objects
+- Each image object: `{ "image_url": { "url": "data:image/jpeg;base64,..." } }`
 
-```bash
-jq -r '.choices[0].message.images[0].image_url.url' /tmp/nano-banana-response.json
-```
-
-This returns a data URI like `data:image/jpeg;base64,/9j/4AAQ...`. If the result is empty, null, or the `images` array doesn't exist, the content may have been safety-filtered — show `error.no_image` message.
-
-If the above path returns nothing, also check alternative response structures:
+Validate that the response contains images (this outputs only a safe integer):
 
 ```bash
-jq '.choices[0].message | keys' /tmp/nano-banana-response.json
+jq -r '.choices[0].message.images | length' /tmp/nano-banana-response.json
 ```
 
-The model may return multiple images — use `images[0]` for the first one.
+- If the result is `0`, `null`, or the command fails → the content was safety-filtered. Show `error.no_image` message and stop.
+- If the result is `1` or more → proceed to extraction.
 
-### 5.3 Decode and save
+**DO NOT** run any other jq commands to explore the response structure. The path is always `.choices[0].message.images[0].image_url.url`.
 
-Extract the base64 portion (everything after `base64,`) and decode:
+### 5.3 Extract, decode, and save (single pipeline)
+
+Extract the base64 data, strip the data-URI prefix, and decode — all in one pipeline redirected to a file. **No intermediate temp file needed.**
 
 ```bash
 # Determine output directory from config (output_dir) or use current directory
@@ -206,24 +217,23 @@ Extract the base64 portion (everything after `base64,`) and decode:
 
 FILENAME="$OUTPUT_DIR/nano-banana-$(date +%Y%m%d-%H%M%S).png"
 
-# Extract base64 data to temp file (avoids shell pipe buffer limits with large images)
 jq -r '.choices[0].message.images[0].image_url.url' /tmp/nano-banana-response.json \
-  | sed 's|^data:image/[^;]*;base64,||' > /tmp/nano-banana-b64.txt
-
-# Decode from file
-base64 -D < /tmp/nano-banana-b64.txt > "$FILENAME"   # Use -d on Linux
+  | sed 's|^data:image/[^;]*;base64,||' \
+  | base64 -D > "$FILENAME"   # Use -d on Linux
 ```
 
-Verify the file was created and is non-empty:
+Verify the file was created and has reasonable size (should be >100KB for a real image):
 
 ```bash
-ls -la "$FILENAME"
+wc -c < "$FILENAME"
 ```
+
+If the file is 0 bytes or very small, extraction failed — show `error.no_image` message.
 
 ### 5.4 Cleanup
 
 ```bash
-rm -f /tmp/nano-banana-response.json /tmp/nano-banana-request.json /tmp/nano-banana-b64.txt
+rm -f /tmp/nano-banana-response.json /tmp/nano-banana-request.json
 ```
 
 ## Step 6: Output Results
@@ -233,6 +243,16 @@ Display the result using the `result.success` message template:
 - **File size**: Human-readable size (e.g., "256 KB")
 - **Model used**: The model ID that was used
 
+## Common Mistakes — DO NOT DO THESE
+
+| Anti-pattern | Why it fails | Correct approach |
+|-------------|-------------|-----------------|
+| `jq -r '.choices[0].message.images[0].image_url.url' response.json` (no redirect) | Outputs ~1MB base64 to stdout → Claude tries to process as image → API error | Always pipe to `sed` + `base64 -D > file` |
+| `jq ... \| head -c 50` to "peek" at data | Even 50 chars of `data:image/...` triggers image processing | Validate with `jq '... \| length'` (returns integer) |
+| `jq '.choices[0].message \| keys'` to explore structure | Encourages further exploration; structure is fixed | Trust the documented path: `.choices[0].message.images[0].image_url.url` |
+| `jq -r '.choices[0].message.content[0]...'` | `content` is an empty string, NOT an array | Use `.choices[0].message.images[0].image_url.url` |
+| `cat /tmp/nano-banana-b64.txt` | Dumps base64 to stdout | Use `wc -c < file` to check size |
+
 ## Error Handling Summary
 
 | HTTP Code | Error | Action |
@@ -240,5 +260,5 @@ Display the result using the `result.success` message template:
 | 401 | Invalid API key | Show `error.auth_failed`, stop |
 | 402 | Insufficient funds | Show `error.insufficient_funds`, stop |
 | 429 | Rate limited | Show `error.rate_limited`, stop |
-| 200 but no image | Safety filter | Show `error.no_image`, stop |
+| 200 but no image | Safety filter | Show `error.no_image`, stop. Do NOT explore alternative jq paths — the response structure is fixed |
 | Network failure | Connection error | Show `error.network`, stop |
