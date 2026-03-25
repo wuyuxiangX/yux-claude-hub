@@ -6,7 +6,7 @@ allowed-tools: Read, Write, Glob, Bash(curl:*), Bash(openssl:*), Bash(jq:*), Bas
 
 # Blog OSS — Upload Images to Alibaba Cloud OSS
 
-Upload images to Alibaba Cloud OSS via REST API. Supports two modes: automatic batch upload from blog-image-plan.json, or manual upload of specific files.
+Upload images to Alibaba Cloud OSS via REST API. Supports two modes: automatic batch upload from a blog image plan, or manual upload of specific files.
 
 ## Configuration
 
@@ -56,22 +56,25 @@ Parse the user's request to determine the upload mode:
 
 | Mode | Condition | Source |
 |------|-----------|--------|
-| **A: Blog plan** | No explicit file paths provided AND `.claude/blog-image-plan.json` exists | Upload all images with `status: "completed"` from the plan |
+| **A: Blog plan** | No explicit file paths provided AND plan file(s) exist in `.claude/blog-image-plans/` | Upload all images with `status: "completed"` from the plan |
 | **B: Specific files** | User provides explicit file paths (e.g., "upload ./img1.png ./img2.png to oss") | Upload the specified files |
 
 Decision logic:
 1. If the user provided explicit file paths → **Mode B**
-2. If no explicit paths and `.claude/blog-image-plan.json` exists → **Mode A**
-3. If no explicit paths and no plan file → inform the user: "No files to upload. Provide file paths or run 'analyze article images' first." and stop
+2. If no explicit paths → check `.claude/blog-image-plans/` directory:
+   - If user specifies an article slug → load `.claude/blog-image-plans/{slug}.json`
+   - If only one plan file exists → load it automatically → **Mode A**
+   - If multiple plan files exist → list them and ask the user to choose
+   - If no plan files exist → inform the user: "No files to upload. Provide file paths or run 'analyze article images' first." and stop
 
 ## Step 3: Collect and Validate Files
 
 ### Mode A: From blog plan
 
-Read `.claude/blog-image-plan.json` and extract file paths:
+Read the selected plan file (`.claude/blog-image-plans/{slug}.json`) and extract file paths:
 
 ```bash
-jq -r '.images[] | select(.status == "completed") | .file_path' .claude/blog-image-plan.json
+jq -r '.images[] | select(.status == "completed") | .file_path' .claude/blog-image-plans/{slug}.json
 ```
 
 If no completed images are found, inform the user: "No completed images found in the plan. Run 'generate article images' first." and stop.
@@ -187,7 +190,7 @@ This step only applies when uploading from the blog plan.
 Read the article file from the plan's `article_path`:
 
 ```bash
-jq -r '.article_path' .claude/blog-image-plan.json
+jq -r '.article_path' .claude/blog-image-plans/{slug}.json
 ```
 
 ### 5.2 Replace local image paths
@@ -201,12 +204,12 @@ Match by filename — the local path in the article should correspond to the `fi
 
 ### 5.3 Update plan file
 
-For each uploaded image, update its entry in `.claude/blog-image-plan.json`:
+For each uploaded image, update its entry in `.claude/blog-image-plans/{slug}.json`:
 - Set `status` to `"uploaded"`
 - Add `"cdn_url"` field with the public URL
 - Add `"uploaded_at"` field with the current ISO 8601 timestamp
 
-Write the updated plan back to `.claude/blog-image-plan.json`.
+Write the updated plan back to `.claude/blog-image-plans/{slug}.json`.
 
 ### 5.4 Save article
 
