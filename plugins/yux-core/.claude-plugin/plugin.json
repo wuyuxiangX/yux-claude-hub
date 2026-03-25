@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Core configuration management for yux-claude-hub plugins. Provides unified language settings and cross-plugin configuration.",
   "author": {
-    "name": "Yux",
-    "url": "https://github.com/yuxiang"
+    "name": "wuyuxiangX",
+    "email": "wuyuxiang@example.com"
   },
-  "homepage": "https://github.com/yuxiang/yux-claude-hub",
+  "homepage": "https://github.com/wuyuxiangX/yux-claude-hub",
   "license": "MIT",
   "keywords": [
     "config",
