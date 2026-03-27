@@ -1,6 +1,6 @@
 ---
 name: yux-ci-monitor
-description: Monitor CI/CD status for pull requests with error reporting. Triggers: "check CI", "CI status", "workflow status", "monitor CI", "检查CI", "CI状态", "查看构建".
+description: Monitor CI/CD status for Linear workflow pull requests with error reporting. Triggers: "linear CI", "linear CI status", "linear check CI", "check linear CI", "Linear检查CI", "Linear CI状态", "Linear查看构建".
 allowed-tools: Read, Bash(gh:*)
 ---
 
@@ -12,6 +12,15 @@ Check GitHub Actions and other CI/CD status for the current pull request.
 
 This skill provides a one-time CI status check. For continuous monitoring during merge, use `/yux-linear-merge` which handles polling automatically via subagent.
 
+## Activation Guard
+
+**BEFORE checking CI status**, verify Linear workflow context:
+
+1. Check if `.claude/linear-tasks/` directory exists, OR `.claude/linear-config.json` exists, OR current git branch contains `LIN-`
+2. Check if a PR exists for the current branch: `gh pr view --json number 2>/dev/null`
+
+**If no Linear context AND no PR found:** respond "No Linear workflow context found. For general CI checking, use `gh pr checks` directly." and STOP.
+
 ## Configuration
 
 Before generating output, read `.claude/yux-config.json`:
@@ -21,9 +30,10 @@ Before generating output, read `.claude/yux-config.json`:
 ## Usage
 
 Triggered manually via:
-- "check CI status"
-- "what's the CI status"
-- "检查CI状态"
+- "linear CI status" / "check linear CI"
+- "Linear检查CI状态"
+
+For non-Linear PRs, use `gh pr checks` directly.
 
 ## Workflow
 

@@ -1,6 +1,6 @@
 ---
 name: yux-linear-workflow
-description: Complete Linear workflow automation for development tasks. Triggers: "linear workflow", "start task", "work on issue", "create pr", "merge pr", "开始任务", "处理Issue", "创建PR", "合并PR".
+description: Complete Linear workflow automation for development tasks. Triggers: "linear workflow", "linear start", "start linear task", "linear issue", "linear pr", "linear merge", "Linear开始任务", "Linear处理Issue", "Linear创建PR", "Linear合并PR".
 allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
 
@@ -25,6 +25,19 @@ This skill provides end-to-end workflow automation:
 - **Issue Verification**: Every issue creation/selection is verified via `mcp__linear__get_issue()`
 - **Local State Files**: Task state is persisted to `.claude/linear-tasks/` directory (tracked by git)
 - **Session Detection**: New sessions automatically detect current Linear task context
+
+## Activation Guard
+
+**BEFORE executing any workflow step**, verify this is a Linear-active project by checking these conditions (any one is sufficient):
+
+1. `.claude/linear-tasks/` directory exists
+2. `.claude/linear-config.json` file exists
+3. Current git branch contains `LIN-` pattern (`git branch --show-current`)
+
+**If NONE of these conditions are met:**
+- Do NOT proceed with the Linear workflow
+- Respond: "This project is not configured for Linear workflow. Use `/yux-linear-start` in a project with Linear MCP configured to get started."
+- STOP — do not execute any further steps
 
 ## Configuration
 
