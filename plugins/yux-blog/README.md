@@ -14,20 +14,17 @@ Blog content toolkit for Claude Code. Video-to-article pipeline, article image a
 
 ## Installation
 
-Add this plugin to your Claude Code:
+1. Add the marketplace:
 
 ```bash
-claude plugin add https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-blog
+claude plugin marketplace add https://github.com/wuyuxiangX/yux-claude-hub
 ```
 
-Or manually add to `.claude/plugins.json`:
+2. Install the plugin:
 
-```json
-{
-  "plugins": [
-    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-blog"
-  ]
-}
+```bash
+claude plugin install yux-blog
+```
 ```
 
 ## Skills

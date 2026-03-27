@@ -15,20 +15,17 @@ Complete Linear workflow integration for Claude Code with CI/CD monitoring and m
 
 ## Installation
 
-Add this plugin to your Claude Code settings:
+1. Add the marketplace:
 
 ```bash
-claude plugin add https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-linear-workflow
+claude plugin marketplace add https://github.com/wuyuxiangX/yux-claude-hub
 ```
 
-Or manually add to `.claude/plugins.json`:
+2. Install the plugin:
 
-```json
-{
-  "plugins": [
-    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-linear-workflow"
-  ]
-}
+```bash
+claude plugin install yux-linear-workflow
+```
 ```
 
 ## Prerequisites
