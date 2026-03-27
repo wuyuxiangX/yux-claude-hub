@@ -1,11 +1,7 @@
 ---
 name: yux-pm-workflow
 description: "Auto-triggers for PM workflow. Triggers: 'triage inbox', 'process feedback', 'plan sprint', 'create PRD', 'feature planning', 'initiative overview', 'project status', 'what should I work on', 'prioritize backlog', 'decompose feature'"
-allowed-tools:
-  - Read
-  - Write
-  - Bash
-  - mcp__linear__*
+allowed-tools: Read, Write, Bash(gh:*), Bash(git:*), mcp__linear__*
 ---
 
 # PM Workflow Skill
