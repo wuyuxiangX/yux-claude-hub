@@ -25,7 +25,6 @@ claude plugin marketplace add https://github.com/wuyuxiangX/yux-claude-hub
 ```bash
 claude plugin install yux-blog
 ```
-```
 
 ## Skills
 
@@ -36,17 +35,6 @@ claude plugin install yux-blog
 | yux-blog-writer | "write blog", "generate article", "create post", "blog from video", "写博客", "生成文章", "写文章" | Generate blog article |
 | yux-blog-image | "analyze article images", "suggest images", "article image plan", "generate article images", "insert article images", "分析文章配图", "生成文章配图" | Analyze articles for image placement and generate AI images |
 | yux-blog-oss | "upload to oss", "upload images to oss", "oss upload", "上传到oss", "上传图片到oss", "上传博客图片" | Upload images to Alibaba Cloud OSS and update article with CDN URLs |
-
-## Command
-
-### `/yux-video-to-blog <video-url>`
-
-One-click pipeline: URL → Subtitles → Summary → Blog Article
-
-```
-User: /yux-video-to-blog https://youtube.com/watch?v=xxx
-Claude: [Downloads subtitles → Summarizes → Generates blog]
-```
 
 ## Usage Examples
 
@@ -99,10 +87,7 @@ Claude: [Uploads specified files to OSS, returns CDN URLs]
 
 ### Full Pipeline
 
-```
-User: /yux-video-to-blog https://youtube.com/watch?v=xxx
-Claude: [Downloads subtitles → Summarizes → Generates blog]
-```
+Run skills sequentially: subtitle download → summary → blog writer.
 
 ## Workflow
 

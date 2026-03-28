@@ -1,6 +1,6 @@
 {
   "name": "yux-core",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Core configuration management for yux-claude-hub plugins. Provides unified language settings and cross-plugin configuration.",
   "author": {
     "name": "wuyuxiangX",

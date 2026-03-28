@@ -1,21 +1,12 @@
 ---
 name: yux-config
-description: Manage yux-core configuration settings. Triggers: "config", "settings", "change language", "set language", "配置", "设置", "更改语言", "设置语言".
+description: "Manage yux-core configuration settings — view, change language, update output directory. Use when: 'yux config', 'yux settings', 'change language', 'set language', '配置', '设置', '更改语言', '设置语言'."
 allowed-tools: Read, Write, Glob, AskUserQuestion
 ---
 
 # yux-config Skill
 
 Manage configuration settings for yux-claude-hub plugins.
-
-## Triggers
-
-This skill activates when user mentions:
-- "config", "settings", "preferences"
-- "change language", "set language", "switch language"
-- "配置", "设置", "更改语言", "设置语言"
-- "設定", "言語変更"
-- "설정", "언어 변경"
 
 ## Workflow
 
@@ -57,48 +48,7 @@ If user wants to change settings:
 
 Output confirmation in the configured language.
 
-## Configuration
-
-Before generating output, read `.claude/yux-config.json`:
-- If `language` is set, output in that language
-- If file doesn't exist, detect from user input or default to English
-
-## Output Examples
-
-> Output language follows `.claude/yux-config.json` setting
-
-### View Configuration
-
-```
-=== Current Configuration ===
-
-Language: Chinese (zh)
-Output Directory: ~/Desktop/blog-images
-
-File: .claude/yux-config.json
-```
-
-### Update Configuration
-
-```
-=== Configuration Updated ===
-
-Changed: language
-From: en
-To: zh
-
-All yux plugins will now output in Chinese.
-```
-
-### Configuration Not Found
-
-```
-=== Configuration Not Found ===
-
-No configuration file found at .claude/yux-config.json
-
-Run /yux-init to initialize configuration.
-```
+Output language follows `.claude/yux-config.json` setting. If file doesn't exist, suggest `/yux-init`.
 
 ## Supported Languages
 
