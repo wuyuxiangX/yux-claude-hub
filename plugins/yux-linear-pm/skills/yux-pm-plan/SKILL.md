@@ -110,5 +110,3 @@ If the current cycle has incomplete issues, list them with remaining effort esti
 ## No Cycle Mode
 
 If the team has no cycles configured, offer time-boxed planning (default 2 weeks) using the same scoring and capacity logic but without cycle assignment in Linear.
-
-Output language follows `.claude/yux-config.json` setting.

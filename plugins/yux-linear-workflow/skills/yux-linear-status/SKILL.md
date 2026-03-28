@@ -100,4 +100,4 @@ Each task runs in its own worktree under .claude/worktrees/
 
 ## Multi-language Support
 
-All output follows `.claude/yux-config.json` language setting.
+Output language is auto-detected from user input. Default to English.

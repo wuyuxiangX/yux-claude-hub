@@ -10,8 +10,6 @@ Display Initiative dashboard with health score, sprint progress, and attention i
 
 Prerequisite: `.claude/pm-config.json` must exist (created by yux-pm-init). If missing, instruct user to run pm init.
 
-Output language follows `.claude/yux-config.json` setting.
-
 ## Workflow
 
 ### Step 1: Load Configuration

@@ -10,8 +10,6 @@ Process inbox issues: classify type, assign to sub-projects, set priority/effort
 
 Prerequisite: `.claude/pm-config.json` must exist (created by yux-pm-init). If missing, instruct user to run pm init.
 
-Output language follows `.claude/yux-config.json` setting.
-
 ## Workflow
 
 ### Step 1: Load Config and Labels

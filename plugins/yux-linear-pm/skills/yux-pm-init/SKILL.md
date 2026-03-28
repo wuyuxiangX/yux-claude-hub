@@ -8,8 +8,6 @@ allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 
 Initialize the PM workspace by connecting to Linear, selecting an Initiative, and configuring sub-projects.
 
-Output language follows `.claude/yux-config.json` setting.
-
 ## Workflow
 
 ### Step 1: Verify Linear Connection

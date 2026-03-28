@@ -14,7 +14,6 @@ yux-claude-hub is a Claude Code plugin repository providing:
 
 | Plugin | Description | Details |
 |--------|-------------|---------|
-| [yux-core](./plugins/yux-core/) | Core configuration management for all yux plugins | [README](./plugins/yux-core/README.md) |
 | [yux-blog](./plugins/yux-blog/) | Blog content toolkit: video-to-article pipeline, image analysis & generation | [README](./plugins/yux-blog/README.md) |
 | [yux-linear-workflow](./plugins/yux-linear-workflow/) | Linear integration with CI/CD monitoring | [README](./plugins/yux-linear-workflow/README.md) |
 | [yux-linear-pm](./plugins/yux-linear-pm/) | Product management workflow for Linear | [README](./plugins/yux-linear-pm/README.md) |
@@ -31,7 +30,6 @@ yux-claude-hub is a Claude Code plugin repository providing:
 
 2. Install a plugin:
 ```bash
-/plugin install yux-core
 /plugin install yux-blog
 /plugin install yux-linear-workflow
 /plugin install yux-linear-pm
@@ -49,7 +47,6 @@ Or add individual plugins to `.claude/plugins.json`:
 ```json
 {
   "plugins": [
-    "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-core",
     "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-blog",
     "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-linear-workflow",
     "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-linear-pm",
@@ -63,7 +60,6 @@ Or add individual plugins to `.claude/plugins.json`:
 ```
 yux-claude-hub/
 ├── plugins/
-│   ├── yux-core/               # Core configuration management
 │   ├── yux-blog/               # Blog content toolkit
 │   ├── yux-linear-workflow/    # Linear workflow integration
 │   ├── yux-linear-pm/         # Linear product management

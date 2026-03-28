@@ -93,14 +93,13 @@ After running `/yux-pm-init`, configuration is saved to `.claude/pm-config.json`
 ## Language Support
 
 - All code and files are in English
-- Runtime output follows `.claude/yux-config.json` language setting
-- Supports English (`en`) and Chinese (`zh`)
+- Runtime output language is auto-detected from user input, defaulting to English
+- Supports English and Chinese
 
 ## Prerequisites
 
 - Linear MCP configured (see `.mcp.json`)
 - Linear workspace access
-- yux-core plugin for language configuration
 
 ## Integration
 

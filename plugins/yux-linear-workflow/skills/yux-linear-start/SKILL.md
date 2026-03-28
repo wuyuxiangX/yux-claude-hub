@@ -34,8 +34,7 @@ If fails: show error and stop. Do NOT proceed without Linear.
 
 ### Step 2: Load Configuration
 
-1. Read `.claude/yux-config.json` for language preference
-2. Check `.claude/linear-config.json` for cached team/project:
+1. Check `.claude/linear-config.json` for cached team/project:
    - If exists: use cached values
    - If not: discover via `mcp__linear__list_teams()`, save to `.claude/linear-config.json`
 

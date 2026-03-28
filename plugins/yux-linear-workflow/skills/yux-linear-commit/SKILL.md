@@ -41,7 +41,7 @@ Analyze if changes should be split. If multiple unrelated groups detected, sugge
 Auto-determine from diff analysis:
 - Emoji + type + scope + subject
 - What/Why/Refs sections
-- Language follows `.claude/yux-config.json`
+- Language: detect from user input, default to English
 - Format: `<emoji> <type>(<scope>): <subject>`
 - Include `Refs: LIN-xxx` and `Co-Authored-By` line
 

@@ -106,5 +106,3 @@ After creation, display:
 - Suggested next actions (`/yux-pm-plan`, `/yux-linear-start`)
 
 See `references/prd-template.md` for PRD document template.
-
-Output language follows `.claude/yux-config.json` setting.

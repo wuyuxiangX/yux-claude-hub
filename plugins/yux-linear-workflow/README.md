@@ -520,8 +520,6 @@ plugins/yux-linear-workflow/
 │   ├── post_command.py           # Post-command analyzer
 │   ├── prompt_linear_reminder.py # Guarded Linear workflow reminder
 │   └── prompt_sync_reminder.py   # Guarded sync reminder before compaction
-├── templates/
-│   └── linear-tasks-schema.md    # Task state file schema reference
 └── README.md                     # This file
 ```
 

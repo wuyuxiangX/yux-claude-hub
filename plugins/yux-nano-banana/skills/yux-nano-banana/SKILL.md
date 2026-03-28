@@ -19,20 +19,15 @@ The API response contains ~1MB base64-encoded image data. If this data is printe
 4. **Validate** image extraction by checking **file size** (`wc -c`), not by inspecting content
 5. **NEVER** explore the response structure with commands like `jq '.choices[0].message | keys'` — the structure is documented below and does not vary
 
-## Configuration
+## Output Directory
 
-Before generating output, read `.claude/yux-config.json`:
-- If `language` is set, use that language for user-facing messages
-- If `output_dir` is set, save generated images to that directory (expand `~` to home directory; create directory if it doesn't exist using `mkdir -p`)
-- If `output_dir` is not set, save to the current working directory
-- If file doesn't exist, detect from user input or default to English
-- Load message templates from `templates/messages.json` in this plugin directory
+Save generated images to the current working directory by default. If the user specifies a custom output path, use that instead (expand `~` to home directory; create directory if it doesn't exist using `mkdir -p`).
 
 ## Step 1: Prerequisites Check
 
 ### 1.1 Verify required tools
 
-Run `which curl jq base64` to confirm all tools are available. If any are missing, inform the user with the `setup.missing_tools` message and stop.
+Run `which curl jq base64` to confirm all tools are available. If any are missing, inform the user and stop.
 
 ### 1.2 Verify API key
 
@@ -42,7 +37,7 @@ Check if `$OPENROUTER_API_KEY` is set:
 echo "${OPENROUTER_API_KEY:+set}"
 ```
 
-If empty, display the `setup.missing_api_key` message and **stop immediately**. Never prompt the user to enter the key inline.
+If empty, inform the user: "Please set `OPENROUTER_API_KEY` in your environment." and **stop immediately**. Never prompt the user to enter the key inline.
 
 ## Step 2: Parse User Intent
 
@@ -181,10 +176,10 @@ For **image editing** (user provides a source image):
 Check the HTTP status code returned by curl:
 
 - **200**: Success — continue to extract image
-- **401**: Authentication failed — show `error.auth_failed` message, stop
-- **402**: Insufficient funds — show `error.insufficient_funds` message, stop
-- **429**: Rate limited — show `error.rate_limited` message, stop
-- **Other non-200**: Show `error.network` message with the raw error from response, stop
+- **401**: Authentication failed — stop
+- **402**: Insufficient funds — stop
+- **429**: Rate limited — stop
+- **Other non-200**: Show the raw error from response, stop
 
 ### 5.2 Validate image exists in response
 
@@ -199,7 +194,7 @@ Validate that the response contains images (this outputs only a safe integer):
 jq -r '.choices[0].message.images | length' /tmp/nano-banana-response.json
 ```
 
-- If the result is `0`, `null`, or the command fails → the content was safety-filtered. Show `error.no_image` message and stop.
+- If the result is `0`, `null`, or the command fails → the content was safety-filtered. Inform the user and stop.
 - If the result is `1` or more → proceed to extraction.
 
 **DO NOT** run any other jq commands to explore the response structure. The path is always `.choices[0].message.images[0].image_url.url`.
@@ -209,11 +204,9 @@ jq -r '.choices[0].message.images | length' /tmp/nano-banana-response.json
 Extract the base64 data, strip the data-URI prefix, and decode — all in one pipeline redirected to a file. **No intermediate temp file needed.**
 
 ```bash
-# Determine output directory from config (output_dir) or use current directory
-# If output_dir is set in .claude/yux-config.json, expand ~ and ensure directory exists:
-#   OUTPUT_DIR=$(echo "$OUTPUT_DIR_FROM_CONFIG" | sed "s|^~|$HOME|")
+# OUTPUT_DIR defaults to "." (current directory). If user specified a custom path, expand ~ and ensure it exists:
+#   OUTPUT_DIR=$(echo "$USER_SPECIFIED_PATH" | sed "s|^~|$HOME|")
 #   mkdir -p "$OUTPUT_DIR"
-# Otherwise: OUTPUT_DIR="."
 
 FILENAME="$OUTPUT_DIR/nano-banana-$(date +%Y%m%d-%H%M%S).png"
 
@@ -228,7 +221,7 @@ Verify the file was created and has reasonable size (should be >100KB for a real
 wc -c < "$FILENAME"
 ```
 
-If the file is 0 bytes or very small, extraction failed — show `error.no_image` message.
+If the file is 0 bytes or very small, extraction failed — inform the user and stop.
 
 ### 5.4 Cleanup
 
@@ -238,7 +231,7 @@ rm -f /tmp/nano-banana-response.json /tmp/nano-banana-request.json
 
 ## Step 6: Output Results
 
-Display the result using the `result.success` message template:
+Display the result:
 - **File path**: Full path to the saved image
 - **File size**: Human-readable size (e.g., "256 KB")
 - **Model used**: The model ID that was used
@@ -257,8 +250,8 @@ Display the result using the `result.success` message template:
 
 | HTTP Code | Error | Action |
 |-----------|-------|--------|
-| 401 | Invalid API key | Show `error.auth_failed`, stop |
-| 402 | Insufficient funds | Show `error.insufficient_funds`, stop |
-| 429 | Rate limited | Show `error.rate_limited`, stop |
-| 200 but no image | Safety filter | Show `error.no_image`, stop. Do NOT explore alternative jq paths — the response structure is fixed |
-| Network failure | Connection error | Show `error.network`, stop |
+| 401 | Invalid API key | Inform user, stop |
+| 402 | Insufficient funds | Inform user, stop |
+| 429 | Rate limited | Inform user, stop |
+| 200 but no image | Safety filter | Inform user, stop. Do NOT explore alternative jq paths — the response structure is fixed |
+| Network failure | Connection error | Inform user, stop |

@@ -40,7 +40,7 @@ Group by type for changelog.
 
 - **Title**: `[LIN-456] <Issue Title>`
 - **Body**: Summary + Linear issue link (`Closes LIN-456`) + changes + test plan
-- Language follows `.claude/yux-config.json`
+- Language: detect from user input, default to English
 
 ### Step 4: Create PR
 

@@ -8,12 +8,6 @@ allowed-tools: Read, Write, Glob, Bash(curl:*), Bash(openssl:*), Bash(jq:*), Bas
 
 Upload images to Alibaba Cloud OSS via REST API. Supports two modes: automatic batch upload from a blog image plan, or manual upload of specific files.
 
-## Configuration
-
-Before generating output, read `.claude/yux-config.json`:
-- If `language` is set, use that language for user-facing messages
-- If file doesn't exist, detect from user input or default to English
-
 ## Step 1: Prerequisites Check
 
 ### 1.1 Verify required tools

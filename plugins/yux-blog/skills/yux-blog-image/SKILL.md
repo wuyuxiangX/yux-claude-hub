@@ -19,13 +19,9 @@ The API response contains ~1MB base64-encoded image data. If this data is printe
 4. **Validate** image extraction by checking **file size** (`wc -c`), not by inspecting content
 5. **NEVER** explore the response structure with commands like `jq '.choices[0].message | keys'` — the structure is documented below and does not vary
 
-## Configuration
+## Output Directory
 
-Before generating output, read `.claude/yux-config.json`:
-- If `language` is set, use that language for user-facing messages
-- If `output_dir` is set, save generated images to that directory (expand `~` to home directory; create directory if it doesn't exist using `mkdir -p`)
-- If `output_dir` is not set, save to the current working directory
-- If file doesn't exist, detect from user input or default to English
+Save generated images to the current working directory by default. If the user specifies a custom output path, use that instead (expand `~` to home directory; create directory if it doesn't exist using `mkdir -p`).
 
 ## Step 1: Prerequisites Check
 
@@ -68,7 +64,7 @@ article filename: my-awesome-article.md → slug: my-awesome-article
 - **Plan files**: `.claude/blog-image-plans/{slug}.json` — each article has its own plan file
 - **Image files**: `{output_dir}/{slug}/` — each article's images are in a dedicated subdirectory
 - Re-analyzing the same article **updates** its existing plan (preserves completed images, resets only pending ones)
-- `output_dir` comes from `.claude/yux-config.json`; defaults to current working directory if not set
+- `output_dir` defaults to the current working directory; user can specify a custom path
 
 ### Slug derivation
 
@@ -217,8 +213,7 @@ If no plan file found, inform the user to run the analyze phase first and stop.
 ### 5.2 Prepare output directory
 
 ```bash
-# Determine base output dir from config, then create article subdirectory
-# OUTPUT_DIR from .claude/yux-config.json (expand ~), default to "."
+# OUTPUT_DIR defaults to "." (current directory). If user specified a custom path, use that.
 # ARTICLE_DIR="$OUTPUT_DIR/{slug}"
 mkdir -p "$ARTICLE_DIR"
 ```

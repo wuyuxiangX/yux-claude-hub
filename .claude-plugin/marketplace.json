@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "yux-claude-hub",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Claude Code Plugin Marketplace - Custom skills, commands, and extensions for content creation and productivity",
   "owner": {
     "name": "wuyuxiangX",
@@ -9,20 +9,9 @@
   },
   "plugins": [
     {
-      "name": "yux-core",
-      "description": "Core configuration management for yux-claude-hub plugins. Provides unified language settings and cross-plugin configuration.",
-      "version": "1.0.0",
-      "author": {
-        "name": "wuyuxiangX",
-        "email": "wuyuxiang@example.com"
-      },
-      "source": "./plugins/yux-core",
-      "category": "core"
-    },
-    {
       "name": "yux-blog",
       "description": "Blog content toolkit. Video-to-article pipeline, article image analysis and generation.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
@@ -33,7 +22,7 @@
     {
       "name": "yux-linear-workflow",
       "description": "Complete Linear workflow integration with parallel development via worktrees, multi-task management, background CI monitoring, and automated issue tracking.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
@@ -44,7 +33,7 @@
     {
       "name": "yux-linear-pm",
       "description": "Product Manager workflow for Linear. Initiative-centric planning with auto task decomposition across sub-projects.",
-      "version": "1.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
@@ -55,7 +44,7 @@
     {
       "name": "yux-nano-banana",
       "description": "Generate images using OpenRouter API with Gemini models. Supports text-to-image and image editing.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
