@@ -1,6 +1,6 @@
 ---
 name: yux-blog-oss
-description: Upload images to Alibaba Cloud OSS. Triggers: "upload to oss", "upload images to oss", "oss upload", "上传到oss", "上传图片到oss", "上传博客图片".
+description: Upload images to Alibaba Cloud OSS and replace local paths with CDN URLs in blog articles. Use when the user wants to upload blog images to OSS — e.g., "upload to oss", "upload images to oss", "上传到oss", "上传博客图片". Supports batch upload from blog image plans or manual file upload. Automatically updates article markdown with CDN URLs after upload.
 allowed-tools: Read, Write, Glob, Bash(curl:*), Bash(openssl:*), Bash(jq:*), Bash(which:*), Bash(date:*), Bash(uname:*), Bash(file:*), Bash(ls:*), Bash(wc:*), Bash(basename:*), Bash(printf:*), AskUserQuestion
 ---
 

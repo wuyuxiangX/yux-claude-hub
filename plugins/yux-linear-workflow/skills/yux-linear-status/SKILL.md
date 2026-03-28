@@ -1,6 +1,6 @@
 ---
 name: yux-linear-status
-description: Linear workflow dashboard - status, tasks, and backlog. Use when user says "status", "linear status", "check status", "task list", "my tasks", "backlog", "what to work on", or "/yux-linear-status". Unified hub for workflow visibility.
+description: Linear workflow dashboard showing current task status, active tasks across worktrees, and backlog recommendations. Use when the user asks about their Linear task progress — e.g., "linear status", "check task status", "show my tasks", "what should I work on next", "show backlog", or "/yux-linear-status". Do NOT trigger on generic "status" questions unrelated to Linear workflow (e.g., git status, CI status, server status). For initiative-level or PM-level project status, use yux-pm-overview instead.
 allowed-tools: Read, Write, Bash(git:*), Bash(gh:*), Glob, Grep, mcp__linear__*, AskUserQuestion
 ---
 

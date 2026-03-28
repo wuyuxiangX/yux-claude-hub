@@ -1,6 +1,6 @@
 ---
 name: yux-video-summary
-description: Organize video transcript into structured summary. Triggers: "summarize video", "video summary", "content summary", "organize transcript", "整理视频", "视频摘要", "内容总结".
+description: Transform a video transcript file into a structured, organized summary with key points, timeline, and cleaned transcript. Use when the user has a transcript file (typically from yux-video-subtitle) and wants it summarized — e.g., "summarize this video", "organize the transcript", "video summary", "整理视频", "视频摘要", "内容总结". Supports bilingual output when video language differs from user language. Do NOT use for summarizing articles, documents, or non-video content. To convert the summary into a blog post, use yux-blog-writer.
 allowed-tools: Read, Write, Glob, Grep
 ---
 

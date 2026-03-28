@@ -1,6 +1,6 @@
 ---
 name: yux-pm-overview
-description: "Display Linear PM initiative dashboard with health score, sprint progress, project breakdown, and attention items. Use when: 'pm overview', 'pm dashboard', 'pm status', 'initiative status', 'linear pm overview', 'how is the initiative going', '/yux-pm-overview'."
+description: "Display Linear PM initiative dashboard with health score, sprint progress, project breakdown, and attention items. Use when the user wants a high-level view of their initiative or PM status — e.g., 'pm overview', 'pm dashboard', 'pm status', 'initiative status', 'how is the initiative going', 'project status', '项目概览', '/yux-pm-overview'. This is the PM-level status view (initiative health, sprint progress) — do NOT confuse with yux-linear-status which shows individual development task status. For developer-level task tracking, use yux-linear-status instead."
 allowed-tools: Read, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
 

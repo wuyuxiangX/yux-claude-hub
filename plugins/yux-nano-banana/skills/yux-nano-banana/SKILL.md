@@ -1,6 +1,6 @@
 ---
 name: yux-nano-banana
-description: Generate images using OpenRouter API. Triggers: "generate image", "create image", "draw", "nano banana", "infographic", "info card", "生成图片", "画图", "信息图", "信息卡片", "科普卡片", "手绘卡片", "画像生成", "インフォグラフィック", "이미지 생성", "인포그래픽".
+description: Generate standalone images using OpenRouter API with Google Gemini models. Use for any general-purpose image generation or editing request — e.g., "generate an image of...", "create image", "draw a...", "nano banana", "make an infographic", "生成图片", "画图", "画一个...", "信息卡片", "科普卡片". Supports text-to-image, image editing, and style presets (infographic cards). This is the go-to skill for standalone image creation. Do NOT use when the user wants to add images to an existing blog article (use yux-blog-image instead).
 allowed-tools: Bash(curl:*), Bash(base64:*), Bash(jq:*), Bash(which:*), Bash(ls:*), Bash(date:*), Bash(wc:*), Bash(uname:*), Bash(file:*), Read, Write, Glob, AskUserQuestion
 ---
 

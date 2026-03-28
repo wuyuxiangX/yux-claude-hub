@@ -1,6 +1,6 @@
 ---
 name: yux-pm-triage
-description: "Triage Linear inbox issues with AI classification — detect type (bug/feature/improvement), assign to sub-projects, set priority and effort, structure descriptions, move from Triage to Backlog. Use when: 'pm triage', 'triage inbox', 'classify issues', 'process inbox', 'linear pm triage', '/yux-pm-triage'."
+description: "Triage Linear inbox issues with AI classification — detect type (bug/feature/improvement), assign to sub-projects, set priority and effort, structure descriptions, and move from Triage to Backlog. Use when the user wants to process new issues in the inbox — e.g., 'pm triage', 'triage inbox', 'classify issues', 'process inbox', 'process feedback', '处理反馈', '/yux-pm-triage'. Do NOT use for viewing existing backlog (use yux-pm-overview) or planning sprints (use yux-pm-plan)."
 allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: yux-blog-image
-description: Analyze articles for image insertion and generate images. Triggers: "analyze article images", "suggest images", "article image plan", "generate article images", "insert article images", "分析文章配图", "文章插图分析", "生成文章配图", "插入文章配图".
+description: Analyze a blog article's structure to plan optimal image placement, then generate and insert AI images. This is the blog-specific image workflow — it reads a markdown article, identifies where images should go, creates a plan, and generates images that fit each section. Use when the user wants images added to an existing article — e.g., "analyze article images", "suggest images for this post", "generate article images", "分析文章配图", "生成文章配图", "插入文章配图". Do NOT use for standalone image generation (use yux-nano-banana instead). After generating, use yux-blog-oss to upload images to CDN.
 allowed-tools: Read, Write, Glob, Grep, AskUserQuestion, Bash(curl:*), Bash(base64:*), Bash(jq:*), Bash(which:*), Bash(date:*), Bash(uname:*), Bash(file:*), Bash(wc:*), Bash(ls:*)
 ---
 

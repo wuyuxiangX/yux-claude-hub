@@ -1,6 +1,6 @@
 ---
 name: yux-linear-start
-description: Start working on a Linear issue with automatic worktree isolation. Use when user says "start task", "linear start", "work on issue", "new task", "begin task", "LIN-xxx", or "/yux-linear-start". Creates isolated worktree via EnterWorktree, sets up branch, and syncs with Linear.
+description: Start working on a Linear issue with automatic worktree isolation. Use PROACTIVELY when the user wants to begin development on a Linear issue — e.g., "start task", "linear start", "work on LIN-123", "begin task", "new task", or references a LIN-xxx issue ID they want to work on. Also triggers on "/yux-linear-start". Creates an isolated git worktree, sets up the branch, and syncs status to Linear. Do NOT use for general git branching unrelated to Linear.
 allowed-tools: Read, Write, Bash(git:*), Bash(gh:*), Glob, Grep, mcp__linear__*, AskUserQuestion, EnterWorktree
 ---
 

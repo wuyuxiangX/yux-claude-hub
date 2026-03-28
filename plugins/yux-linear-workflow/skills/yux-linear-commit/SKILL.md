@@ -1,6 +1,6 @@
 ---
 name: yux-linear-commit
-description: Commit changes with auto-generated messages and Linear sync. Use when user says "commit", "linear commit", "stage changes", "save progress", or "/yux-linear-commit". Auto-generates conventional commit messages, pushes to remote, and syncs commit info to Linear issue.
+description: Commit changes with auto-generated conventional commit messages and sync progress to Linear. Use when the user is on a Linear task branch (LIN-xxx) and wants to commit — e.g., "linear commit", "commit and sync to linear", "save progress", "提交代码", or "/yux-linear-commit". Auto-generates commit message, pushes to remote, and posts commit info as a Linear comment. Do NOT use for regular git commits outside of Linear workflow — only activate when on a LIN-xxx branch or when the user explicitly mentions Linear. When ready for review, use yux-linear-pr to create a pull request.
 allowed-tools: Read, Write, Bash(git:*), Bash(gh:*), Glob, Grep, mcp__linear__*, AskUserQuestion
 ---
 

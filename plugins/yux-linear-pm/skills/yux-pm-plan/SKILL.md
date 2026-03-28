@@ -1,6 +1,6 @@
 ---
 name: yux-pm-plan
-description: "Sprint planning with capacity calculation and AI-powered scope suggestion for Linear PM initiatives. Calculates business days, scores backlog by priority/deadline/blocking, suggests Must/Should/Stretch categories. Use when: 'pm plan', 'plan sprint', 'sprint planning', 'capacity planning', 'linear pm plan', '/yux-pm-plan'."
+description: "Sprint planning with capacity calculation and AI-powered scope suggestion for Linear PM initiatives. Calculates business days, scores backlog by priority/deadline/blocking, and suggests Must/Should/Stretch categories. Use when the user wants to plan a sprint or review cycle capacity — e.g., 'pm plan', 'plan sprint', 'sprint planning', 'capacity planning', 'what fits in next sprint', '排期', '/yux-pm-plan'. Do NOT use for viewing current status (use yux-pm-overview) or triaging issues (use yux-pm-triage)."
 allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
 

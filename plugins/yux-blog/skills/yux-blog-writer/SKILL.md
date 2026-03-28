@@ -1,6 +1,6 @@
 ---
 name: yux-blog-writer
-description: Generate blog article from video summary. Triggers: "write blog", "generate article", "create post", "blog from video", "写博客", "生成文章", "写文章".
+description: Generate a polished blog article from a video summary file. Use when the user has a summary (typically from yux-video-summary) and wants to turn it into a publishable blog post — e.g., "write a blog from this summary", "generate article", "blog from video", "写博客", "生成文章", "把摘要写成文章". Offers multiple writing styles (Technical, Casual, News). Do NOT use for writing articles from scratch without a video summary source — this skill specifically transforms video summaries into blog format. After writing, use yux-blog-image to add illustrations.
 allowed-tools: Read, Write, Glob, Grep
 ---
 

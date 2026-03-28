@@ -1,6 +1,6 @@
 {
   "name": "yux-linear-workflow",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Complete Linear workflow integration with parallel development via worktrees, multi-task management, background CI monitoring, and automated issue tracking.",
   "author": {
     "name": "wuyuxiangX",

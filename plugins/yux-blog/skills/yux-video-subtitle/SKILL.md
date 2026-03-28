@@ -1,6 +1,6 @@
 ---
 name: yux-video-subtitle
-description: Download subtitles/transcripts from video platforms. Triggers: "download subtitle", "extract subtitle", "video subtitle", "transcript", "字幕下载", "提取字幕", "视频字幕".
+description: Download subtitles and transcripts from video platforms (YouTube, Bilibili, Twitter/X, etc.) using yt-dlp. Use when the user provides a video URL and wants to extract its subtitles or transcript — e.g., "download subtitles from this video", "extract subtitle", "get the transcript of this YouTube video", "字幕下载", "提取字幕", "视频字幕". Do NOT trigger on generic "transcript" mentions unrelated to video URLs (e.g., meeting transcripts, text files). After downloading, use yux-video-summary to organize the transcript.
 allowed-tools: Read, Write, Glob, Grep, Bash(yt-dlp:*), Bash(which:*), Bash(ls:*), Bash(cat:*)
 ---
 

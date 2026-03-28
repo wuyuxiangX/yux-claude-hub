@@ -1,6 +1,6 @@
 ---
 name: yux-pm-prd
-description: "Generate PRD with smart cross-project task decomposition for Linear PM initiatives. Analyzes feature requirements, identifies relevant sub-projects by tech stack matching, creates Epic + sub-issues in Linear. Use when: 'pm prd', 'create prd', 'decompose feature', 'feature prd', 'linear pm prd', '/yux-pm-prd'."
+description: "Generate PRD with smart cross-project task decomposition for Linear PM initiatives. Analyzes feature requirements, identifies relevant sub-projects by tech stack matching, creates Epic + sub-issues in Linear. Use when the user wants to plan a new feature or decompose requirements — e.g., 'pm prd', 'create prd', 'decompose feature', 'feature planning', 'break down this feature', '创建PRD', '/yux-pm-prd'. Automatically detects complexity and adjusts output (full PRD doc for complex features, simple issues for small ones). Do NOT use for planning an existing sprint cycle (use yux-pm-plan) or triaging existing issues (use yux-pm-triage)."
 allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
 

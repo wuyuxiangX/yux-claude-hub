@@ -1,6 +1,6 @@
 ---
 name: yux-pm-init
-description: "Initialize Linear PM workspace — connect to Linear, select Initiative, configure sub-projects with tech stack detection, save pm-config.json. Use when: 'pm init', 'setup pm workspace', 'configure initiative', 'linear pm init', '/yux-pm-init'."
+description: "Initialize Linear PM workspace — connect to Linear, select an Initiative, configure sub-projects with tech stack detection, and save pm-config.json. Use when the user wants to set up or reconfigure their PM workspace — e.g., 'pm init', 'setup pm workspace', 'configure initiative', 'linear pm init', '/yux-pm-init'. This must be run before other PM skills (triage, prd, plan, overview). Do NOT use for other PM operations — use yux-pm-triage, yux-pm-prd, yux-pm-plan, or yux-pm-overview instead."
 allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
 
