@@ -1,16 +1,18 @@
 # Linear Workflow Plugin
 
-Complete Linear workflow integration for Claude Code with CI/CD monitoring and multi-language support.
+Complete Linear workflow integration for Claude Code with parallel development via worktrees, multi-task management, background CI monitoring, and multi-language support.
 
 ## Features
 
-- **Issue Management**: Search existing or create new Linear issues
+- **Issue Management**: Search existing or create new Linear issues with smart resolution
+- **Parallel Development**: Work on multiple issues simultaneously using git worktrees
+- **Multi-Task Management**: Track, switch between, and manage multiple in-flight tasks
 - **Backlog View**: View all issues with AI-powered task recommendations
-- **Branch Automation**: Auto-generate branches following naming conventions
-- **Commit Validation**: Enforce Conventional Commits format (code-based hooks)
-- **PR Creation**: Generate PRs with Linear issue linking
-- **CI/CD Monitoring**: Real-time status with error details
-- **Auto-Merge**: One-command merge with cleanup
+- **Branch Automation**: Auto-detect branch type from issue labels and title
+- **Commit Validation**: Enforce Conventional Commits with auto-push
+- **PR Creation**: Generate PRs with draft support and Linear issue linking
+- **Background CI Monitoring**: Automatic CI polling after PR creation
+- **Auto-Merge**: One-command merge with worktree cleanup
 - **Multi-language**: Auto-detect user language (English, Chinese, Japanese, Korean)
 
 ## Installation
@@ -25,7 +27,6 @@ claude plugin marketplace add https://github.com/wuyuxiangX/yux-claude-hub
 
 ```bash
 claude plugin install yux-linear-workflow
-```
 ```
 
 ## Prerequisites
@@ -45,172 +46,59 @@ claude plugin install yux-linear-workflow
 
 3. **Git Repository**: Must be inside a git repo
 
-## Commands
+## Skills (6 total)
 
-### `/yux-linear-start [description]`
+All functionality is provided as skills — each works as both a slash command and auto-triggers from natural language.
 
-Start a new task with Linear integration.
+### Core Workflow (5 user-facing skills)
 
+| Skill | Slash Command | Triggers On |
+|-------|--------------|-------------|
+| `yux-linear-start` | `/yux-linear-start` | "start task", "work on issue", "LIN-xxx" |
+| `yux-linear-commit` | `/yux-linear-commit` | "commit", "save progress" |
+| `yux-linear-pr` | `/yux-linear-pr` | "create PR", "submit for review" |
+| `yux-linear-merge` | `/yux-linear-merge` | "merge", "complete task" |
+| `yux-linear-status` | `/yux-linear-status` | "status", "tasks", "backlog", "what to work on" |
+
+### Internal (1 skill)
+
+| Skill | Purpose |
+|-------|---------|
+| `linear-merge-executor` | Forked subagent for CI polling + merge execution |
+
+### Usage Examples
+
+**Start a task (always creates worktree):**
 ```
-User: /yux-linear-start implement user authentication
-
-Claude: Starting Linear workflow...
-
-How would you like to proceed?
-1. Search existing Linear issues
-2. Create a new issue
-
-User: 2
-
-Claude: Creating issue...
-Issue LIN-456 created: Implement user authentication
-Branch created: feat/LIN-456-user-auth
-Status updated: In Progress
-
-=== Task Started ===
-Issue:   LIN-456 - Implement user authentication
-Branch:  feat/LIN-456-user-auth
-
-You can now start coding!
-```
-
-### `/yux-linear-commit [description]`
-
-Stage commit with file selection and Linear sync.
-
-```
-User: /yux-linear-commit
-
-Claude:
-=== 当前变更 ===
-
-📁 新增文件 (1):
-   [1] src/components/LoginForm.tsx
-
-📝 修改文件 (2):
-   [2] src/App.tsx
-   [3] src/routes/index.ts
-
-请选择要提交的文件：
-1. 提交所有变更 (3 个文件)
-2. 选择特定文件
-3. 排除特定文件
-4. 取消
-
-User: 1
-
-Claude:
-生成的提交信息：
-feat(auth): add LoginForm component with routing integration
-
-确认？(y/修改/n)
-
-User: y
-
-Claude:
-✓ 已提交 3 个文件
-✓ 已同步到 Linear: LIN-456
-
-=== 提交完成 ===
-提交哈希: a1b2c3d
-关联 Issue: LIN-456
+/yux-linear-start LIN-456              # Direct issue lookup
+/yux-linear-start fix login page       # Search + auto-match
+/yux-linear-start                       # Interactive mode
 ```
 
-**Features**:
-- Display changed files by category (new/modified/deleted)
-- User selects which files to commit (not automatic)
-- Auto-generate commit message (user input is reference only)
-- **Mandatory** sync to Linear issue
-
-### `/yux-linear-pr`
-
-Create a pull request with CI monitoring.
-
+**Commit + push:**
 ```
-User: /yux-linear-pr
-
-Claude: Creating pull request...
-
-PR #78 created: https://github.com/org/repo/pull/78
-Linear LIN-456 updated to: In Review
-
-=== CI Monitoring ===
-├── ✓ lint (passed)
-├── ✓ build (passed)
-├── ○ test (running)
-└── ○ deploy-preview (pending)
+/yux-linear-commit                      # Auto-generate message, auto-push
+/yux-linear-commit --no-push            # Skip auto-push
 ```
 
-### `/yux-linear-status`
-
-Check current workflow status.
-
+**Create PR:**
 ```
-User: /yux-linear-status
-
-Claude:
-=== Linear Workflow Status ===
-
-Issue:    LIN-456 - Implement user authentication
-Status:   In Review
-Branch:   feat/LIN-456-user-auth
-
-PR:       #78 - Open
-CI:       All 5 checks passed
-
-Next Step: Ready to merge! Use /yux-linear-merge
+/yux-linear-pr                          # Standard PR
+/yux-linear-pr --draft                  # Draft PR for early feedback
 ```
 
-### `/yux-linear-backlog [filter]`
-
-View project issues with AI-powered recommendations.
-
-**Filters**: `all` (default), `mine`, `urgent`, `unassigned`
-
+**Status hub (unified dashboard):**
 ```
-User: /yux-linear-backlog
-
-Claude:
-=== Linear Backlog (Wyx Team) ===
-
-| # | ID      | Title                    | Priority | Status  | Due     |
-|---|---------|--------------------------|----------|---------|---------|
-| 1 | LIN-789 | Fix login page crash     | High     | Todo    | Jan 8   |
-| 2 | LIN-456 | Implement user auth      | Medium   | Backlog | Jan 10  |
-| 3 | LIN-234 | Refactor API endpoints   | Low      | Todo    | Jan 15  |
-
-Total: 3 issues
-
-=== Recommended Next Task ===
-
-[LIN-789] Fix login page crash
-Priority: High | Due: Tomorrow | Status: Todo
-Reason: High priority bug with imminent deadline
-
--> Use `/yux-linear-start LIN-789` to begin
+/yux-linear-status                      # Current task + all active tasks
+/yux-linear-status backlog              # View backlog with AI recommendations
+/yux-linear-status backlog urgent       # Filter by priority
+/yux-linear-status tasks                # Compact task list
 ```
 
-### `/yux-linear-merge`
-
-Merge PR and complete the workflow.
-
+**Merge + cleanup:**
 ```
-User: /yux-linear-merge
-
-Claude: Checking merge readiness...
-
-All checks passed.
-Ready to merge?
-
-User: Y
-
-Claude:
-PR #78 merged to main
-Branch feat/LIN-456-user-auth deleted
-Linear LIN-456 marked as Done
-
-=== Task Completed! ===
-Duration: 5h 15m
+/yux-linear-merge                       # Default squash merge
+/yux-linear-merge --rebase              # Rebase merge
 ```
 
 ## Complete Workflow
@@ -460,6 +348,7 @@ Commits: 5
 | Issue Created | Backlog | New issue, no branch |
 | Branch Created | Todo | Ready to start |
 | In Development | In Progress | Active coding |
+| Paused | In Progress | Task paused, working on another task |
 | PR Created | In Review | Awaiting review |
 | CI Failed | In Progress | Needs fix |
 | Ready to Merge | In Review | All checks passed |
@@ -562,7 +451,10 @@ The plugin uses Linear MCP for API access. Configure via `/mcp` command.
 All hooks include a project-level guard that prevents them from interfering with non-Linear projects. A project is considered "Linear-active" if **any** of the following conditions are met:
 
 1. `.claude/linear-config.json` file exists
-2. Current git branch matches `LIN-*` pattern (e.g., `feat/LIN-123-feature`)
+2. `.claude/linear-tasks.json` file exists with active tasks
+3. Current git branch matches `LIN-*` pattern (e.g., `feat/LIN-123-feature`)
+
+All config file paths are resolved relative to the main repo root using `git rev-parse --git-common-dir`, ensuring correct behavior when running inside a git worktree.
 
 When none of these conditions are met, all hooks silently pass (`exit 0`) — no warnings, no commit blocking, no prompt injection.
 
@@ -603,44 +495,35 @@ plugins/yux-linear-workflow/
 ├── .claude-plugin/
 │   └── plugin.json               # Plugin manifest
 ├── .mcp.json                     # Linear MCP config
-├── commands/
-│   ├── yux-linear-start.md       # Start task command
-│   ├── yux-linear-commit.md      # Stage commit command
-│   ├── yux-linear-backlog.md     # View & recommend issues
-│   ├── yux-linear-pr.md          # Create PR command
-│   ├── yux-linear-status.md      # Check status command
-│   └── yux-linear-merge.md       # Merge PR command
 ├── skills/
-│   ├── yux-linear-workflow/
-│   │   └── SKILL.md              # Main workflow skill
-│   └── yux-ci-monitor/
-│       └── SKILL.md              # CI monitoring skill
+│   ├── yux-linear-start/
+│   │   └── SKILL.md              # Start task (worktree support)
+│   ├── yux-linear-commit/
+│   │   └── SKILL.md              # Commit + auto-push
+│   ├── yux-linear-pr/
+│   │   └── SKILL.md              # Create PR (draft support)
+│   ├── yux-linear-merge/
+│   │   └── SKILL.md              # Merge + cleanup
+│   ├── yux-linear-status/
+│   │   └── SKILL.md              # Status hub (tasks/backlog)
+│   └── linear-merge-executor/
+│       └── SKILL.md              # Internal merge executor (forked)
 ├── hooks/
 │   └── hooks.json                # Hook configurations
 ├── scripts/
-│   ├── _linear_guard.py          # Shared project-level activation guard
+│   ├── statusline.py             # Status line script for Claude Code
+│   ├── _linear_guard.py          # Shared guard (worktree + multi-task aware)
 │   ├── validate_commit.py        # Commit message validator
 │   ├── check_branch.py           # Branch protection check
-│   ├── verify_linear_task.py     # Linear task context detector
+│   ├── verify_linear_task.py     # Linear task context (multi-task display)
 │   ├── sync_progress.py          # Progress sync extractor
 │   ├── post_command.py           # Post-command analyzer
 │   ├── prompt_linear_reminder.py # Guarded Linear workflow reminder
 │   └── prompt_sync_reminder.py   # Guarded sync reminder before compaction
 ├── templates/
-│   └── messages.json             # Multi-language messages
+│   └── linear-tasks-schema.md    # Task state file schema reference
 └── README.md                     # This file
 ```
-
-## Comparison with Reference Project
-
-| Aspect | Reference (bahamoth) | This Plugin |
-|--------|---------------------|-------------|
-| Structure | Hooks/skills scattered | Unified in plugin dir |
-| Hook Implementation | Python scripts | **Python scripts** (code-based) |
-| Commands | None | 4 dedicated commands |
-| CI/CD | None | Full monitoring + errors |
-| Completion | PR creation | After merge |
-| Multi-language | None | Auto-detect |
 
 ## License
 

@@ -32,8 +32,8 @@
     },
     {
       "name": "yux-linear-workflow",
-      "description": "Complete Linear workflow integration with CI/CD monitoring. Automates issue tracking, branch management, PR creation, and merging.",
-      "version": "1.0.0",
+      "description": "Complete Linear workflow integration with parallel development via worktrees, multi-task management, background CI monitoring, and automated issue tracking.",
+      "version": "2.0.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"

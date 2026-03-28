@@ -60,8 +60,29 @@ def main():
     print(f"[Linear Branch Detected]")
     print(f"Branch: {branch}")
     print(f"Issue:  {linear_id}")
-    print(f"")
-    print(f"To load full context: mcp__linear__get_issue(id: \"{linear_id}\")")
+
+    # Show multi-task context if available
+    from _linear_guard import get_main_repo_root
+    repo_root = get_main_repo_root()
+    config_base = repo_root if repo_root else os.getcwd()
+    tasks_file = os.path.join(str(config_base), '.claude', 'linear-tasks.json')
+    if os.path.isfile(tasks_file):
+        import json
+        try:
+            with open(tasks_file) as f:
+                data = json.load(f)
+            tasks = data.get('tasks', {})
+            if len(tasks) > 1:
+                print()
+                print(f"[{len(tasks)} Active Tasks]")
+                for tid, task in tasks.items():
+                    pr_info = f"  PR #{task['pr_number']}" if task.get('pr_number') else ""
+                    print(f"  {tid}  {task.get('branch', '?'):<40s} {task.get('linear_status', '?')}{pr_info}")
+        except (json.JSONDecodeError, KeyError):
+            pass
+    else:
+        print(f"")
+        print(f"To load full context: mcp__linear__get_issue(id: \"{linear_id}\")")
 
     sys.exit(0)
 

@@ -40,7 +40,7 @@ plugins/<plugin-name>/
 |--------|---------|
 | `yux-core` | Core configuration management for all yux plugins |
 | `yux-blog` | Blog content toolkit: video-to-article pipeline, article image analysis and generation |
-| `yux-linear-workflow` | Linear integration with branch automation and CI monitoring |
+| `yux-linear-workflow` | Linear integration with parallel development (worktrees), multi-task management, and CI monitoring |
 | `yux-linear-pm` | Product management workflow for Linear with initiative-centric planning |
 | `yux-nano-banana` | Image generation via OpenRouter API with Gemini models |
 

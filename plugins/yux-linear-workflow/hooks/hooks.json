@@ -9,11 +9,6 @@
             "type": "command",
             "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/verify_linear_task.py",
             "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/prompt_linear_reminder.py",
-            "timeout": 5
           }
         ]
       }

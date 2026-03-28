@@ -3,8 +3,7 @@ name: linear-merge-executor
 description: Execute merge workflow with CI checking and context gathering. Use when merging a PR with full Linear and GitHub context. Handles CI polling, merge validation, execution, cleanup, and status updates. Triggered by /yux-linear-merge command.
 context: fork
 agent: general-purpose
-allowed-tools: Read, Bash, Grep
-model: sonnet
+allowed-tools: Read, Bash(git:*), Bash(gh:*), Grep, mcp__linear__*
 user-invocable: false
 ---
 
@@ -75,6 +74,17 @@ gh pr view <pr_number> --json state,mergedAt,mergeCommit
 
 ### Step 5: Clean Up Local Branch
 
+**Detect execution context first:**
+```bash
+git rev-parse --git-common-dir
+```
+
+**If inside a worktree** (git-common-dir points to main repo's .git):
+- Do NOT run `git checkout main` (would fail in worktree)
+- The worktree cleanup is handled by the calling command after this skill returns
+- Skip local branch deletion (it will be removed when the worktree is removed)
+
+**If in main repo** (standard mode):
 ```bash
 git checkout main
 git pull origin main

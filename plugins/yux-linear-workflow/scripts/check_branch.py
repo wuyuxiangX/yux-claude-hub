@@ -84,12 +84,6 @@ def main():
         print(warning)  # stdout - informational
         # Note: We allow the operation but Claude sees the warning
 
-    # If on a Linear branch, show context
-    elif is_linear_branch(branch):
-        linear_id = extract_linear_id(branch)
-        if linear_id:
-            print(f"[Linear Branch] Working on: {branch} ({linear_id})")
-
     sys.exit(0)
 
 

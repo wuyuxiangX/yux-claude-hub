@@ -25,7 +25,7 @@ VALID_EMOJIS = ['✨', '🐛', '📝', '💄', '♻️', '⚡️', '✅', '📦'
 # Conventional Commits pattern (supports optional emoji prefix and Chinese characters)
 COMMIT_PATTERN = re.compile(
     r'^'
-    r'(?:[✨🐛📝💄♻️⚡️✅📦👷🔧]\s+)?'  # Optional emoji prefix
+    r'(?:(?:✨|🐛|📝|💄|♻️|⚡️|✅|📦|👷|🔧)\s+)?'  # Optional emoji prefix
     r'(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)'
     r'(\([a-zA-Z0-9_-]+\))?'
     r'!?'

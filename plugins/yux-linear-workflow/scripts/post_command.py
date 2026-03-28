@@ -76,7 +76,7 @@ def detect_pr_merge(command: str, output: str) -> dict | None:
 
 def detect_git_push(command: str, output: str) -> dict | None:
     """Detect git push operations."""
-    if not ('git push' in command or command.startswith('git push')):
+    if 'git push' not in command:
         return None
 
     return {
