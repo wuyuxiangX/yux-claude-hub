@@ -10,15 +10,17 @@ Product Manager workflow plugin for Linear. Initiative-centric planning with aut
 - **Sprint planning**: Capacity calculation and AI-suggested scope
 - **PRD generation**: Full PRDs for complex features with cross-project breakdown
 
-## Commands
+## Skills (5 total)
 
-| Command | Description |
-|---------|-------------|
-| `/yux-pm-init` | Initialize workspace - select Initiative, configure sub-projects |
-| `/yux-pm-overview` | Dashboard view - progress, status, alerts |
-| `/yux-pm-triage` | Process inbox - classify, assign projects, set priority |
-| `/yux-pm-plan` | Sprint planning - capacity, scope, assign to cycle |
-| `/yux-pm-prd [topic]` | Generate PRD with cross-project task decomposition |
+All functionality is provided as standalone skills — each works as both a slash command and auto-triggers from natural language.
+
+| Skill | Slash Command | Triggers On |
+|-------|--------------|-------------|
+| `yux-pm-init` | `/yux-pm-init` | "pm init", "setup pm workspace" |
+| `yux-pm-overview` | `/yux-pm-overview` | "pm overview", "pm dashboard", "pm status" |
+| `yux-pm-triage` | `/yux-pm-triage` | "pm triage", "triage inbox", "classify issues" |
+| `yux-pm-plan` | `/yux-pm-plan` | "pm plan", "plan sprint", "sprint planning" |
+| `yux-pm-prd` | `/yux-pm-prd` | "pm prd", "create prd", "decompose feature" |
 
 ## Quick Start
 
