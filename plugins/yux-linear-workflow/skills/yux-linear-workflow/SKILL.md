@@ -14,25 +14,23 @@ This skill provides end-to-end workflow automation:
 1. **Mandatory Linear verification** - All Linear operations are verified
 2. Issue creation/selection with validation
 3. Branch management
-4. **Local state persistence** - Task state saved to `.claude/linear-tasks/<ISSUE_ID>.json`
-5. Status synchronization
-6. PR creation with CI monitoring
-7. Merge and cleanup
+4. Status synchronization via Linear API (real-time)
+5. PR creation with CI monitoring
+6. Merge and cleanup
 
 ### Key Features
 
 - **Mandatory Linear Connection**: The `/yux-linear-start` command will FAIL if Linear MCP is not configured or unavailable
 - **Issue Verification**: Every issue creation/selection is verified via `mcp__linear__get_issue()`
-- **Local State Files**: Task state is persisted to `.claude/linear-tasks/` directory (tracked by git)
-- **Session Detection**: New sessions automatically detect current Linear task context
+- **Real-time Data**: All issue information is fetched directly from Linear API — no local state files, no stale data
+- **Session Detection**: Branch name parsing (`LIN-xxx`) + Linear API lookup for context recovery
 
 ## Activation Guard
 
 **BEFORE executing any workflow step**, verify this is a Linear-active project by checking these conditions (any one is sufficient):
 
-1. `.claude/linear-tasks/` directory exists
-2. `.claude/linear-config.json` file exists
-3. Current git branch contains `LIN-` pattern (`git branch --show-current`)
+1. `.claude/linear-config.json` file exists
+2. Current git branch contains `LIN-` pattern (`git branch --show-current`)
 
 **If NONE of these conditions are met:**
 - Do NOT proceed with the Linear workflow
@@ -48,28 +46,14 @@ Before generating output, read `.claude/yux-config.json`:
 
 Initialize config with `/yux-init` if not exists.
 
-## Local State File
+## Issue Context Resolution
 
-Each Linear task has a corresponding state file in `.claude/linear-tasks/`:
+All issue data is resolved at runtime from two sources:
 
-**File format**: `.claude/linear-tasks/<ISSUE_ID>.json`
+1. **Branch name** → parse `LIN-\d+` pattern to get issue ID
+2. **Linear API** → `mcp__linear__get_issue(id: "LIN-xxx")` for full details (title, status, UUID, URL, etc.)
 
-**Example**: `.claude/linear-tasks/LIN-456.json`
-
-```json
-{
-  "issue_id": "LIN-456",
-  "issue_uuid": "cfef1fd0-...",
-  "issue_title": "Implement user authentication",
-  "branch_name": "feat/LIN-456-user-auth",
-  "status": "in_progress",
-  "linear_url": "https://linear.app/team/issue/LIN-456",
-  "started_at": "2026-01-09T10:30:00Z",
-  "verified": true
-}
-```
-
-**Git tracking**: These files are committed to git, ensuring state persists across branches and sessions.
+No local state files are used. This ensures data is always real-time and consistent with Linear.
 
 ## Workflow States
 
@@ -125,12 +109,6 @@ When user wants to start a new task:
 6. **Update Linear status**:
    ```
    mcp__linear__update_issue(id: "<issue-uuid>", state: "In Progress")
-   ```
-
-7. **Save local state file**:
-   ```bash
-   mkdir -p .claude/linear-tasks
-   # Write state to .claude/linear-tasks/<ISSUE_ID>.json
    ```
 
 ### 2. Development Tracking

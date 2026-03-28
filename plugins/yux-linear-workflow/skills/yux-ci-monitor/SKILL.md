@@ -16,7 +16,7 @@ This skill provides a one-time CI status check. For continuous monitoring during
 
 **BEFORE checking CI status**, verify Linear workflow context:
 
-1. Check if `.claude/linear-tasks/` directory exists, OR `.claude/linear-config.json` exists, OR current git branch contains `LIN-`
+1. Check if `.claude/linear-config.json` exists, OR current git branch contains `LIN-`
 2. Check if a PR exists for the current branch: `gh pr view --json number 2>/dev/null`
 
 **If no Linear context AND no PR found:** respond "No Linear workflow context found. For general CI checking, use `gh pr checks` directly." and STOP.

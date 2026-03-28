@@ -561,9 +561,8 @@ The plugin uses Linear MCP for API access. Configure via `/mcp` command.
 
 All hooks include a project-level guard that prevents them from interfering with non-Linear projects. A project is considered "Linear-active" if **any** of the following conditions are met:
 
-1. `.claude/linear-tasks/` directory exists
-2. `.claude/linear-config.json` file exists
-3. Current git branch matches `LIN-*` pattern (e.g., `feat/LIN-123-feature`)
+1. `.claude/linear-config.json` file exists
+2. Current git branch matches `LIN-*` pattern (e.g., `feat/LIN-123-feature`)
 
 When none of these conditions are met, all hooks silently pass (`exit 0`) — no warnings, no commit blocking, no prompt injection.
 

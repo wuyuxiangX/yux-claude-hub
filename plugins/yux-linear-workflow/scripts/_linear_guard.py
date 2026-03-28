@@ -2,11 +2,9 @@
 """
 Shared guard module for Linear workflow hooks.
 
-Determines if the current project is "Linear-active" by checking
-(in priority order, filesystem checks first):
-1. .claude/linear-tasks/ directory exists
-2. .claude/linear-config.json file exists
-3. Current git branch matches LIN-* pattern
+Determines if the current project is "Linear-active" by checking:
+1. .claude/linear-config.json file exists
+2. Current git branch matches LIN-* pattern
 
 If none of these conditions are met, hooks should silently pass (exit 0).
 """
@@ -18,11 +16,7 @@ from pathlib import Path
 
 def is_linear_project() -> bool:
     """Check if the current project is Linear-active."""
-    # 1. Check for linear-tasks directory
-    if Path('.claude/linear-tasks').is_dir():
-        return True
-
-    # 2. Check for linear-config.json
+    # 1. Check for linear-config.json
     if Path('.claude/linear-config.json').is_file():
         return True
 

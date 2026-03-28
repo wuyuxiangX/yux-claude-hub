@@ -24,9 +24,9 @@ Optional commit description (reference only, Claude auto-generates the message):
 2. **Extract Linear issue ID** (LIN-xxx pattern)
    - If not on a Linear branch, prompt user to run `/yux-linear-start` first
 
-3. **Read local state file**:
-   - Path: `.claude/linear-tasks/<ISSUE_ID>.json`
-   - Get issue_uuid for subsequent Linear API calls
+3. **Fetch issue details from Linear**:
+   - Call `mcp__linear__get_issue(id: "LIN-xxx")` to get issue UUID and details
+   - Use issue_uuid for subsequent Linear API calls
 
 4. **Check uncommitted changes**:
    ```bash
@@ -258,7 +258,7 @@ Next steps:
 | `credentials*` | Credential files |
 | `*.key` | Key files |
 | `*.pem` | Certificate files |
-| `.claude/` | Claude config (except linear-tasks) |
+| `.claude/` | Claude config |
 
 ### Handling
 
@@ -277,13 +277,6 @@ Not on a Linear branch
 Current branch: main
 
 Please run /yux-linear-start to create a task branch first.
-```
-
-### No Local State File
-```
-Local state file not found
-
-Please run /yux-linear-status to sync state before committing.
 ```
 
 ### No Changes

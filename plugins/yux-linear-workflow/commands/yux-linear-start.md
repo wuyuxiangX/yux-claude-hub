@@ -248,7 +248,7 @@ If user chooses to create:
    git push -u origin <branch-name>
    ```
 
-### Step 6: Update Linear Issue Status & Save Local State
+### Step 6: Update Linear Issue Status
 
 1. **Update the issue status to "In Progress"**:
    ```
@@ -266,29 +266,6 @@ If user chooses to create:
    )
    ```
 
-3. **MANDATORY: Save local state file**:
-
-   Create the directory if needed:
-   ```bash
-   mkdir -p .claude/linear-tasks
-   ```
-
-   Write state to `.claude/linear-tasks/<ISSUE_ID>.json`:
-   ```json
-   {
-     "issue_id": "LIN-456",
-     "issue_uuid": "cfef1fd0-...",
-     "issue_title": "User login implementation",
-     "branch_name": "feat/LIN-456-user-login",
-     "status": "in_progress",
-     "linear_url": "https://linear.app/team/issue/LIN-456",
-     "started_at": "2026-01-09T10:30:00Z",
-     "verified": true
-   }
-   ```
-
-   **Note**: This file will be tracked by git and persists across sessions.
-
 ### Step 7: Output Summary
 
 Display completion message with verification status (in configured language):
@@ -302,7 +279,6 @@ Display completion message with verification status (in configured language):
 ✓ Status updated: In Progress
 ✓ Branch created and switched: feat/LIN-456-user-login
 ✓ Current branch verified: feat/LIN-456-user-login
-✓ Local state saved: .claude/linear-tasks/LIN-456.json
 
 Issue:   LIN-456 - User login implementation
 Status:  In Progress

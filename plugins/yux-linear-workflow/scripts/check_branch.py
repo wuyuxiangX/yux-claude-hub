@@ -15,7 +15,6 @@ import os
 import re
 import subprocess
 import sys
-from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _linear_guard import is_linear_project
@@ -48,12 +47,6 @@ def extract_linear_id(branch: str) -> str | None:
     """Extract Linear issue ID from branch name."""
     match = re.search(r'(LIN-\d+)', branch, re.IGNORECASE)
     return match.group(1).upper() if match else None
-
-
-def check_local_state_exists(linear_id: str) -> bool:
-    """Check if the local state file exists for the given issue ID."""
-    state_file = Path(f'.claude/linear-tasks/{linear_id}.json')
-    return state_file.exists()
 
 
 def main():
@@ -91,20 +84,11 @@ def main():
         print(warning)  # stdout - informational
         # Note: We allow the operation but Claude sees the warning
 
-    # If on a Linear branch, check for local state
+    # If on a Linear branch, show context
     elif is_linear_branch(branch):
         linear_id = extract_linear_id(branch)
-        if linear_id and check_local_state_exists(linear_id):
-            print(f"[Linear Branch] Working on: {branch}")
-        else:
-            warning = (
-                f"[Linear Branch - No Local State]\n"
-                f"Branch: {branch}\n"
-                f"Issue: {linear_id}\n"
-                f"No local state file found at: .claude/linear-tasks/{linear_id}.json\n"
-                f"Run /yux-linear-status to sync state from Linear."
-            )
-            print(warning)
+        if linear_id:
+            print(f"[Linear Branch] Working on: {branch} ({linear_id})")
 
     sys.exit(0)
 

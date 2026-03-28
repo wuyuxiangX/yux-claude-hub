@@ -31,10 +31,12 @@ This command performs quick validation and confirmation in the main agent, then 
    Linear configuration not found. Please run `/yux-linear-start` first to set up team/project.
    ```
 
-3. **Read local state file** `.claude/linear-tasks/<ISSUE_ID>.json` to get:
-   - `issue_id`: Linear issue ID (e.g., "LIN-456")
-   - `issue_uuid`: Linear issue UUID for API calls
-   - `branch_name`: Current branch name
+3. **Extract Linear issue ID** from current branch name (pattern: `LIN-\d+`)
+4. **Fetch issue details from Linear**:
+   ```
+   mcp__linear__get_issue(id: "LIN-xxx")
+   ```
+   Get `issue_uuid` for API calls
 
 ### Step 1: Quick Pre-check
 
