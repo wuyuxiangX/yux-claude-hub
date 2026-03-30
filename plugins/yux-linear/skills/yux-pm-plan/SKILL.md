@@ -8,26 +8,25 @@ allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 
 Usage: `/yux-pm-plan [next|current|cycle-name]`
 
-Prerequisite: `.claude/linear-config.json` must exist with `pm.enabled: true`. If missing or PM not enabled, show:
-  "Please run `/yux-linear-init` and enable PM features first."
+Prerequisite: `.claude/linear-config.json` must exist. If missing, show:
+  "Please run `/yux-linear-init` first."
 
 ## Step 1: Load Configuration
 
-Read `.claude/linear-config.json`. Extract `pm.initiative`, `pm.projects`, and `team.id`.
+Read `.claude/linear-config.json`. Extract `team.id` and `project.id`.
 
 ## Step 2: Fetch Data
 
 ```
-mcp__linear__list_cycles(teamId: "<team_id>", type: "next")
-mcp__linear__list_cycles(teamId: "<team_id>", type: "current")
+mcp__linear__list_cycles(teamId: "<team.id>", type: "next")
+mcp__linear__list_cycles(teamId: "<team.id>", type: "current")
 
-For each project in config.pm.projects:
-  mcp__linear__list_issues(
-    project: "<project_id>",
-    state: "Backlog,Todo",
-    limit: 50,
-    orderBy: "priority"
-  )
+mcp__linear__list_issues(
+  project: "<project.id>",
+  state: "Backlog,Todo",
+  limit: 50,
+  orderBy: "priority"
+)
 ```
 
 If arg is `current`, focus on the current cycle for review/adjustment.
@@ -60,9 +59,7 @@ Assign issues to three categories by filling capacity top-down:
 - **Should Complete**: Medium-scoring issues filling remaining capacity
 - **Stretch Goals**: Overflow issues beyond capacity
 
-Display the categorized plan with per-issue effort, total days used vs. capacity, and brief reasoning for each category boundary.
-
-Show cross-project distribution (% of capacity per project) to flag imbalanced sprints.
+Display the categorized plan with per-issue effort, total days used vs. capacity.
 
 Example output:
 
@@ -72,18 +69,16 @@ Example output:
 Capacity: 8 effective days (10 business days, 20% buffer)
 
 Must Complete (4.75 days / 60% cap):
-  WYX-101  [M] Fix auth token refresh     subloom-api    score: 190
-  WYX-98   [S] Update error messages       subloom-web    score: 150
-  WYX-105  [L] Search API endpoint         subloom-api    score: 140
+  WYX-101  [M] Fix auth token refresh       score: 190
+  WYX-98   [S] Update error messages         score: 150
+  WYX-105  [L] Search API endpoint           score: 140
 
 Should Complete (2.5 days):
-  WYX-110  [M] Dashboard filters           subloom-web    score: 95
-  WYX-112  [S] Extension icon update       subloom-ext    score: 80
+  WYX-110  [M] Dashboard filters             score: 95
+  WYX-112  [S] Extension icon update         score: 80
 
 Stretch Goals:
-  WYX-115  [M] Analytics event tracking    subloom-api    score: 60
-
-Distribution: api 62% | web 25% | ext 13%
+  WYX-115  [M] Analytics event tracking      score: 60
 ```
 
 ## Step 6: Apply Plan

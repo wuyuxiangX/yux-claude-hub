@@ -6,10 +6,10 @@ allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 
 # PM Triage
 
-Process inbox issues: classify type, assign to sub-projects, set priority/effort, structure descriptions, and move to Backlog.
+Process inbox issues: classify type, set priority/effort, structure descriptions, and move to Backlog.
 
-Prerequisite: `.claude/linear-config.json` must exist with `pm.enabled: true`. If missing or PM not enabled, show:
-  "Please run `/yux-linear-init` and enable PM features first."
+Prerequisite: `.claude/linear-config.json` must exist. If missing, show:
+  "Please run `/yux-linear-init` first."
 
 ## Workflow
 
@@ -18,7 +18,7 @@ Prerequisite: `.claude/linear-config.json` must exist with `pm.enabled: true`. I
 ```
 Read .claude/linear-config.json
 
-mcp__linear__list_issue_labels(team: "<team_id>")
+mcp__linear__list_issue_labels(team: "<team.id>")
 ```
 
 Parse labels into categories:
@@ -29,7 +29,7 @@ Parse labels into categories:
 
 ```
 mcp__linear__list_issues(
-  team: "<team_id>",
+  team: "<team.id>",
   state: "Triage",
   limit: 20,
   orderBy: "createdAt"
@@ -52,12 +52,6 @@ For each selected issue, analyze these factors:
 
 If multiple types match, prefer: Bug > Feature > Improvement > Chore.
 
-**Project Assignment** (keyword-based):
-- Frontend: "page", "UI", "button", "style", "页面", "显示", "样式"
-- Backend: "API", "database", "server", "接口", "数据库"
-- Extension: "popup", "extension", "插件", "扩展"
-- ML: "model", "prediction", "recommend", "模型", "推荐", "分析"
-
 **Priority Assessment**:
 - Urgent: Security issues, data loss, complete feature broken
 - High: Core flow affected, many users impacted
@@ -74,7 +68,7 @@ If multiple types match, prefer: Bug > Feature > Improvement > Chore.
 ### Step 4: Confirm Per Issue
 
 For each issue, display:
-- Detected type, project(s), priority, effort, labels
+- Detected type, priority, effort, labels
 - Structured description (Problem / Context / Acceptance Criteria)
 
 Ask user to apply, reject, or edit before proceeding.
@@ -89,18 +83,12 @@ mcp__linear__update_issue(
   description: "<structured_description>",
   priority: <priority_number>,
   labels: ["<type_label_id>", "<func_label_id>"],
-  project: "<primary_project_id>",
+  project: "<project.id>",
   state: "Backlog"
 )
 ```
 
-### Step 6: Multi-Project Issues
-
-If an issue affects multiple projects, use AskUserQuestion to offer two options:
-1. **Keep as Epic** in the primary project — sub-issues created later via prd workflow.
-2. **Create sub-issues now** — one per affected project, linked to the parent.
-
-### Step 7: Summary
+### Step 6: Summary
 
 After all items are processed, display summary:
 
@@ -113,9 +101,7 @@ By Type:    Bug: 2  |  Feature: 2  |  Improvement: 1
 By Priority: High: 1  |  Medium: 3  |  Low: 1
 
 Moved to Backlog:
-  WYX-120  [Bug/High]    Login crash on iOS     → subloom-api
-  WYX-121  [Feature/Med] Dark mode support      → subloom-web
-  WYX-122  [Bug/Med]     Typo in settings       → subloom-ext
-  WYX-123  [Feature/Med] Export to CSV          → subloom-api
-  WYX-124  [Improvement] Optimize image loading → subloom-web
+  WYX-120  [Bug/High]    Login crash on iOS
+  WYX-121  [Feature/Med] Dark mode support
+  WYX-122  [Bug/Med]     Typo in settings
 ```

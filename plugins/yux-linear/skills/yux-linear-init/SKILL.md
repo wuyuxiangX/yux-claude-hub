@@ -42,7 +42,7 @@ Greet the user with their name from `get_authenticated_user`.
 - **Multiple teams**: Display numbered list, let user choose.
 
 ```
-Step 1/5 — Team
+Step 1/3 — Team
 
 Detected team: Wyx
 Using team "Wyx" automatically.
@@ -54,31 +54,27 @@ Using team "Wyx" automatically.
 mcp__linear__list_projects(team: "<team-id>", includeArchived: false)
 ```
 
-Display numbered list with project name and summary:
+Display numbered list with project name and summary. Use AskUserQuestion to let user select.
 
 ```
-Step 2/5 — Project
+Step 2/3 — Project
 
 Which Linear project does this repository belong to?
 
   1. Subloom         — 对话式个人收藏平台
   2. Slideck         — React presentation framework
   3. Claude Code Monitor — Raycast extension for monitoring
-  4. Anvil           — 统一服务的基石
-  5. Blog            — 个人博客和管理相关项目
   ...
 
 Enter the number of your project:
 ```
-
-Use AskUserQuestion to let user select.
 
 ### Step 4: Development Mode
 
 Use AskUserQuestion to ask:
 
 ```
-Step 3/5 — Development Mode
+Step 3/3 — Development Mode
 
 How do you work on this project?
 
@@ -89,43 +85,7 @@ How do you work on this project?
 - `solo`: Save user info, future `/yux-linear-start` auto-assigns to self
 - `team`: No auto-assignment
 
-### Step 5: PM Setup (Optional)
-
-Use AskUserQuestion to ask:
-
-```
-Step 4/5 — PM Features (Optional)
-
-Enable PM features? (Initiative management, sprint planning, cross-project triage)
-
-  1. Yes — Set up Initiative and multi-project management
-  2. No  — Skip, I only need dev workflow
-```
-
-**If Yes:**
-
-1. Fetch initiatives:
-   ```
-   mcp__linear__list_initiatives()
-   ```
-
-2. If initiatives exist, display numbered list for selection. If none, inform user and set `pm.enabled: false`.
-
-3. For the selected initiative, fetch its associated projects:
-   ```
-   mcp__linear__list_projects(initiative: "<initiative-id>")
-   ```
-
-4. For each project, detect tech stack from project description:
-   - Keywords: "Go", "Python", "TypeScript", "React", "Next.js", "Swift", "Kotlin", etc.
-   - Categorize as: Backend, Frontend, Extension, ML, Mobile, etc.
-   - If description is empty, use AskUserQuestion to ask user for tech stack (or accept "Unknown").
-
-5. Save to `pm` field in config.
-
-**If No:** Set `pm: { "enabled": false }`.
-
-### Step 6: Save & Confirm
+### Step 5: Save & Confirm
 
 1. If `.claude/linear-config.json` already exists, use AskUserQuestion:
    - "Overwrite" = proceed with new config
@@ -151,17 +111,6 @@ Enable PM features? (Initiative management, sprint planning, cross-project triag
   "user": {
     "id": "<user-uuid>",
     "name": "<User Name>"
-  },
-  "pm": {
-    "enabled": true,
-    "initiative": {
-      "id": "<initiative-uuid>",
-      "name": "<Initiative Name>"
-    },
-    "projects": [
-      { "id": "<uuid>", "name": "subloom-api", "tech": "Go/Backend" },
-      { "id": "<uuid>", "name": "subloom-web", "tech": "Next.js/Frontend" }
-    ]
   }
 }
 ```
@@ -175,18 +124,17 @@ User:       吾宇翔
 Team:       Wyx
 Project:    Subloom
 Mode:       Solo
-PM:         Enabled (Initiative: Product Launch)
 Config:     .claude/linear-config.json
 
 Next steps:
   /yux-linear-status backlog   View project backlog
   /yux-linear-start LIN-xxx   Start a task
-  /yux-linear-status pm        PM dashboard (if PM enabled)
+  /yux-pm-prd <topic>          Plan a feature
 ```
 
 ## Re-initialization
 
-Running `/yux-linear-init` on a project that already has config will prompt to overwrite or keep existing configuration. This allows changing project binding or enabling/disabling PM features.
+Running `/yux-linear-init` on a project that already has config will prompt to overwrite or keep existing configuration.
 
 ## Multi-language Support
 

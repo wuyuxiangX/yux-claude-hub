@@ -1,20 +1,14 @@
 # yux-linear
 
-Complete Linear integration for Claude Code -- product management and development workflow unified in a single plugin.
+Complete Linear integration for Claude Code -- from feature planning to shipped code in a single plugin.
 
 ## Overview
 
-yux-linear combines strategic planning (PM layer) and tactical execution (Dev layer) into one seamless workflow. The PM layer handles initiative-centric planning: triaging inbox issues, generating PRDs with cross-project task decomposition, and sprint planning with capacity-based scoping. The Dev layer handles the full development cycle: worktree-isolated task execution, conventional commits, PR creation with CI monitoring, and auto-merge with cleanup.
-
-Together they form a continuous pipeline from idea to shipped code.
+yux-linear provides a full lifecycle workflow: triage inbox issues, plan features with PRDs, sprint planning, worktree-isolated development, conventional commits, PR creation, and auto-merge with cleanup.
 
 ## Full Pipeline
 
-The plugin provides a complete lifecycle across two layers:
-
 ```
-PM Layer (Strategic)                    Dev Layer (Tactical)
---------------------------              ---------------------------------
 pm-triage --> pm-prd --> pm-plan --> linear-start --> linear-commit
                                                         |
                                                         v
@@ -23,23 +17,16 @@ pm-triage --> pm-prd --> pm-plan --> linear-start --> linear-commit
 
 **Typical flow:**
 
-1. `pm-triage` -- Classify and structure incoming issues
-2. `pm-prd` -- Decompose a feature into cross-project tasks
-3. `pm-plan` -- Select tasks for the sprint based on capacity
-4. `linear-start` -- Pick a task and begin development in an isolated worktree
-5. `linear-commit` -- Commit with conventional format and sync to Linear
-6. `linear-pr` -- Create a PR linked to the Linear issue
-7. `linear-merge` -- Merge after CI passes, clean up worktree, mark Done
+1. `linear-init` -- Initialize project (first time only)
+2. `pm-triage` -- Classify and structure incoming issues
+3. `pm-prd` -- Plan a feature with PRD and task breakdown
+4. `pm-plan` -- Select tasks for the sprint based on capacity
+5. `linear-start` -- Pick a task and begin development in an isolated worktree
+6. `linear-commit` -- Commit with conventional format and sync to Linear
+7. `linear-pr` -- Create a PR linked to the Linear issue
+8. `linear-merge` -- Merge after CI passes, clean up worktree, mark Done
 
 ## Skills
-
-### PM Skills (Strategic Planning)
-
-| Skill | Slash Command | Triggers On |
-|-------|--------------|-------------|
-| `yux-pm-triage` | `/yux-pm-triage` | "pm triage", "triage inbox", "classify issues" |
-| `yux-pm-prd` | `/yux-pm-prd` | "pm prd", "create prd", "decompose feature" |
-| `yux-pm-plan` | `/yux-pm-plan` | "pm plan", "plan sprint", "sprint planning" |
 
 ### Setup
 
@@ -47,7 +34,15 @@ pm-triage --> pm-prd --> pm-plan --> linear-start --> linear-commit
 |-------|--------------|-------------|
 | `yux-linear-init` | `/yux-linear-init` | "linear init", "setup linear", "初始化linear" |
 
-### Dev Skills (Tactical Execution)
+### Planning
+
+| Skill | Slash Command | Triggers On |
+|-------|--------------|-------------|
+| `yux-pm-triage` | `/yux-pm-triage` | "pm triage", "triage inbox", "classify issues" |
+| `yux-pm-prd` | `/yux-pm-prd` | "pm prd", "create prd", "plan feature" |
+| `yux-pm-plan` | `/yux-pm-plan` | "pm plan", "plan sprint", "sprint planning" |
+
+### Development
 
 | Skill | Slash Command | Triggers On |
 |-------|--------------|-------------|
@@ -55,7 +50,7 @@ pm-triage --> pm-prd --> pm-plan --> linear-start --> linear-commit
 | `yux-linear-commit` | `/yux-linear-commit` | "commit", "save progress" |
 | `yux-linear-pr` | `/yux-linear-pr` | "create PR", "submit for review" |
 | `yux-linear-merge` | `/yux-linear-merge` | "merge", "complete task" |
-| `yux-linear-status` | `/yux-linear-status` | "status", "tasks", "backlog", "what to work on", "pm overview", "pm dashboard", "initiative status" (4 modes: default/backlog/tasks/pm) |
+| `yux-linear-status` | `/yux-linear-status` | "status", "tasks", "backlog" (3 modes) |
 
 ### Internal
 
@@ -71,7 +66,7 @@ pm-triage --> pm-prd --> pm-plan --> linear-start --> linear-commit
 /yux-linear-init
 ```
 
-Step-by-step wizard that connects your repo to Linear: select team, bind project, choose dev mode (solo/team), and optionally enable PM features (Initiative management).
+3-step wizard: select team, bind project, choose dev mode (solo/team).
 
 ### 1. Triage incoming issues
 
@@ -79,15 +74,15 @@ Step-by-step wizard that connects your repo to Linear: select team, bind project
 /yux-pm-triage
 ```
 
-AI classifies inbox items by type (bug/feature/improvement), assigns to sub-projects, and sets priority and effort. Requires PM features enabled via `/yux-linear-init`.
+AI classifies inbox items by type (bug/feature/improvement), sets priority and effort.
 
-### 2. Create a feature with PRD
+### 2. Plan a feature
 
 ```
 /yux-pm-prd User authentication
 ```
 
-Generates a PRD and decomposes the feature into tasks across relevant sub-projects (e.g., api + web + extension).
+Generates a PRD and creates an Epic with sub-issues in the current project.
 
 ### 3. Plan the sprint
 
@@ -97,13 +92,13 @@ Generates a PRD and decomposes the feature into tasks across relevant sub-projec
 
 Calculates capacity in business days, scores backlog items, and suggests Must/Should/Stretch categories.
 
-### 4. Check PM status
+### 4. Check project status
 
 ```
-/yux-linear-status pm
+/yux-linear-status backlog
 ```
 
-Displays the initiative dashboard with health score, sprint progress, project breakdown, and attention items.
+Shows project backlog with health summary, blocked/overdue counts, and AI-recommended next task.
 
 ### 5. Start development
 
@@ -143,7 +138,7 @@ The plugin uses two configuration files, stored in `.claude/`:
 
 ### linear-config.json
 
-Unified project configuration created by `/yux-linear-init`. Stores team, project binding, dev mode, user info, and optional PM settings.
+Project configuration created by `/yux-linear-init`. Stores team, project binding, dev mode, and user info.
 
 ```json
 {
@@ -161,17 +156,6 @@ Unified project configuration created by `/yux-linear-init`. Stores team, projec
   "user": {
     "id": "uuid",
     "name": "吾宇翔"
-  },
-  "pm": {
-    "enabled": true,
-    "initiative": {
-      "id": "uuid",
-      "name": "Product Launch"
-    },
-    "projects": [
-      { "id": "uuid", "name": "subloom-api", "tech": "Go/Backend" },
-      { "id": "uuid", "name": "subloom-web", "tech": "Next.js/Frontend" }
-    ]
   }
 }
 ```
@@ -210,18 +194,18 @@ The plugin uses T-shirt sizing for task estimation:
 ```
 plugins/yux-linear/
 ├── .claude-plugin/
-│   └── plugin.json               # Plugin manifest (v3.1.0)
+│   └── plugin.json               # Plugin manifest (v3.2.0)
 ├── .mcp.json                     # Linear MCP config
 ├── skills/
 │   ├── yux-linear-init/          # Setup: Project initialization wizard
-│   ├── yux-pm-triage/            # PM: Inbox triage
-│   ├── yux-pm-prd/               # PM: PRD generation
-│   ├── yux-pm-plan/              # PM: Sprint planning
+│   ├── yux-pm-triage/            # Planning: Inbox triage
+│   ├── yux-pm-prd/               # Planning: PRD generation
+│   ├── yux-pm-plan/              # Planning: Sprint planning
 │   ├── yux-linear-start/         # Dev: Start task (worktree)
 │   ├── yux-linear-commit/        # Dev: Commit + push
 │   ├── yux-linear-pr/            # Dev: Create PR
 │   ├── yux-linear-merge/         # Dev: Merge + cleanup
-│   ├── yux-linear-status/        # Dev: Status + PM dashboard (4 modes)
+│   ├── yux-linear-status/        # Dev: Status dashboard (3 modes)
 │   └── linear-merge-executor/    # Internal: CI poll + merge
 ├── hooks/
 │   └── hooks.json                # Hook configurations

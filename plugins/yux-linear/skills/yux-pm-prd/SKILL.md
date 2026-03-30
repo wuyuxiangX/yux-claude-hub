@@ -1,15 +1,15 @@
 ---
 name: yux-pm-prd
-description: Generate PRD with cross-project task decomposition for Linear. Triggers on "pm prd", "create prd", "decompose feature", "feature planning", "创建PRD".
+description: Generate PRD and create Linear issues for a feature. Triggers on "pm prd", "create prd", "plan feature", "feature planning", "创建PRD".
 allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
 
-# PM PRD - Feature PRD with Cross-Project Task Decomposition
+# PM PRD - Feature Planning with Task Decomposition
 
 Usage: `/yux-pm-prd [topic|issue-id]`
 
-Prerequisite: `.claude/linear-config.json` must exist with `pm.enabled: true`. If missing or PM not enabled, show:
-  "Please run `/yux-linear-init` and enable PM features first."
+Prerequisite: `.claude/linear-config.json` must exist. If missing, show:
+  "Please run `/yux-linear-init` first."
 
 ## Input Modes
 
@@ -19,44 +19,19 @@ Prerequisite: `.claude/linear-config.json` must exist with `pm.enabled: true`. I
 
 ## Step 1: Load Configuration
 
-Read `.claude/linear-config.json`. Extract `pm.initiative`, `pm.projects` (with tech stacks), and `team.id`.
+Read `.claude/linear-config.json`. Extract `team.id` and `project.id`.
 
 ## Step 2: Gather Requirements
 
 Collect requirements from the chosen input mode. For interactive mode, ask concise questions and accept "skip" for optional fields.
 
-## Step 3: Project Relevance Detection
+## Step 3: Complexity Detection
 
-```
-For each project in config.pm.projects:
-  relevance_score = 0
+- **High** (L/XL effort): Generate full PRD document + Epic + sub-issues
+- **Medium** (M effort): Create parent issue with sub-issues, detailed descriptions
+- **Low** (S/XS effort): Create single well-described issue
 
-  # Tech stack matching
-  if feature_needs_api and project.tech contains "Backend":
-    relevance_score += 80
-  if feature_needs_ui and project.tech contains "Frontend":
-    relevance_score += 80
-  if feature_needs_extension and project.tech contains "Extension":
-    relevance_score += 60
-  if feature_needs_ml and project.tech contains "ML":
-    relevance_score += 70
-
-  # Keyword matching from feature description
-  for keyword in project_keywords[project.name]:
-    if keyword in feature_description:
-      relevance_score += 20
-
-  if relevance_score > 50:
-    include_project(project)
-```
-
-## Step 4: Complexity Detection
-
-- **High** (3+ projects, L/XL effort): Generate full PRD document + Epic + sub-issues
-- **Medium** (1-2 projects, M effort): Create structured issues with detailed descriptions, no PRD doc
-- **Low** (single project, S/XS effort): Create single well-described issue
-
-## Step 5: High Complexity Path
+## Step 4: High Complexity Path
 
 Generate PRD content following the template in `../../references/prd-template.md`.
 
@@ -67,44 +42,44 @@ Create Linear document and issues:
 mcp__linear__create_document(
   title: "PRD: <feature_title>",
   content: "<prd_content>",
-  project: "<primary_project_id>"
+  project: "<project.id>"
 )
 
-# Verify Epic creation succeeded before creating sub-issues
 # Create parent Epic issue
 mcp__linear__create_issue(
   title: "<feature_title>",
   description: "Epic for <feature>.\n\nPRD: <document_link>",
-  team: "<team_id>",
+  team: "<team.id>",
+  project: "<project.id>",
   labels: ["Epic"],
   priority: <priority>,
   assignee: "me"
 )
 
-# Create sub-issues per relevant project
-For each relevant_project:
+# Create sub-issues (task breakdown)
+For each task:
   mcp__linear__create_issue(
-    title: "[<project_name>] <task_title>",
-    description: "<task_description>",
-    team: "<team_id>",
-    project: "<project_id>",
+    title: "<task_title>",
+    description: "<task_description>\n\n## Acceptance Criteria\n- [ ] ...",
+    team: "<team.id>",
+    project: "<project.id>",
     parentId: "<epic_issue_id>",
-    labels: ["<type_label>", "<func_label>"],
+    labels: ["<type_label>"],
     priority: <priority>,
     assignee: "me"
   )
 ```
 
-## Step 6: Medium/Low Complexity Path
+## Step 5: Medium/Low Complexity Path
 
-Skip PRD document creation. Create issues directly with structured descriptions containing Goal, Tasks checklist, and Acceptance Criteria sections. For medium complexity, create a parent issue with sub-issues per project using `parentId`.
+Skip PRD document creation. Create issues directly with structured descriptions containing Goal, Tasks checklist, and Acceptance Criteria sections. For medium complexity, create a parent issue with sub-issues using `parentId`.
 
 ## Summary Output
 
 After creation, display:
 - Document link (if created)
 - Epic issue ID and title
-- All sub-issues with project, effort, and priority
+- All sub-issues with effort and priority
 - Suggested next actions (`/yux-pm-plan`, `/yux-linear-start`)
 
 See `../../references/prd-template.md` for PRD document template.
