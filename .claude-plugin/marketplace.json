@@ -22,7 +22,7 @@
     {
       "name": "yux-linear",
       "description": "Complete Linear integration: PM workflow (initiative planning, triage, PRD, sprint planning) + Dev workflow (worktree isolation, commits, PRs, merges, CI monitoring).",
-      "version": "3.2.4",
+      "version": "3.2.5",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"

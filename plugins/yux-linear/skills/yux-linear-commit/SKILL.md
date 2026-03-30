@@ -22,7 +22,29 @@ Make incremental commits during development, linking to Linear issue and syncing
 1. Get branch: `git branch --show-current`
 2. Extract `LIN-xxx` from branch name. If not on Linear branch -> prompt `/yux-linear-start`
 3. Fetch issue via `mcp__linear__get_issue(id: "LIN-xxx")`
-4. Check changes: `git status --porcelain`. If clean -> exit
+4. Check changes: `git status --porcelain`
+   - If changes exist -> continue to Step 2
+   - If clean -> run **Clean Status Check** below, then exit (do NOT continue to Step 2)
+
+#### Clean Status Check (no uncommitted changes)
+
+1. Run `git log origin/main..HEAD --oneline`. If empty (no commits on branch), say "No uncommitted changes and no commits on this branch yet" and exit.
+2. Get last commit: `git log -1 --format="%H %s"` (full hash + subject)
+3. Fetch comments: `mcp__linear__list_comments(issueId: "<uuid from step 1.3>")`
+4. Search comment bodies for the last commit hash substring
+5. **If found** (commit already synced):
+   ```
+   === No Changes ===
+
+   Last commit:  <short-hash> - <subject> (synced to Linear ✓)
+   Issue:        LIN-xxx - <title> (<status>)
+
+   Next: keep coding, or /yux-linear-pr when ready
+   ```
+6. **If not found** (commit not synced):
+   Use AskUserQuestion: "Last commit `<short-hash> - <subject>` hasn't been synced to Linear yet. Sync now?"
+   - Yes -> execute Step 9 (Sync to Linear) for this commit, then show summary
+   - No -> show summary with "Synced: skipped"
 
 ### Step 2: Display Changes
 
