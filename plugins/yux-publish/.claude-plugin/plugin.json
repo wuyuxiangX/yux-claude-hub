@@ -1,6 +1,6 @@
 {
   "name": "yux-publish",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Multi-platform content publishing. Supports WeChat Official Account, Zhihu, and Xiaohongshu with extensible platform architecture.",
   "author": {
     "name": "wuyuxiangX",
