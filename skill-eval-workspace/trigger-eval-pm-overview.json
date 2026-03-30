@@ -1,0 +1,22 @@
+[
+  {"query": "pm overview — show me the initiative dashboard", "should_trigger": true},
+  {"query": "how is the initiative going? show the health score", "should_trigger": true},
+  {"query": "pm dashboard — I want to see sprint progress and project breakdown", "should_trigger": true},
+  {"query": "pm status — what's the overall initiative health?", "should_trigger": true},
+  {"query": "项目概览 — 看看各个子项目的进度", "should_trigger": true},
+  {"query": "initiative status — any attention items I should know about?", "should_trigger": true},
+  {"query": "show me the PM-level overview of our current sprint", "should_trigger": true},
+  {"query": "/yux-pm-overview", "should_trigger": true},
+  {"query": "linear status — what task am I working on?", "should_trigger": false},
+  {"query": "check my active tasks across worktrees", "should_trigger": false},
+  {"query": "triage inbox issues and classify by priority", "should_trigger": false},
+  {"query": "plan the next sprint with capacity calculation", "should_trigger": false},
+  {"query": "create a PRD for the search feature", "should_trigger": false},
+  {"query": "what's the status of the Kubernetes cluster?", "should_trigger": false},
+  {"query": "show me the CI pipeline status for PR #82", "should_trigger": false},
+  {"query": "check if the deployment succeeded on staging", "should_trigger": false},
+  {"query": "initialize PM workspace and connect to Linear", "should_trigger": false},
+  {"query": "show me my git status and uncommitted changes", "should_trigger": false},
+  {"query": "what should I work on next? show backlog recommendations", "should_trigger": false},
+  {"query": "merge the PR and close the Linear issue", "should_trigger": false}
+]

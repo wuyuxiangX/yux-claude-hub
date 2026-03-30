@@ -43,122 +43,9 @@ Input: Transcript file path from $ARGUMENTS
 
 ## Step 4: Generate Output
 
-### SINGLE_FILE Mode (same language)
-
-**Filename**: `<Title>-summary-<lang>.md`
-
-```markdown
-# 视频摘要 / Video Summary: [Title]
-
-## 概览 / Overview
-| 项目 | 内容 |
-|------|------|
-| 类型 | [Type] |
-| 时长 | [Duration] |
-| 语言 | [Language] |
-| 主题 | [Topics] |
-| 发言人 | [Speakers] (if applicable) |
-
-## 执行摘要 / Executive Summary
-[2-3 paragraphs in user_language]
-
-## 关键要点 / Key Points
-### [Topic 1]
-- Point 1
-- Point 2
-
-### [Topic 2]
-- Point 1
-
-## 时间线 / Timeline
-- [00:00] [Description]
-- [05:30] [Description]
-
-## 重要引用 / Notable Quotes
-> "Quote 1" - [Speaker]
-
-> "Quote 2" - [Speaker]
-
-## 核心收获 / Key Takeaways
-1. Takeaway 1
-2. Takeaway 2
-3. Takeaway 3
-
-## 推荐资源 / Resources Mentioned
-- 📖 [Book/Tool/Link]
-
----
-
-# 原文整理 / Organized Transcript
-
-> 已清理语气词，按主题整理。
-
-## [00:00] 开场 / Introduction
-[Cleaned content...]
-
-## [05:30] [Topic Title]
-[Cleaned content...]
-
-## 结语 / Closing
-[Cleaned content...]
-```
-
-### DUAL_FILE Mode (different languages)
-
-**File 1**: `<Title>-summary-<user_lang>.md`
-
-```markdown
-# 视频摘要 / Video Summary: [Title]
-
-> 原视频语言: [video_lang], 本摘要语言: [user_lang]
-> 原文整理见: `<Title>-transcript-<video_lang>.md`
-
-## 概览 / Overview
-[Same structure as above, content in user_language]
-
-## 执行摘要 / Executive Summary
-[In user_language]
-
-## 关键要点 / Key Points
-[In user_language]
-
-## 时间线 / Timeline
-[Descriptions in user_language]
-
-## 重要引用 / Notable Quotes
-> "[Original quote in video_language]"
-> *翻译: [Translation in user_language]*
-
-## 核心收获 / Key Takeaways
-[In user_language]
-
-## 相关文件 / Related Files
-- 原文整理: `<Title>-transcript-<video_lang>.md`
-```
-
-**File 2**: `<Title>-transcript-<video_lang>.md`
-
-```markdown
-# 原文整理 / Organized Transcript: [Title]
-
-> 已清理语气词，按主题整理。原语言保留。
-
-## 视频信息 / Metadata
-| 项目 | 值 |
-|------|---|
-| 原语言 | [video_lang] |
-| 时长 | [Duration] |
-| 发言人 | [Speakers] |
-
-## [00:00] 开场 / Introduction
-[Cleaned original content...]
-
-## [05:30] [Topic Title]
-[Cleaned original content...]
-
-## 结语 / Closing
-[Cleaned original content...]
-```
+Follow the templates in `references/summary-templates.md` for the exact output format:
+- **SINGLE_FILE mode**: One combined file with summary + organized transcript
+- **DUAL_FILE mode**: Separate summary file (user language) + transcript file (video language)
 
 ## Step 5: Save & Report
 
@@ -171,6 +58,26 @@ Generated:
 2. Transcript: <Title>-transcript-<video_lang>.md
 Mode: Dual-file
 ```
+
+## Step 6: Completion Report
+
+```
+=== Video Summary Generated ===
+
+File(s):  <Title>-summary-<lang>.md [+ transcript file if DUAL_FILE]
+Mode:     Single-file / Dual-file
+Language: Video: <video_lang>, Summary: <user_lang>
+Sections: Overview, Key Points (N topics), Timeline (N entries), Quotes (N)
+```
+
+## Error Handling
+
+| Situation | Action |
+|-----------|--------|
+| Transcript file not found | Search for `*.txt` and `*-transcript*` in current directory. If none found, ask user for path |
+| Transcript empty or under 100 words | Warn: "Transcript too short for meaningful summary." Ask user to confirm or provide a different file |
+| Timestamp format inconsistent | Normalize to `[HH:MM:SS]` or `[MM:SS]` based on video length. If no timestamps, skip Timeline section |
+| Language detection ambiguous | Default to English. Inform user of detected language and ask to confirm |
 
 ## Quality Guidelines
 

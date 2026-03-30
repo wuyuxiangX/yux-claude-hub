@@ -1,0 +1,171 @@
+{
+  "skill_name": "yux-video-subtitle",
+  "description": "Download subtitles and transcripts from video platforms (YouTube, Bilibili, Twitter/X, etc.) using yt-dlp. Use when the user provides a video URL and wants to extract its subtitles or transcript \u2014 e.g., \"download subtitles from this video\", \"extract subtitle\", \"get the transcript of this YouTube video\", \"\u5b57\u5e55\u4e0b\u8f7d\", \"\u63d0\u53d6\u5b57\u5e55\", \"\u89c6\u9891\u5b57\u5e55\". Do NOT trigger on generic \"transcript\" mentions unrelated to video URLs (e.g., meeting transcripts, text files). After downloading, use yux-video-summary to organize the transcript.",
+  "results": [
+    {
+      "query": "extract the transcript from this YouTube tutorial, I need it as a text file",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "I need the auto-generated captions from this YouTube conference talk",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u89c6\u9891\u5b57\u5e55\u63d0\u53d6\uff0c\u8fd9\u4e2a\u94fe\u63a5 https://www.youtube.com/watch?v=abc",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u5b57\u5e55\u4e0b\u8f7d https://twitter.com/elonmusk/status/12345",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "get the subtitles from this TikTok video in Chinese",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u5e2e\u6211\u63d0\u53d6\u8fd9\u4e2aB\u7ad9\u89c6\u9891\u7684\u5b57\u5e55 https://www.bilibili.com/video/BV1xx411c7mD",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "download the English transcript from this Vimeo presentation",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "download subtitles from this video https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "can you transcribe this audio file at ~/recordings/meeting.mp3?",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "read the transcript.txt file and extract the key points discussed",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "I have a meeting transcript in transcript.txt, can you clean it up and summarize?",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "summarize the transcript I just downloaded, organize it by topics and timeline",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "translate this subtitle file from Chinese to English",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "write a blog post from the video summary we generated earlier",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "analyze the blog article and suggest where to add images",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "generate an image of a cat wearing sunglasses",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "help me fix the subtitles timing in this .srt file, they're 2 seconds off",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "commit these changes and sync to Linear",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "create a new feature PRD for the video player component",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "what's the status of my Linear tasks? show the backlog",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "passed": 12,
+    "failed": 8
+  }
+}

@@ -1,0 +1,22 @@
+[
+  {"query": "write a blog post from this video summary", "should_trigger": true},
+  {"query": "把这个视频摘要写成博客文章", "should_trigger": true},
+  {"query": "generate article from the summary file at ./output/summary.md", "should_trigger": true},
+  {"query": "blog from video — turn this summary into a publishable post", "should_trigger": true},
+  {"query": "写博客，用之前整理的视频摘要", "should_trigger": true},
+  {"query": "create a blog post from the video summary, use casual style", "should_trigger": true},
+  {"query": "生成文章 — 基于之前的视频内容总结", "should_trigger": true},
+  {"query": "I have a video summary ready, help me turn it into a blog article", "should_trigger": true},
+  {"query": "help me write a blog post about React hooks from scratch", "should_trigger": false},
+  {"query": "summarize this video transcript into key points", "should_trigger": false},
+  {"query": "download subtitles from this YouTube video", "should_trigger": false},
+  {"query": "analyze this article for image placement", "should_trigger": false},
+  {"query": "proofread my blog draft and fix grammar issues", "should_trigger": false},
+  {"query": "translate this blog post from Chinese to English", "should_trigger": false},
+  {"query": "upload the blog images to OSS", "should_trigger": false},
+  {"query": "write documentation for this API endpoint", "should_trigger": false},
+  {"query": "create a README for this project", "should_trigger": false},
+  {"query": "write a technical design document for the new feature", "should_trigger": false},
+  {"query": "generate an image for my blog header", "should_trigger": false},
+  {"query": "help me draft a newsletter about our latest release", "should_trigger": false}
+]

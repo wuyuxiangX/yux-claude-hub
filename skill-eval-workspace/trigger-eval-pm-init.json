@@ -1,0 +1,22 @@
+[
+  {"query": "pm init — set up my PM workspace for the new initiative", "should_trigger": true},
+  {"query": "initialize the Linear PM configuration", "should_trigger": true},
+  {"query": "setup pm workspace and connect to Linear", "should_trigger": true},
+  {"query": "configure initiative — I need to pick sub-projects and set up pm-config", "should_trigger": true},
+  {"query": "linear pm init", "should_trigger": true},
+  {"query": "reconfigure my PM workspace, I want to switch to a different initiative", "should_trigger": true},
+  {"query": "设置 PM 工作空间", "should_trigger": true},
+  {"query": "/yux-pm-init", "should_trigger": true},
+  {"query": "pm overview — show me the initiative dashboard", "should_trigger": false},
+  {"query": "triage the inbox issues", "should_trigger": false},
+  {"query": "plan the next sprint", "should_trigger": false},
+  {"query": "create a PRD for the new auth feature", "should_trigger": false},
+  {"query": "start working on LIN-123", "should_trigger": false},
+  {"query": "initialize a new Node.js project with npm init", "should_trigger": false},
+  {"query": "set up the development environment for the frontend project", "should_trigger": false},
+  {"query": "configure ESLint and Prettier for the repo", "should_trigger": false},
+  {"query": "show the project status and health metrics", "should_trigger": false},
+  {"query": "help me set up CI/CD for this repository", "should_trigger": false},
+  {"query": "create a new Linear issue for the homepage redesign", "should_trigger": false},
+  {"query": "commit changes and sync to Linear", "should_trigger": false}
+]

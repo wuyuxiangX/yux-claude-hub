@@ -1,0 +1,171 @@
+{
+  "skill_name": "yux-nano-banana",
+  "description": "Generate standalone images using OpenRouter API with Google Gemini models. Use for any general-purpose image generation or editing request \u2014 e.g., \"generate an image of...\", \"create image\", \"draw a...\", \"nano banana\", \"make an infographic\", \"\u751f\u6210\u56fe\u7247\", \"\u753b\u56fe\", \"\u753b\u4e00\u4e2a...\", \"\u4fe1\u606f\u5361\u7247\", \"\u79d1\u666e\u5361\u7247\". Supports text-to-image, image editing, and style presets (infographic cards). This is the go-to skill for standalone image creation. Do NOT use when the user wants to add images to an existing blog article (use yux-blog-image instead).",
+  "results": [
+    {
+      "query": "I have this photo at ~/Desktop/headshot.png, can you edit it to add a professional background?",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "nano banana draw me a sunset over mountains with dramatic lighting",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "I need to generate an infographic about climate change with hand-drawn style, something warm and approachable",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "generate a quick image of a loading spinner concept, use flash model for speed",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "can you create an image? I want a cute cartoon robot holding a coffee cup, maybe in a flat design style",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u5e2e\u6211\u753b\u4e00\u5f20\u732b\u54aa\u7684\u63d2\u753b\uff0c\u6c34\u5f69\u98ce\u683c\u7684",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u753b\u4e00\u4e2a\u624b\u7ed8\u98ce\u683c\u7684\u4fe1\u606f\u5361\u7247\uff0c\u4ecb\u7ecd5\u79cd\u5e38\u89c1\u7684\u8bbe\u8ba1\u6a21\u5f0f",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u751f\u6210\u4e00\u5f20\u79d1\u666e\u5361\u7247\uff0c\u4e3b\u9898\u662f\u91cf\u5b50\u8ba1\u7b97\u7684\u57fa\u672c\u539f\u7406",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u6211\u5199\u4e86\u4e00\u7bc7\u5173\u4e8e React hooks \u7684\u535a\u5ba2\u6587\u7ae0\uff0c\u5e2e\u6211\u5206\u6790\u4e00\u4e0b\u54ea\u4e9b\u5730\u65b9\u9700\u8981\u63d2\u5165\u914d\u56fe",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "analyze my article at ./posts/2024-ai-trends.md and suggest where to put images",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "upload the generated images to alibaba cloud oss and update the article with cdn urls",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "\u5e2e\u6211\u628a\u8fd9\u4e2a\u89c6\u9891\u7684\u5b57\u5e55\u4e0b\u8f7d\u4e0b\u6765 https://youtube.com/watch?v=abc123",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "\u5e2e\u6211\u628a\u8fd9\u51e0\u5f20\u672c\u5730\u56fe\u7247\u4e0a\u4f20\u5230 OSS",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "fix the CSS layout issue in my React component, the grid isn't aligning properly",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "generate article images for my blog post about kubernetes, use the existing plan",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "show me the status of my current Linear tasks",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "I need to write a blog post about the latest AI developments, can you help me draft it?",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "help me review and optimize the database queries in src/api/users.ts",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "create a new Linear issue for the homepage redesign feature",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "summarize the video transcript I just downloaded, organize it by topics",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "passed": 13,
+    "failed": 7
+  }
+}

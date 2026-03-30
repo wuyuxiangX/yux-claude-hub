@@ -1,0 +1,171 @@
+{
+  "skill_name": "yux-blog-oss",
+  "description": "Upload images to Alibaba Cloud OSS and replace local paths with CDN URLs in blog articles. Use when the user wants to upload blog images to OSS \u2014 e.g., \"upload to oss\", \"upload images to oss\", \"\u4e0a\u4f20\u5230oss\", \"\u4e0a\u4f20\u535a\u5ba2\u56fe\u7247\". Supports batch upload from blog image plans or manual file upload. Automatically updates article markdown with CDN URLs after upload.",
+  "results": [
+    {
+      "query": "upload to oss and update the markdown article with new URLs",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "upload images to oss and replace the local paths with CDN URLs",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u628a\u751f\u6210\u7684\u914d\u56fe\u4e0a\u4f20\u5230 OSS\uff0c\u7136\u540e\u66f4\u65b0\u6587\u7ae0\u94fe\u63a5",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "batch upload all generated article images to OSS",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "upload these blog images to OSS",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "\u4e0a\u4f20\u535a\u5ba2\u56fe\u7247\u5230\u963f\u91cc\u4e91 OSS",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "oss upload the images from the image plan",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u5e2e\u6211\u628a\u8fd9\u4e9b\u56fe\u7247\u4e0a\u4f20\u5230 OSS",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "analyze this article and suggest where to add images",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "upload this file to S3 bucket",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "write a blog article from the video summary",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "download subtitles from YouTube",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "deploy the static site to Cloudflare Pages",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "help me configure my aliyun CLI credentials",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "generate an image of a mountain landscape",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "compress these PNG images to reduce file size",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "commit changes and push to remote",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "show the status of my Linear tasks",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "upload code artifacts to npm registry",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "generate article images for my blog post",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "passed": 14,
+    "failed": 6
+  }
+}

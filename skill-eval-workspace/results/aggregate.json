@@ -1,0 +1,1244 @@
+{
+  "summary": {
+    "total_skills": 7,
+    "total_cases": 141,
+    "total_passed": 90,
+    "overall_rate": 63.8,
+    "true_positive_rate": 8.9,
+    "true_negative_rate": 100.0
+  },
+  "per_skill": {
+    "trigger-eval-blog-image": {
+      "skill_name": "yux-blog-image",
+      "description": "Analyze a blog article's structure to plan optimal image placement, then generate and insert AI images. This is the blog-specific image workflow — it reads a markdown article, identifies where images should go, creates a plan, and generates images that fit each section. Use when the user wants images added to an existing article — e.g., \"analyze article images\", \"suggest images for this post\", \"generate article images\", \"分析文章配图\", \"生成文章配图\", \"插入文章配图\". Do NOT use for standalone image generation (use yux-nano-banana instead). After generating, use yux-blog-oss to upload images to CDN.",
+      "results": [
+        {
+          "query": "analyze my article at ./posts/react-hooks.md and suggest where to put images",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "suggest images for this blog post about kubernetes deployment",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "文章插图分析 — 帮我看看这篇关于 Rust 的文章需要哪些图",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "帮我分析这篇博客文章，看看哪些地方需要插入配图",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "article image plan for my latest post on microservices architecture",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "generate article images based on the image plan we created earlier",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "插入文章配图，用之前的配图方案",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "I have a blog post about AI trends, can you plan where images should go?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "write a blog post from the video summary",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "upload the generated images to OSS and update the article links",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "resize the images in my assets folder to 800px width",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "fix the broken image links in my markdown file",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "download subtitles from this YouTube video",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "帮我画一张信息卡片，主题是量子计算",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "create an infographic about design patterns",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "generate an image of a cute robot holding a coffee cup",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "show me my Linear task status",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "help me optimize the image loading performance in my React app",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "commit these changes and sync to Linear",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "summarize this video transcript",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "nano banana draw a sunset landscape",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        }
+      ],
+      "summary": {
+        "total": 21,
+        "passed": 13,
+        "failed": 8
+      }
+    },
+    "trigger-eval-blog-oss": {
+      "skill_name": "yux-blog-oss",
+      "description": "Upload images to Alibaba Cloud OSS and replace local paths with CDN URLs in blog articles. Use when the user wants to upload blog images to OSS — e.g., \"upload to oss\", \"upload images to oss\", \"上传到oss\", \"上传博客图片\". Supports batch upload from blog image plans or manual file upload. Automatically updates article markdown with CDN URLs after upload.",
+      "results": [
+        {
+          "query": "upload to oss and update the markdown article with new URLs",
+          "should_trigger": true,
+          "trigger_rate": 1.0,
+          "triggers": 1,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "upload images to oss and replace the local paths with CDN URLs",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "把生成的配图上传到 OSS，然后更新文章链接",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "batch upload all generated article images to OSS",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "upload these blog images to OSS",
+          "should_trigger": true,
+          "trigger_rate": 1.0,
+          "triggers": 1,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "上传博客图片到阿里云 OSS",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "oss upload the images from the image plan",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "帮我把这些图片上传到 OSS",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "analyze this article and suggest where to add images",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "upload this file to S3 bucket",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "write a blog article from the video summary",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "download subtitles from YouTube",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "deploy the static site to Cloudflare Pages",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "help me configure my aliyun CLI credentials",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "generate an image of a mountain landscape",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "compress these PNG images to reduce file size",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "commit changes and push to remote",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "show the status of my Linear tasks",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "upload code artifacts to npm registry",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "generate article images for my blog post",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        }
+      ],
+      "summary": {
+        "total": 20,
+        "passed": 14,
+        "failed": 6
+      }
+    },
+    "trigger-eval-blog-writer": {
+      "skill_name": "yux-blog-writer",
+      "description": "Generate a polished blog article from a video summary file. Use when the user has a summary (typically from yux-video-summary) and wants to turn it into a publishable blog post — e.g., \"write a blog from this summary\", \"generate article\", \"blog from video\", \"写博客\", \"生成文章\", \"把摘要写成文章\". Offers multiple writing styles (Technical, Casual, News). Do NOT use for writing articles from scratch without a video summary source — this skill specifically transforms video summaries into blog format. After writing, use yux-blog-image to add illustrations.",
+      "results": [
+        {
+          "query": "把这个视频摘要写成博客文章",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "blog from video — turn this summary into a publishable post",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "generate article from the summary file at ./output/summary.md",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "写博客，用之前整理的视频摘要",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "create a blog post from the video summary, use casual style",
+          "should_trigger": true,
+          "trigger_rate": 1.0,
+          "triggers": 1,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "生成文章 — 基于之前的视频内容总结",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "write a blog post from this video summary",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "I have a video summary ready, help me turn it into a blog article",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "download subtitles from this YouTube video",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "summarize this video transcript into key points",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "proofread my blog draft and fix grammar issues",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "analyze this article for image placement",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "upload the blog images to OSS",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "write documentation for this API endpoint",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "translate this blog post from Chinese to English",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "help me write a blog post about React hooks from scratch",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "create a README for this project",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "write a technical design document for the new feature",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "help me draft a newsletter about our latest release",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "generate an image for my blog header",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        }
+      ],
+      "summary": {
+        "total": 20,
+        "passed": 13,
+        "failed": 7
+      }
+    },
+    "trigger-eval-linear-commit": {
+      "skill_name": "yux-linear-commit",
+      "description": "Commit changes with auto-generated conventional commit messages and sync progress to Linear. Use when the user is on a Linear task branch (LIN-xxx) and wants to commit — e.g., \"linear commit\", \"commit and sync to linear\", \"save progress\", \"提交代码\", or \"/yux-linear-commit\". Auto-generates commit message, pushes to remote, and posts commit info as a Linear comment. Do NOT use for regular git commits outside of Linear workflow — only activate when on a LIN-xxx branch or when the user explicitly mentions Linear. When ready for review, use yux-linear-pr to create a pull request.",
+      "results": [
+        {
+          "query": "stage and commit the auth middleware changes, sync to linear",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "提交代码并同步到 Linear issue",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "I'm on feat/LIN-123-auth branch, commit these files and update the Linear issue",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "linear commit — push these changes and sync to the issue",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "linear commit --no-push, just stage and commit locally",
+          "should_trigger": true,
+          "trigger_rate": 1.0,
+          "triggers": 1,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "commit my changes — I'm working on the Linear task for the search feature",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "commit and sync progress, I just finished the API endpoint",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "save progress on LIN-456 and push to remote",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "commit this bugfix with message 'fix: resolve null pointer in parser'",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "git commit -m 'update readme with installation instructions'",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "what's in the last 5 commits? show me the git log",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "create a PR for my current branch and submit for review",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "help me write a good commit message for these changes to the test suite",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "merge the feature branch into main",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "squash the last 3 commits into one before pushing",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "I need to amend the last commit message, I made a typo",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "deploy the latest changes to staging environment",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "check the CI pipeline status for the latest push",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "revert the last commit, it broke the build",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "start working on LIN-789, create a new worktree",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        }
+      ],
+      "summary": {
+        "total": 20,
+        "passed": 13,
+        "failed": 7
+      }
+    },
+    "trigger-eval-linear-merge": {
+      "error": "Error: No SKILL.md found at /Users/wyx/code/Project/yux-claude-hub/plugins/yux-linear-workflow/skills/yux-linear-merge\n"
+    },
+    "trigger-eval-linear-pr": {
+      "error": "Error: No SKILL.md found at /Users/wyx/code/Project/yux-claude-hub/plugins/yux-linear-workflow/skills/yux-linear-pr\n"
+    },
+    "trigger-eval-linear-start": {
+      "error": "Error: No SKILL.md found at /Users/wyx/code/Project/yux-claude-hub/plugins/yux-linear-workflow/skills/yux-linear-start\n"
+    },
+    "trigger-eval-linear-status": {
+      "error": "Error: No SKILL.md found at /Users/wyx/code/Project/yux-claude-hub/plugins/yux-linear-workflow/skills/yux-linear-status\n"
+    },
+    "trigger-eval-nano-banana": {
+      "skill_name": "yux-nano-banana",
+      "description": "Generate standalone images using OpenRouter API with Google Gemini models. Use for any general-purpose image generation or editing request — e.g., \"generate an image of...\", \"create image\", \"draw a...\", \"nano banana\", \"make an infographic\", \"生成图片\", \"画图\", \"画一个...\", \"信息卡片\", \"科普卡片\". Supports text-to-image, image editing, and style presets (infographic cards). This is the go-to skill for standalone image creation. Do NOT use when the user wants to add images to an existing blog article (use yux-blog-image instead).",
+      "results": [
+        {
+          "query": "I have this photo at ~/Desktop/headshot.png, can you edit it to add a professional background?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "nano banana draw me a sunset over mountains with dramatic lighting",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "I need to generate an infographic about climate change with hand-drawn style, something warm and approachable",
+          "should_trigger": true,
+          "trigger_rate": 1.0,
+          "triggers": 1,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "generate a quick image of a loading spinner concept, use flash model for speed",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "can you create an image? I want a cute cartoon robot holding a coffee cup, maybe in a flat design style",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "帮我画一张猫咪的插画，水彩风格的",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "画一个手绘风格的信息卡片，介绍5种常见的设计模式",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "生成一张科普卡片，主题是量子计算的基本原理",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "我写了一篇关于 React hooks 的博客文章，帮我分析一下哪些地方需要插入配图",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "analyze my article at ./posts/2024-ai-trends.md and suggest where to put images",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "upload the generated images to alibaba cloud oss and update the article with cdn urls",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "帮我把这个视频的字幕下载下来 https://youtube.com/watch?v=abc123",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "帮我把这几张本地图片上传到 OSS",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "fix the CSS layout issue in my React component, the grid isn't aligning properly",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "generate article images for my blog post about kubernetes, use the existing plan",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "show me the status of my current Linear tasks",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "I need to write a blog post about the latest AI developments, can you help me draft it?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "help me review and optimize the database queries in src/api/users.ts",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "create a new Linear issue for the homepage redesign feature",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "summarize the video transcript I just downloaded, organize it by topics",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        }
+      ],
+      "summary": {
+        "total": 20,
+        "passed": 13,
+        "failed": 7
+      }
+    },
+    "trigger-eval-pm-init": {
+      "error": "Error: No SKILL.md found at /Users/wyx/code/Project/yux-claude-hub/plugins/yux-linear-pm/skills/yux-pm-init\n"
+    },
+    "trigger-eval-pm-overview": {
+      "error": "Error: No SKILL.md found at /Users/wyx/code/Project/yux-claude-hub/plugins/yux-linear-pm/skills/yux-pm-overview\n"
+    },
+    "trigger-eval-pm-plan": {
+      "error": "Error: No SKILL.md found at /Users/wyx/code/Project/yux-claude-hub/plugins/yux-linear-pm/skills/yux-pm-plan\n"
+    },
+    "trigger-eval-pm-prd": {
+      "error": "Error: No SKILL.md found at /Users/wyx/code/Project/yux-claude-hub/plugins/yux-linear-pm/skills/yux-pm-prd\n"
+    },
+    "trigger-eval-pm-triage": {
+      "error": "Error: No SKILL.md found at /Users/wyx/code/Project/yux-claude-hub/plugins/yux-linear-pm/skills/yux-pm-triage\n"
+    },
+    "trigger-eval-video-subtitle": {
+      "skill_name": "yux-video-subtitle",
+      "description": "Download subtitles and transcripts from video platforms (YouTube, Bilibili, Twitter/X, etc.) using yt-dlp. Use when the user provides a video URL and wants to extract its subtitles or transcript — e.g., \"download subtitles from this video\", \"extract subtitle\", \"get the transcript of this YouTube video\", \"字幕下载\", \"提取字幕\", \"视频字幕\". Do NOT trigger on generic \"transcript\" mentions unrelated to video URLs (e.g., meeting transcripts, text files). After downloading, use yux-video-summary to organize the transcript.",
+      "results": [
+        {
+          "query": "extract the transcript from this YouTube tutorial, I need it as a text file",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "I need the auto-generated captions from this YouTube conference talk",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "视频字幕提取，这个链接 https://www.youtube.com/watch?v=abc",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "字幕下载 https://twitter.com/elonmusk/status/12345",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "get the subtitles from this TikTok video in Chinese",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "帮我提取这个B站视频的字幕 https://www.bilibili.com/video/BV1xx411c7mD",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "download the English transcript from this Vimeo presentation",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "download subtitles from this video https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "can you transcribe this audio file at ~/recordings/meeting.mp3?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "read the transcript.txt file and extract the key points discussed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "I have a meeting transcript in transcript.txt, can you clean it up and summarize?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "summarize the transcript I just downloaded, organize it by topics and timeline",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "translate this subtitle file from Chinese to English",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "write a blog post from the video summary we generated earlier",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "analyze the blog article and suggest where to add images",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "generate an image of a cat wearing sunglasses",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "help me fix the subtitles timing in this .srt file, they're 2 seconds off",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "commit these changes and sync to Linear",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "create a new feature PRD for the video player component",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "what's the status of my Linear tasks? show the backlog",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        }
+      ],
+      "summary": {
+        "total": 20,
+        "passed": 12,
+        "failed": 8
+      }
+    },
+    "trigger-eval-video-summary": {
+      "skill_name": "yux-video-summary",
+      "description": "Transform a video transcript file into a structured, organized summary with key points, timeline, and cleaned transcript. Use when the user has a transcript file (typically from yux-video-subtitle) and wants it summarized — e.g., \"summarize this video\", \"organize the transcript\", \"video summary\", \"整理视频\", \"视频摘要\", \"内容总结\". Supports bilingual output when video language differs from user language. Do NOT use for summarizing articles, documents, or non-video content. To convert the summary into a blog post, use yux-blog-writer.",
+      "results": [
+        {
+          "query": "video summary — clean up and organize the transcript at ./transcript.txt",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "organize the transcript I just downloaded, extract key points and timeline",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "视频摘要 — 帮我整理这个视频的内容",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "summarize this video transcript, organize by topics",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "内容总结 — 把这个视频字幕整理成结构化的摘要",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "summarize the video, I need bilingual output since it's in English",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "整理视频内容，按主题归类",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "help me create a structured summary from this YouTube transcript",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": false
+        },
+        {
+          "query": "download subtitles from this video https://youtube.com/watch?v=abc",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "summarize this PDF document about machine learning",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "summarize the changes in this pull request",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "read this meeting transcript and extract action items",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "write a blog post from the video summary",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "analyze the article and suggest image placement",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "translate the transcript from English to Chinese",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "create an executive summary for this quarterly report",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "show me a summary of my Linear sprint progress",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "summarize the git log for the past week",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "help me condense this 50-page research paper into key findings",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        },
+        {
+          "query": "generate an infographic summarizing key data points",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 1,
+          "pass": true
+        }
+      ],
+      "summary": {
+        "total": 20,
+        "passed": 12,
+        "failed": 8
+      }
+    }
+  }
+}

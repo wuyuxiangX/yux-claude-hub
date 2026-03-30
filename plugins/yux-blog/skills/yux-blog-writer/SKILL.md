@@ -191,5 +191,6 @@ Building AI agents is no longer just for research labs...
 ## Error Handling
 
 - **No summary available**: Ask user to run yux-video-summary first
-- **Incomplete content**: Warn about potentially thin article
-- **Style not selected**: Default to Casual Explainer after timeout
+- **Summary under 200 words**: Warn that the article may be thin. Ask user to confirm or provide additional content
+- **Style not selected**: If user does not respond, ask once more, then default to Casual Explainer
+- **Quality check fails**: Revise the failing sections before saving — do not save a draft that fails checks

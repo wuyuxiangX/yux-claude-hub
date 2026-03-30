@@ -1,0 +1,22 @@
+[
+  {"query": "start working on LIN-123, the user authentication issue", "should_trigger": true},
+  {"query": "linear start — pick up LIN-456 and create a worktree", "should_trigger": true},
+  {"query": "begin task LIN-789", "should_trigger": true},
+  {"query": "work on LIN-234 — set up the branch and worktree", "should_trigger": true},
+  {"query": "开始任务 LIN-567", "should_trigger": true},
+  {"query": "/yux-linear-start", "should_trigger": true},
+  {"query": "new task — I want to work on the search feature issue from Linear", "should_trigger": true},
+  {"query": "start the next task from my Linear backlog", "should_trigger": true},
+  {"query": "commit changes and sync to Linear", "should_trigger": false},
+  {"query": "create a PR for this Linear branch", "should_trigger": false},
+  {"query": "merge the PR and close the issue", "should_trigger": false},
+  {"query": "show my active Linear tasks", "should_trigger": false},
+  {"query": "create a new git branch for the feature", "should_trigger": false},
+  {"query": "start a new React project with create-react-app", "should_trigger": false},
+  {"query": "initialize a new Node.js project", "should_trigger": false},
+  {"query": "create a new Linear issue for the homepage redesign", "should_trigger": false},
+  {"query": "pm init — set up the PM workspace", "should_trigger": false},
+  {"query": "check the CI status for my latest push", "should_trigger": false},
+  {"query": "triage the inbox issues", "should_trigger": false},
+  {"query": "what should I work on next? show backlog recommendations", "should_trigger": false}
+]

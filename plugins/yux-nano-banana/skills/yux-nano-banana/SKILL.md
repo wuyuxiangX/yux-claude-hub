@@ -10,14 +10,7 @@ Generate images using OpenRouter API with Google Gemini models.
 
 ## CRITICAL: Image Data Safety Rules
 
-The API response contains ~1MB base64-encoded image data. If this data is printed to stdout, Claude Code's bash tool will attempt to process it as an image, causing `"Could not process image"` API errors and task failure.
-
-**Rules:**
-1. **NEVER** output raw base64/data-URI content to stdout — always redirect jq output to a file
-2. **NEVER** use `head`, `cat`, `less`, or `tail` on files containing base64 image data
-3. **NEVER** run jq commands that extract `image_url.url` without redirecting to a file (e.g., `> /tmp/file.txt`)
-4. **Validate** image extraction by checking **file size** (`wc -c`), not by inspecting content
-5. **NEVER** explore the response structure with commands like `jq '.choices[0].message | keys'` — the structure is documented below and does not vary
+**Read `references/image-data-safety.md` before any API call.** It contains safety rules, the fixed API response structure, and common mistakes to avoid.
 
 ## Output Directory
 
@@ -131,13 +124,19 @@ curl -s -o /tmp/nano-banana-response.json -w "%{http_code}" \
 
 For **image editing** (user provides a source image):
 
-1. First encode the source image to base64:
+1. First verify the source file exists and is a valid image:
+   ```bash
+   ls "$SOURCE_IMAGE" && file --mime-type "$SOURCE_IMAGE"
+   ```
+   If the file does not exist or is not an image, inform the user and stop.
+
+2. Encode the source image to base64:
    ```bash
    base64 < /path/to/source.png | tr -d '\n'
    ```
-   Store the result in a variable. Detect the MIME type using `file --mime-type`.
+   Store the result in a variable.
 
-2. Then build the request with the image inline:
+3. Then build the request with the image inline:
    ```bash
    curl -s -o /tmp/nano-banana-response.json -w "%{http_code}" \
      https://openrouter.ai/api/v1/chat/completions \
@@ -183,21 +182,14 @@ Check the HTTP status code returned by curl:
 
 ### 5.2 Validate image exists in response
 
-The API response structure is fixed and does NOT vary:
-- `choices[0].message.content` = empty string (NOT an array — do not try `content[0]`)
-- `choices[0].message.images` = array of image objects
-- Each image object: `{ "image_url": { "url": "data:image/jpeg;base64,..." } }`
-
-Validate that the response contains images (this outputs only a safe integer):
+Validate image count (see `references/image-data-safety.md` for response structure):
 
 ```bash
 jq -r '.choices[0].message.images | length' /tmp/nano-banana-response.json
 ```
 
-- If the result is `0`, `null`, or the command fails → the content was safety-filtered. Inform the user and stop.
-- If the result is `1` or more → proceed to extraction.
-
-**DO NOT** run any other jq commands to explore the response structure. The path is always `.choices[0].message.images[0].image_url.url`.
+- If `0`, `null`, or fails → safety-filtered. Inform the user and stop.
+- If `1` or more → proceed to extraction.
 
 ### 5.3 Extract, decode, and save (single pipeline)
 
@@ -232,19 +224,14 @@ rm -f /tmp/nano-banana-response.json /tmp/nano-banana-request.json
 ## Step 6: Output Results
 
 Display the result:
-- **File path**: Full path to the saved image
-- **File size**: Human-readable size (e.g., "256 KB")
-- **Model used**: The model ID that was used
 
-## Common Mistakes — DO NOT DO THESE
+```
+=== Image Generated ===
 
-| Anti-pattern | Why it fails | Correct approach |
-|-------------|-------------|-----------------|
-| `jq -r '.choices[0].message.images[0].image_url.url' response.json` (no redirect) | Outputs ~1MB base64 to stdout → Claude tries to process as image → API error | Always pipe to `sed` + `base64 -D > file` |
-| `jq ... \| head -c 50` to "peek" at data | Even 50 chars of `data:image/...` triggers image processing | Validate with `jq '... \| length'` (returns integer) |
-| `jq '.choices[0].message \| keys'` to explore structure | Encourages further exploration; structure is fixed | Trust the documented path: `.choices[0].message.images[0].image_url.url` |
-| `jq -r '.choices[0].message.content[0]...'` | `content` is an empty string, NOT an array | Use `.choices[0].message.images[0].image_url.url` |
-| `cat /tmp/nano-banana-b64.txt` | Dumps base64 to stdout | Use `wc -c < file` to check size |
+File:   /path/to/nano-banana-20260329-143022.png
+Size:   256 KB
+Model:  google/gemini-3-pro-image-preview
+```
 
 ## Error Handling Summary
 

@@ -1,0 +1,171 @@
+{
+  "skill_name": "yux-video-summary",
+  "description": "Transform a video transcript file into a structured, organized summary with key points, timeline, and cleaned transcript. Use when the user has a transcript file (typically from yux-video-subtitle) and wants it summarized \u2014 e.g., \"summarize this video\", \"organize the transcript\", \"video summary\", \"\u6574\u7406\u89c6\u9891\", \"\u89c6\u9891\u6458\u8981\", \"\u5185\u5bb9\u603b\u7ed3\". Supports bilingual output when video language differs from user language. Do NOT use for summarizing articles, documents, or non-video content. To convert the summary into a blog post, use yux-blog-writer.",
+  "results": [
+    {
+      "query": "video summary \u2014 clean up and organize the transcript at ./transcript.txt",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "organize the transcript I just downloaded, extract key points and timeline",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u89c6\u9891\u6458\u8981 \u2014 \u5e2e\u6211\u6574\u7406\u8fd9\u4e2a\u89c6\u9891\u7684\u5185\u5bb9",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "summarize this video transcript, organize by topics",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u5185\u5bb9\u603b\u7ed3 \u2014 \u628a\u8fd9\u4e2a\u89c6\u9891\u5b57\u5e55\u6574\u7406\u6210\u7ed3\u6784\u5316\u7684\u6458\u8981",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "summarize the video, I need bilingual output since it's in English",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u6574\u7406\u89c6\u9891\u5185\u5bb9\uff0c\u6309\u4e3b\u9898\u5f52\u7c7b",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "help me create a structured summary from this YouTube transcript",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "download subtitles from this video https://youtube.com/watch?v=abc",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "summarize this PDF document about machine learning",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "summarize the changes in this pull request",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "read this meeting transcript and extract action items",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "write a blog post from the video summary",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "analyze the article and suggest image placement",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "translate the transcript from English to Chinese",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "create an executive summary for this quarterly report",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "show me a summary of my Linear sprint progress",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "summarize the git log for the past week",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "help me condense this 50-page research paper into key findings",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "generate an infographic summarizing key data points",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "passed": 12,
+    "failed": 8
+  }
+}

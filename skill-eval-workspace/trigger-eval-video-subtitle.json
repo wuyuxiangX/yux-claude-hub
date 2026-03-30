@@ -1,0 +1,22 @@
+[
+  {"query": "download subtitles from this video https://www.youtube.com/watch?v=dQw4w9WgXcQ", "should_trigger": true},
+  {"query": "帮我提取这个B站视频的字幕 https://www.bilibili.com/video/BV1xx411c7mD", "should_trigger": true},
+  {"query": "extract the transcript from this YouTube tutorial, I need it as a text file", "should_trigger": true},
+  {"query": "字幕下载 https://twitter.com/elonmusk/status/12345", "should_trigger": true},
+  {"query": "get the subtitles from this TikTok video in Chinese", "should_trigger": true},
+  {"query": "I need the auto-generated captions from this YouTube conference talk", "should_trigger": true},
+  {"query": "视频字幕提取，这个链接 https://www.youtube.com/watch?v=abc", "should_trigger": true},
+  {"query": "download the English transcript from this Vimeo presentation", "should_trigger": true},
+  {"query": "summarize the transcript I just downloaded, organize it by topics and timeline", "should_trigger": false},
+  {"query": "can you transcribe this audio file at ~/recordings/meeting.mp3?", "should_trigger": false},
+  {"query": "I have a meeting transcript in transcript.txt, can you clean it up and summarize?", "should_trigger": false},
+  {"query": "write a blog post from the video summary we generated earlier", "should_trigger": false},
+  {"query": "translate this subtitle file from Chinese to English", "should_trigger": false},
+  {"query": "read the transcript.txt file and extract the key points discussed", "should_trigger": false},
+  {"query": "analyze the blog article and suggest where to add images", "should_trigger": false},
+  {"query": "generate an image of a cat wearing sunglasses", "should_trigger": false},
+  {"query": "help me fix the subtitles timing in this .srt file, they're 2 seconds off", "should_trigger": false},
+  {"query": "what's the status of my Linear tasks? show the backlog", "should_trigger": false},
+  {"query": "commit these changes and sync to Linear", "should_trigger": false},
+  {"query": "create a new feature PRD for the video player component", "should_trigger": false}
+]

@@ -1,0 +1,171 @@
+{
+  "skill_name": "yux-linear-commit",
+  "description": "Commit changes with auto-generated conventional commit messages and sync progress to Linear. Use when the user is on a Linear task branch (LIN-xxx) and wants to commit \u2014 e.g., \"linear commit\", \"commit and sync to linear\", \"save progress\", \"\u63d0\u4ea4\u4ee3\u7801\", or \"/yux-linear-commit\". Auto-generates commit message, pushes to remote, and posts commit info as a Linear comment. Do NOT use for regular git commits outside of Linear workflow \u2014 only activate when on a LIN-xxx branch or when the user explicitly mentions Linear. When ready for review, use yux-linear-pr to create a pull request.",
+  "results": [
+    {
+      "query": "stage and commit the auth middleware changes, sync to linear",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "\u63d0\u4ea4\u4ee3\u7801\u5e76\u540c\u6b65\u5230 Linear issue",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "I'm on feat/LIN-123-auth branch, commit these files and update the Linear issue",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "linear commit \u2014 push these changes and sync to the issue",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "linear commit --no-push, just stage and commit locally",
+      "should_trigger": true,
+      "trigger_rate": 1.0,
+      "triggers": 1,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "commit my changes \u2014 I'm working on the Linear task for the search feature",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "commit and sync progress, I just finished the API endpoint",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "save progress on LIN-456 and push to remote",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "commit this bugfix with message 'fix: resolve null pointer in parser'",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "git commit -m 'update readme with installation instructions'",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "what's in the last 5 commits? show me the git log",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "create a PR for my current branch and submit for review",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "help me write a good commit message for these changes to the test suite",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "merge the feature branch into main",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "squash the last 3 commits into one before pushing",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "I need to amend the last commit message, I made a typo",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "deploy the latest changes to staging environment",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "check the CI pipeline status for the latest push",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "revert the last commit, it broke the build",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "start working on LIN-789, create a new worktree",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "passed": 13,
+    "failed": 7
+  }
+}

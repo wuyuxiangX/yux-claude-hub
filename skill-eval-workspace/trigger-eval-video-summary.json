@@ -1,0 +1,22 @@
+[
+  {"query": "summarize this video transcript, organize by topics", "should_trigger": true},
+  {"query": "整理视频内容，按主题归类", "should_trigger": true},
+  {"query": "video summary — clean up and organize the transcript at ./transcript.txt", "should_trigger": true},
+  {"query": "视频摘要 — 帮我整理这个视频的内容", "should_trigger": true},
+  {"query": "organize the transcript I just downloaded, extract key points and timeline", "should_trigger": true},
+  {"query": "内容总结 — 把这个视频字幕整理成结构化的摘要", "should_trigger": true},
+  {"query": "summarize the video, I need bilingual output since it's in English", "should_trigger": true},
+  {"query": "help me create a structured summary from this YouTube transcript", "should_trigger": true},
+  {"query": "download subtitles from this video https://youtube.com/watch?v=abc", "should_trigger": false},
+  {"query": "write a blog post from the video summary", "should_trigger": false},
+  {"query": "summarize this PDF document about machine learning", "should_trigger": false},
+  {"query": "summarize the changes in this pull request", "should_trigger": false},
+  {"query": "read this meeting transcript and extract action items", "should_trigger": false},
+  {"query": "analyze the article and suggest image placement", "should_trigger": false},
+  {"query": "translate the transcript from English to Chinese", "should_trigger": false},
+  {"query": "create an executive summary for this quarterly report", "should_trigger": false},
+  {"query": "show me a summary of my Linear sprint progress", "should_trigger": false},
+  {"query": "summarize the git log for the past week", "should_trigger": false},
+  {"query": "generate an infographic summarizing key data points", "should_trigger": false},
+  {"query": "help me condense this 50-page research paper into key findings", "should_trigger": false}
+]

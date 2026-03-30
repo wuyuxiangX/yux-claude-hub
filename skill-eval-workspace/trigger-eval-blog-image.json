@@ -1,0 +1,23 @@
+[
+  {"query": "analyze my article at ./posts/react-hooks.md and suggest where to put images", "should_trigger": true},
+  {"query": "帮我分析这篇博客文章，看看哪些地方需要插入配图", "should_trigger": true},
+  {"query": "suggest images for this blog post about kubernetes deployment", "should_trigger": true},
+  {"query": "generate article images based on the image plan we created earlier", "should_trigger": true},
+  {"query": "插入文章配图，用之前的配图方案", "should_trigger": true},
+  {"query": "I have a blog post about AI trends, can you plan where images should go?", "should_trigger": true},
+  {"query": "文章插图分析 — 帮我看看这篇关于 Rust 的文章需要哪些图", "should_trigger": true},
+  {"query": "article image plan for my latest post on microservices architecture", "should_trigger": true},
+  {"query": "generate an image of a cute robot holding a coffee cup", "should_trigger": false},
+  {"query": "帮我画一张信息卡片，主题是量子计算", "should_trigger": false},
+  {"query": "upload the generated images to OSS and update the article links", "should_trigger": false},
+  {"query": "write a blog post from the video summary", "should_trigger": false},
+  {"query": "download subtitles from this YouTube video", "should_trigger": false},
+  {"query": "create an infographic about design patterns", "should_trigger": false},
+  {"query": "fix the broken image links in my markdown file", "should_trigger": false},
+  {"query": "resize the images in my assets folder to 800px width", "should_trigger": false},
+  {"query": "show me my Linear task status", "should_trigger": false},
+  {"query": "commit these changes and sync to Linear", "should_trigger": false},
+  {"query": "summarize this video transcript", "should_trigger": false},
+  {"query": "help me optimize the image loading performance in my React app", "should_trigger": false},
+  {"query": "nano banana draw a sunset landscape", "should_trigger": false}
+]
