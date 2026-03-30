@@ -1,6 +1,6 @@
 ---
 name: yux-linear-merge
-description: Merge pull request, clean up branch, and mark Linear issue as Done. Use when the user wants to complete a Linear task by merging its PR — e.g., "linear merge", "merge this PR", "complete task", "合并PR", or "/yux-linear-merge". Validates CI status, collects pending review issues, executes merge via subagent, and closes the Linear issue. Do NOT use for merging PRs unrelated to Linear workflow.
+description: Merge PR, clean up branch, and mark Linear issue as Done. Triggers on "linear merge", "merge this PR", "complete task", "合并PR".
 allowed-tools: Read, Write, Bash(git:*), Bash(gh:*), Grep, mcp__linear__*, AskUserQuestion
 ---
 

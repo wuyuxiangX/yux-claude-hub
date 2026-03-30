@@ -1,6 +1,6 @@
 ---
 name: yux-pm-prd
-description: "Generate PRD with smart cross-project task decomposition for Linear PM initiatives. Analyzes feature requirements, identifies relevant sub-projects by tech stack matching, creates Epic + sub-issues in Linear. Use when the user wants to plan a new feature or decompose requirements — e.g., 'pm prd', 'create prd', 'decompose feature', 'feature planning', 'break down this feature', '创建PRD', '/yux-pm-prd'. Automatically detects complexity and adjusts output (full PRD doc for complex features, simple issues for small ones). Do NOT use for planning an existing sprint cycle (use yux-pm-plan) or triaging existing issues (use yux-pm-triage)."
+description: Generate PRD with cross-project task decomposition for Linear. Triggers on "pm prd", "create prd", "decompose feature", "feature planning", "创建PRD".
 allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
 
@@ -8,7 +8,8 @@ allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 
 Usage: `/yux-pm-prd [topic|issue-id]`
 
-Prerequisite: `.claude/pm-config.json` must exist. If missing, auto-run the init flow from `../../references/pm-init-flow.md` before proceeding.
+Prerequisite: `.claude/linear-config.json` must exist with `pm.enabled: true`. If missing or PM not enabled, show:
+  "Please run `/yux-linear-init` and enable PM features first."
 
 ## Input Modes
 
@@ -18,7 +19,7 @@ Prerequisite: `.claude/pm-config.json` must exist. If missing, auto-run the init
 
 ## Step 1: Load Configuration
 
-Read `.claude/pm-config.json`. Extract initiative info, available projects with tech stacks, and team ID.
+Read `.claude/linear-config.json`. Extract `pm.initiative`, `pm.projects` (with tech stacks), and `team.id`.
 
 ## Step 2: Gather Requirements
 
@@ -27,7 +28,7 @@ Collect requirements from the chosen input mode. For interactive mode, ask conci
 ## Step 3: Project Relevance Detection
 
 ```
-For each project in Initiative:
+For each project in config.pm.projects:
   relevance_score = 0
 
   # Tech stack matching

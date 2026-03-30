@@ -1,10 +1,6 @@
 ---
 name: yux-publish
-description: |
-  Multi-platform content publishing hub. Routes to the right platform for publishing content.
-  Use when user says "publish", "distribute", "post to", "发布文章", "多平台发布",
-  "publish this article", "post to all platforms", "发布到所有平台".
-  Do NOT use for platform-specific commands like "发知乎" or "发公众号" — those trigger platform skills directly.
+description: Multi-platform content publishing hub. Triggers on "publish", "distribute", "post to", "发布文章", "多平台发布", "发布到所有平台".
 user-invocable: true
 allowed-tools:
   - Read

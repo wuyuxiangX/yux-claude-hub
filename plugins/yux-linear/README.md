@@ -41,6 +41,12 @@ pm-triage --> pm-prd --> pm-plan --> linear-start --> linear-commit
 | `yux-pm-prd` | `/yux-pm-prd` | "pm prd", "create prd", "decompose feature" |
 | `yux-pm-plan` | `/yux-pm-plan` | "pm plan", "plan sprint", "sprint planning" |
 
+### Setup
+
+| Skill | Slash Command | Triggers On |
+|-------|--------------|-------------|
+| `yux-linear-init` | `/yux-linear-init` | "linear init", "setup linear", "初始化linear" |
+
 ### Dev Skills (Tactical Execution)
 
 | Skill | Slash Command | Triggers On |
@@ -59,13 +65,21 @@ pm-triage --> pm-prd --> pm-plan --> linear-start --> linear-commit
 
 ## Quick Start
 
+### 0. Initialize (first time only)
+
+```
+/yux-linear-init
+```
+
+Step-by-step wizard that connects your repo to Linear: select team, bind project, choose dev mode (solo/team), and optionally enable PM features (Initiative management).
+
 ### 1. Triage incoming issues
 
 ```
 /yux-pm-triage
 ```
 
-AI classifies inbox items by type (bug/feature/improvement), assigns to sub-projects, and sets priority and effort. PM workspace is auto-configured on first use if not already set up.
+AI classifies inbox items by type (bug/feature/improvement), assigns to sub-projects, and sets priority and effort. Requires PM features enabled via `/yux-linear-init`.
 
 ### 2. Create a feature with PRD
 
@@ -125,33 +139,40 @@ Validates CI, merges (squash by default), cleans up the worktree, and marks the 
 
 ## Configuration
 
-The plugin uses three configuration files, all stored in `.claude/`:
-
-### pm-config.json
-
-Auto-created on first PM skill use. Stores initiative and sub-project mappings.
-
-```json
-{
-  "initiative": { "id": "uuid", "name": "Subloom" },
-  "projects": [
-    { "id": "uuid", "name": "subloom-api", "tech": "Go/Backend" },
-    { "id": "uuid", "name": "subloom-web", "tech": "Next.js/Frontend" }
-  ],
-  "team_id": "uuid",
-  "team_name": "Wyx",
-  "version": "1.0.0"
-}
-```
+The plugin uses two configuration files, stored in `.claude/`:
 
 ### linear-config.json
 
-Team-level configuration for the dev workflow.
+Unified project configuration created by `/yux-linear-init`. Stores team, project binding, dev mode, user info, and optional PM settings.
 
 ```json
 {
-  "team": "your-team-id",
-  "project": "your-project-id"
+  "version": "1.0.0",
+  "created_at": "2026-03-30T10:00:00Z",
+  "team": {
+    "id": "uuid",
+    "name": "Wyx"
+  },
+  "project": {
+    "id": "uuid",
+    "name": "Subloom"
+  },
+  "mode": "solo",
+  "user": {
+    "id": "uuid",
+    "name": "吾宇翔"
+  },
+  "pm": {
+    "enabled": true,
+    "initiative": {
+      "id": "uuid",
+      "name": "Product Launch"
+    },
+    "projects": [
+      { "id": "uuid", "name": "subloom-api", "tech": "Go/Backend" },
+      { "id": "uuid", "name": "subloom-web", "tech": "Next.js/Frontend" }
+    ]
+  }
 }
 ```
 
@@ -176,7 +197,7 @@ The plugin uses T-shirt sizing for task estimation:
 1. **Linear MCP Server** -- Configure Linear OAuth via the `/mcp` command in Claude Code
 2. **GitHub CLI** -- Install (`brew install gh`) and authenticate (`gh auth login`)
 3. **Git repository** -- Must be run inside a git repo
-4. **Linear workspace access** -- With appropriate permissions for your Initiative
+4. **Project initialization** -- Run `/yux-linear-init` once per repository
 
 ## Language Support
 
@@ -189,9 +210,10 @@ The plugin uses T-shirt sizing for task estimation:
 ```
 plugins/yux-linear/
 ├── .claude-plugin/
-│   └── plugin.json               # Plugin manifest (v3.0.0)
+│   └── plugin.json               # Plugin manifest (v3.1.0)
 ├── .mcp.json                     # Linear MCP config
 ├── skills/
+│   ├── yux-linear-init/          # Setup: Project initialization wizard
 │   ├── yux-pm-triage/            # PM: Inbox triage
 │   ├── yux-pm-prd/               # PM: PRD generation
 │   ├── yux-pm-plan/              # PM: Sprint planning

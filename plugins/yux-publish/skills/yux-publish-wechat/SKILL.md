@@ -1,11 +1,6 @@
 ---
 name: yux-publish-wechat
-description: |
-  Post content to WeChat Official Account (微信公众号) via API or Chrome CDP.
-  Supports article posting (文章) with HTML, markdown, MDX, or plain text input,
-  and image-text posting (贴图/图文) with multiple images.
-  Use when user mentions "发布公众号", "post to wechat", "微信公众号", "贴图", "图文", "发微信".
-  Do NOT use for Zhihu or Xiaohongshu — use yux-publish-zhihu or yux-publish-xiaohongshu instead.
+description: Post content to WeChat Official Account (微信公众号). Triggers on "发布公众号", "post to wechat", "微信公众号", "发微信", "贴图", "图文".
 user-invocable: true
 allowed-tools:
   - Read

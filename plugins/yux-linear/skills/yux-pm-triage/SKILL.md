@@ -1,6 +1,6 @@
 ---
 name: yux-pm-triage
-description: "Triage Linear inbox issues with AI classification — detect type (bug/feature/improvement), assign to sub-projects, set priority and effort, structure descriptions, and move from Triage to Backlog. Use when the user wants to process new issues in the inbox — e.g., 'pm triage', 'triage inbox', 'classify issues', 'process inbox', 'process feedback', '处理反馈', '/yux-pm-triage'. Do NOT use for viewing existing backlog (use `/yux-linear-status backlog`) or planning sprints (use yux-pm-plan)."
+description: Triage Linear inbox issues with AI classification. Triggers on "pm triage", "triage inbox", "classify issues", "process inbox", "处理反馈".
 allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
 
@@ -8,14 +8,15 @@ allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 
 Process inbox issues: classify type, assign to sub-projects, set priority/effort, structure descriptions, and move to Backlog.
 
-Prerequisite: `.claude/pm-config.json` must exist. If missing, auto-run the init flow from `../../references/pm-init-flow.md` before proceeding.
+Prerequisite: `.claude/linear-config.json` must exist with `pm.enabled: true`. If missing or PM not enabled, show:
+  "Please run `/yux-linear-init` and enable PM features first."
 
 ## Workflow
 
 ### Step 1: Load Config and Labels
 
 ```
-Read .claude/pm-config.json
+Read .claude/linear-config.json
 
 mcp__linear__list_issue_labels(team: "<team_id>")
 ```

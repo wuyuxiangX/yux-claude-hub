@@ -1,6 +1,6 @@
 ---
 name: yux-linear-pr
-description: Create pull request with Linear issue linking and status sync. Use when the user is on a Linear task branch and wants to open a PR — e.g., "create PR", "linear PR", "submit for review", "开PR", or "/yux-linear-pr". Generates PR title/body from Linear issue and commits, supports draft mode, and updates Linear status to In Review. Do NOT use for PRs unrelated to Linear issues. When the PR is approved, use yux-linear-merge to merge and close the issue.
+description: Create pull request with Linear issue linking and status sync. Triggers on "create PR", "linear PR", "submit for review", "开PR".
 allowed-tools: Read, Write, Bash(git:*), Bash(gh:*), Glob, Grep, mcp__linear__*, AskUserQuestion
 ---
 

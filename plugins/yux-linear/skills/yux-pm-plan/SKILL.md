@@ -1,6 +1,6 @@
 ---
 name: yux-pm-plan
-description: "Sprint planning with capacity calculation and AI-powered scope suggestion for Linear PM initiatives. Calculates business days, scores backlog by priority/deadline/blocking, and suggests Must/Should/Stretch categories. Use when the user wants to plan a sprint or review cycle capacity — e.g., 'pm plan', 'plan sprint', 'sprint planning', 'capacity planning', 'what fits in next sprint', '排期', '/yux-pm-plan'. Do NOT use for viewing current status (use `/yux-linear-status pm`) or triaging issues (use yux-pm-triage)."
+description: Sprint planning with capacity calculation and scope suggestion. Triggers on "pm plan", "plan sprint", "sprint planning", "capacity planning", "排期".
 allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 ---
 
@@ -8,11 +8,12 @@ allowed-tools: Read, Write, Glob, Grep, Bash(git:*), Bash(gh:*), mcp__linear__*
 
 Usage: `/yux-pm-plan [next|current|cycle-name]`
 
-Prerequisite: `.claude/pm-config.json` must exist. If missing, auto-run the init flow from `../../references/pm-init-flow.md` before proceeding.
+Prerequisite: `.claude/linear-config.json` must exist with `pm.enabled: true`. If missing or PM not enabled, show:
+  "Please run `/yux-linear-init` and enable PM features first."
 
 ## Step 1: Load Configuration
 
-Read `.claude/pm-config.json`. Extract initiative info, project list, and team ID.
+Read `.claude/linear-config.json`. Extract `pm.initiative`, `pm.projects`, and `team.id`.
 
 ## Step 2: Fetch Data
 
@@ -20,7 +21,7 @@ Read `.claude/pm-config.json`. Extract initiative info, project list, and team I
 mcp__linear__list_cycles(teamId: "<team_id>", type: "next")
 mcp__linear__list_cycles(teamId: "<team_id>", type: "current")
 
-For each project in config.projects:
+For each project in config.pm.projects:
   mcp__linear__list_issues(
     project: "<project_id>",
     state: "Backlog,Todo",

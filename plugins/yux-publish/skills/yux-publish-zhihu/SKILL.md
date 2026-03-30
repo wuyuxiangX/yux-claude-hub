@@ -1,11 +1,6 @@
 ---
 name: yux-publish-zhihu
-description: |
-  Publish articles to Zhihu (知乎专栏) via automated browser (Chrome DevTools MCP).
-  Supports MDX/Markdown input, auto-converts to Zhihu-compatible HTML.
-  Use when user mentions "发知乎", "post to zhihu", "知乎专栏", "zhihu publish",
-  "发布知乎", "知乎文章".
-  Do NOT use for WeChat or Xiaohongshu — use yux-publish-wechat or yux-publish-xiaohongshu instead.
+description: Publish articles to Zhihu (知乎专栏) via automated browser. Triggers on "发知乎", "post to zhihu", "知乎专栏", "zhihu publish", "发布知乎", "知乎文章".
 user-invocable: true
 allowed-tools:
   - Read

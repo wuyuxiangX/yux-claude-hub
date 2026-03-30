@@ -1,6 +1,6 @@
 ---
 name: yux-linear-start
-description: Start working on a Linear issue with automatic worktree isolation. Use PROACTIVELY when the user wants to begin development on a Linear issue — e.g., "start task", "linear start", "work on LIN-123", "begin task", "new task", or references a LIN-xxx issue ID they want to work on. Also triggers on "/yux-linear-start". Creates an isolated git worktree, sets up the branch, and syncs status to Linear. Do NOT use for general git branching unrelated to Linear.
+description: Start working on a Linear issue with worktree isolation. Triggers on "start task", "linear start", "work on LIN-123", "begin task", "开始任务".
 allowed-tools: Read, Write, Bash(git:*), Bash(gh:*), Glob, Grep, mcp__linear__*, AskUserQuestion, EnterWorktree
 ---
 
@@ -34,9 +34,10 @@ If fails: show error and stop. Do NOT proceed without Linear.
 
 ### Step 2: Load Configuration
 
-1. Check `.claude/linear-config.json` for cached team/project:
-   - If exists: use cached values
-   - If not: discover via `mcp__linear__list_teams()`, save to `.claude/linear-config.json`
+1. Check `.claude/linear-config.json`:
+   - If exists with `team` and `project` fields: use cached values
+   - If missing or incomplete: show error and stop:
+     "Linear not initialized. Please run `/yux-linear-init` first to set up your project."
 
 ### Step 3: Smart Issue Resolution
 

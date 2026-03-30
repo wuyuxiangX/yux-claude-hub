@@ -1,12 +1,6 @@
 ---
 name: yux-publish-xiaohongshu
-description: |
-  Convert articles to Xiaohongshu (小红书) platform format and style.
-  Transforms formal content into casual, lifestyle-friendly posts with proper emoji usage,
-  short paragraphs, and hashtags. Preserves all images and captions.
-  Use when user mentions "转小红书", "xiaohongshu", "convert to xiaohongshu",
-  "小红书发布", "小红书风格", "post to xiaohongshu", "红书".
-  Do NOT use for WeChat or Zhihu publishing — use yux-publish-wechat or yux-publish-zhihu instead.
+description: Convert articles to Xiaohongshu (小红书) style format. Triggers on "转小红书", "xiaohongshu", "小红书发布", "小红书风格", "post to xiaohongshu", "红书".
 user-invocable: true
 allowed-tools:
   - Read

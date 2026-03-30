@@ -88,7 +88,18 @@ def main():
 
     project_name = ''
     if config_data:
-        project_name = config_data.get('project_name', config_data.get('team_name', ''))
+        # Support both new schema (nested objects) and legacy (flat keys)
+        project = config_data.get('project', {})
+        team = config_data.get('team', {})
+        if isinstance(project, dict):
+            project_name = project.get('name', '')
+        else:
+            project_name = config_data.get('project_name', '')
+        if not project_name:
+            if isinstance(team, dict):
+                project_name = team.get('name', '')
+            else:
+                project_name = config_data.get('team_name', '')
 
     # Find task info
     task = None

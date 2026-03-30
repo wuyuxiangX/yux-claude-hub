@@ -1,6 +1,6 @@
 ---
 name: yux-linear-status
-description: "Unified Linear dashboard with 4 modes: task status, backlog, active tasks, and PM initiative overview. Use when the user asks about Linear progress — e.g., 'linear status', 'check task status', 'show my tasks', 'what should I work on next', 'show backlog', 'pm overview', 'pm dashboard', 'initiative status', 'how is the initiative going', 'project status', '项目概览', or '/yux-linear-status'. Supports modes: default (task), backlog, tasks, pm. Do NOT trigger on generic 'status' questions unrelated to Linear (e.g., git status, CI status, server status)."
+description: Unified Linear dashboard (task/backlog/tasks/pm modes). Triggers on "linear status", "show my tasks", "show backlog", "pm overview", "项目概览".
 allowed-tools: Read, Write, Bash(git:*), Bash(gh:*), Glob, Grep, mcp__linear__*, AskUserQuestion
 ---
 
@@ -13,6 +13,12 @@ Unified dashboard for workflow status, task management, backlog, and initiative 
 - `/yux-linear-status backlog [filter]` - View backlog with recommendations
 - `/yux-linear-status tasks` - All active tasks across worktrees
 - `/yux-linear-status pm` - Initiative dashboard with health score
+
+## Step 0: Check Configuration
+
+Before any mode, check `.claude/linear-config.json`:
+- If missing: show message and stop:
+  "Linear not initialized. Please run `/yux-linear-init` first to set up your project."
 
 ## Mode Detection
 
@@ -60,8 +66,8 @@ If no tasks: suggest `/yux-linear-start`
 
 ### Workflow
 
-1. Load team config from `.claude/linear-config.json`
-2. Fetch issues: `mcp__linear__list_issues(team: "<team>", state: "backlog,todo,in_progress")`
+1. Load config from `.claude/linear-config.json`, extract `project.id`
+2. Fetch issues: `mcp__linear__list_issues(project: "<project.id>", state: "backlog,todo,in_progress")`
 3. Apply filter (all/mine/urgent/unassigned)
 4. Display table: ID, title, priority, status, assignee, due date
 5. AI recommendation using base scoring algorithm from `../../references/issue-scoring.md`
@@ -100,11 +106,12 @@ Each task runs in its own worktree under .claude/worktrees/
 
 Display Initiative dashboard with health score, sprint progress, and attention items.
 
-Prerequisite: `.claude/pm-config.json` must exist. If missing, auto-run the init flow from `../../references/pm-init-flow.md`.
+Prerequisite: `.claude/linear-config.json` must exist with `pm.enabled: true`. If `pm.enabled` is false or `pm` field is missing, show:
+  "PM features not enabled. Run `/yux-linear-init` to enable Initiative management."
 
 ### Step 1: Load Configuration
 
-Read `.claude/pm-config.json` to get Initiative name, team ID, and project list.
+Read `.claude/linear-config.json`. Extract `pm.initiative` name, `team.id`, and `pm.projects` list.
 
 ### Step 2: Fetch Data
 
@@ -115,7 +122,7 @@ Run these calls in parallel:
 mcp__linear__list_cycles(teamId: "<team_id>", type: "current")
 
 # Issues per project
-For each project in config.projects:
+For each project in config.pm.projects:
   mcp__linear__list_issues(project: "<project_id>", limit: 50, includeArchived: false)
 
 # Triage inbox
