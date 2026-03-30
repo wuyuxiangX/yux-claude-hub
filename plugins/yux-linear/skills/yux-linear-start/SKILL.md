@@ -66,9 +66,10 @@ If fails: show error and stop. Do NOT proceed without Linear.
 
    - **If NOT in a worktree** (normal case — starting from main repo):
      ```
-     EnterWorktree(name: "LIN-<id>")
+     EnterWorktree(name: "<type>-LIN-<id>-<short-description>")
      ```
-     Session automatically switches to `.claude/worktrees/LIN-<id>/`
+     The name mirrors the branch name (e.g., `feat-LIN-321-speaker-mode`).
+     Session automatically switches to `.claude/worktrees/<name>/`
 
    - **If already in a worktree** (e.g., user resumed a kept worktree session, or opened Claude Code inside one):
      Skip EnterWorktree. Work directly in current directory.
@@ -106,7 +107,7 @@ Note: tasks.json is shared across all worktrees (lives in main repo's `.claude/`
 
 Issue:     LIN-456 - <title>
 Branch:    feat/LIN-456-<desc>
-Worktree:  .claude/worktrees/LIN-456/
+Worktree:  .claude/worktrees/feat-LIN-456-<desc>/
 Status:    In Progress
 URL:       <linear-url>
 
