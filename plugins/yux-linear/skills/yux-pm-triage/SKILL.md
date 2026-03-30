@@ -29,7 +29,7 @@ Parse labels into categories:
 
 ```
 mcp__linear__list_issues(
-  team: "<team.id>",
+  project: "<project.id>",
   state: "Triage",
   limit: 20,
   orderBy: "createdAt"
