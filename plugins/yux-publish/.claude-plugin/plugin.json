@@ -1,0 +1,12 @@
+{
+  "name": "yux-publish",
+  "version": "1.0.0",
+  "description": "Multi-platform content publishing. Supports WeChat Official Account, Zhihu, and Xiaohongshu with extensible platform architecture.",
+  "author": {
+    "name": "wuyuxiangX",
+    "email": "wuyuxiang@example.com"
+  },
+  "homepage": "https://github.com/wuyuxiangX/yux-claude-hub/tree/main/plugins/yux-publish",
+  "license": "MIT",
+  "keywords": ["publishing", "wechat", "zhihu", "xiaohongshu", "content-distribution", "multi-platform"]
+}

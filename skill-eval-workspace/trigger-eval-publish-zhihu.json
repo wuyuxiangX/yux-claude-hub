@@ -1,0 +1,22 @@
+[
+  {"query": "发知乎 content/blog/react-hooks.mdx", "should_trigger": true},
+  {"query": "post this article to zhihu", "should_trigger": true},
+  {"query": "知乎专栏发布这篇文章", "should_trigger": true},
+  {"query": "发布知乎文章：my-article.md", "should_trigger": true},
+  {"query": "帮我把这篇博客发到知乎", "should_trigger": true},
+  {"query": "zhihu publish content/blog/ai-tools.mdx", "should_trigger": true},
+  {"query": "知乎文章发布，保存为草稿", "should_trigger": true},
+  {"query": "publish to zhihu as draft", "should_trigger": true},
+  {"query": "把这篇 MDX 文章发到知乎专栏", "should_trigger": true},
+  {"query": "zhihu article posting with these tags: AI, programming", "should_trigger": true},
+  {"query": "发公众号 content/blog/react-hooks.mdx", "should_trigger": false},
+  {"query": "post to wechat official account", "should_trigger": false},
+  {"query": "转小红书风格", "should_trigger": false},
+  {"query": "发布这篇文章到所有平台", "should_trigger": false},
+  {"query": "帮我写一篇博客文章", "should_trigger": false},
+  {"query": "generate an image of a robot", "should_trigger": false},
+  {"query": "upload images to alibaba cloud oss", "should_trigger": false},
+  {"query": "create a pull request for this branch", "should_trigger": false},
+  {"query": "download subtitles from bilibili", "should_trigger": false},
+  {"query": "show me the pm overview dashboard", "should_trigger": false}
+]

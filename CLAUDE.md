@@ -39,9 +39,9 @@ plugins/<plugin-name>/
 | Plugin | Purpose |
 |--------|---------|
 | `yux-blog` | Blog content toolkit: video-to-article pipeline, article image analysis and generation |
-| `yux-linear-workflow` | Linear integration with parallel development (worktrees), multi-task management, and CI monitoring |
-| `yux-linear-pm` | Product management workflow for Linear with initiative-centric planning |
+| `yux-linear` | Complete Linear integration: PM workflow (planning, triage, PRD) + Dev workflow (worktrees, commits, PRs, merges) |
 | `yux-nano-banana` | Image generation via OpenRouter API with Gemini models |
+| `yux-publish` | Multi-platform publishing: WeChat Official Account, Zhihu, Xiaohongshu |
 
 ## Adding a New Plugin
 

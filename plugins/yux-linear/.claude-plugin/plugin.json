@@ -1,0 +1,12 @@
+{
+  "name": "yux-linear",
+  "version": "3.0.0",
+  "description": "Complete Linear integration: PM workflow (initiative planning, triage, PRD, sprint planning) + Dev workflow (worktree isolation, commits, PRs, merges, CI monitoring).",
+  "author": {
+    "name": "wuyuxiangX",
+    "email": "wuyuxiang@example.com"
+  },
+  "homepage": "https://github.com/wuyuxiangX/yux-claude-hub",
+  "license": "MIT",
+  "keywords": ["linear", "workflow", "product-management", "ci-cd", "git", "issue-tracking"]
+}

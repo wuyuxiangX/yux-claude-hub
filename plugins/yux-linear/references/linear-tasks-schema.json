@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Linear Tasks Registry",
+  "description": "Multi-worktree task registry for yux-linear-workflow. Stored at .claude/linear-tasks.json (main repo root).",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "active_task": {
+      "type": ["string", "null"],
+      "description": "Issue ID of the currently active task (e.g., 'LIN-456')"
+    },
+    "tasks": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "issue_id": {
+            "type": "string",
+            "description": "Linear issue identifier (e.g., 'LIN-456')"
+          },
+          "issue_uuid": {
+            "type": "string",
+            "description": "Linear UUID for API calls"
+          },
+          "title": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string",
+            "description": "Git branch name (e.g., 'feat/LIN-456-user-auth')"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["in_progress", "pr_created", "merged"],
+            "description": "Local workflow status"
+          },
+          "linear_status": {
+            "type": "string",
+            "description": "Linear issue status (e.g., 'In Progress', 'In Review', 'Done')"
+          },
+          "pr_number": {
+            "type": ["integer", "null"],
+            "description": "GitHub PR number (null if no PR yet)"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_active_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["issue_id", "issue_uuid", "title", "branch", "status", "started_at", "last_active_at"]
+      }
+    }
+  },
+  "required": ["version", "active_task", "tasks"]
+}

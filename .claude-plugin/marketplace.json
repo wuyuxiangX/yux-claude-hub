@@ -20,26 +20,15 @@
       "category": "productivity"
     },
     {
-      "name": "yux-linear-workflow",
-      "description": "Complete Linear workflow integration with parallel development via worktrees, multi-task management, background CI monitoring, and automated issue tracking.",
-      "version": "2.2.0",
+      "name": "yux-linear",
+      "description": "Complete Linear integration: PM workflow (initiative planning, triage, PRD, sprint planning) + Dev workflow (worktree isolation, commits, PRs, merges, CI monitoring).",
+      "version": "3.0.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
       },
-      "source": "./plugins/yux-linear-workflow",
+      "source": "./plugins/yux-linear",
       "category": "development"
-    },
-    {
-      "name": "yux-linear-pm",
-      "description": "Product Manager workflow for Linear. Initiative-centric planning with auto task decomposition across sub-projects.",
-      "version": "2.2.0",
-      "author": {
-        "name": "wuyuxiangX",
-        "email": "wuyuxiang@example.com"
-      },
-      "source": "./plugins/yux-linear-pm",
-      "category": "productivity"
     },
     {
       "name": "yux-nano-banana",
@@ -51,6 +40,17 @@
       },
       "source": "./plugins/yux-nano-banana",
       "category": "creativity"
+    },
+    {
+      "name": "yux-publish",
+      "description": "Multi-platform content publishing. Supports WeChat Official Account, Zhihu, and Xiaohongshu.",
+      "version": "1.0.0",
+      "author": {
+        "name": "wuyuxiangX",
+        "email": "wuyuxiang@example.com"
+      },
+      "source": "./plugins/yux-publish",
+      "category": "productivity"
     }
   ]
 }

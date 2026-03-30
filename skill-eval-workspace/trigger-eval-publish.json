@@ -1,0 +1,22 @@
+[
+  {"query": "发布这篇文章到所有平台", "should_trigger": true},
+  {"query": "publish this article to all platforms", "should_trigger": true},
+  {"query": "多平台发布 content/blog/react-hooks.mdx", "should_trigger": true},
+  {"query": "I want to distribute this post across my channels", "should_trigger": true},
+  {"query": "帮我把这篇博客发布一下", "should_trigger": true},
+  {"query": "publish this article, let me pick where to post it", "should_trigger": true},
+  {"query": "发布文章到各个平台", "should_trigger": true},
+  {"query": "post this to my social media accounts", "should_trigger": true},
+  {"query": "发布到所有平台：content/blog/ai-tools.mdx", "should_trigger": true},
+  {"query": "help me publish this content everywhere", "should_trigger": true},
+  {"query": "发公众号 content/blog/react-hooks.mdx", "should_trigger": false},
+  {"query": "post to wechat official account", "should_trigger": false},
+  {"query": "发知乎 content/blog/ai-tools.mdx", "should_trigger": false},
+  {"query": "转小红书风格", "should_trigger": false},
+  {"query": "帮我写一篇博客文章", "should_trigger": false},
+  {"query": "generate an image of a sunset", "should_trigger": false},
+  {"query": "commit these changes with Linear sync", "should_trigger": false},
+  {"query": "create a pull request for this feature", "should_trigger": false},
+  {"query": "show me the Linear task status", "should_trigger": false},
+  {"query": "download subtitles from this YouTube video", "should_trigger": false}
+]
