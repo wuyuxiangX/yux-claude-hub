@@ -22,7 +22,7 @@
     {
       "name": "yux-linear",
       "description": "Complete Linear integration: PM workflow (initiative planning, triage, PRD, sprint planning) + Dev workflow (worktree isolation, commits, PRs, merges, CI monitoring).",
-      "version": "3.0.0",
+      "version": "3.1.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
@@ -33,7 +33,7 @@
     {
       "name": "yux-nano-banana",
       "description": "Generate images using OpenRouter API with Gemini models. Supports text-to-image and image editing.",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
@@ -44,7 +44,7 @@
     {
       "name": "yux-publish",
       "description": "Multi-platform content publishing. Supports WeChat Official Account, Zhihu, and Xiaohongshu.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
