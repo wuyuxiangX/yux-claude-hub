@@ -1,6 +1,7 @@
 ---
 name: yux-linear-init
 description: Initialize Linear integration for current project. Triggers on "linear init", "初始化linear", "setup linear", "configure linear", "连接linear".
+user-invocable: true
 allowed-tools: Read, Write, Bash(git:*), Glob, Grep, mcp__linear__*, AskUserQuestion
 ---
 
