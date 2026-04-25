@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-yux-claude-hub is a Claude Code plugin marketplace containing custom skills, commands, and extensions. This is a **content-only repository** with no build system, tests, or runtime code - it consists entirely of markdown files and JSON configurations that Claude Code interprets.
+yux-claude-hub is a Claude Code plugin marketplace containing custom skills, commands, and extensions. Plugins are markdown-based (skills and commands that Claude Code interprets).
 
 ## Architecture
 
