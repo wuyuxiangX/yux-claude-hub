@@ -1,12 +1,12 @@
 {
   "name": "yux-nano-banana",
-  "version": "1.3.1",
-  "description": "Generate images using OpenRouter API with Gemini models. Supports text-to-image and image editing.",
+  "version": "1.4.0",
+  "description": "Universal image generation via OpenRouter. User-selected models (Gemini, Flux, any provider/model-id), prompt optimization, text-to-image, and image editing.",
   "author": {
     "name": "wuyuxiangX",
     "email": "wuyuxiang@example.com"
   },
   "homepage": "https://github.com/wuyuxiangX/yux-claude-hub",
   "license": "MIT",
-  "keywords": ["image-generation", "openrouter", "gemini", "ai-art", "nano-banana"]
+  "keywords": ["image-generation", "openrouter", "universal", "prompt-optimization", "gemini", "flux", "ai-art", "nano-banana"]
 }

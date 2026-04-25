@@ -1,12 +1,12 @@
 ---
 name: yux-nano-banana
-description: Generate images using OpenRouter API with Gemini models. Triggers on "generate image", "create image", "draw", "nano banana", "生成图片", "画图", "信息卡片".
+description: Generate images via OpenRouter API with user-selected models. Supports any OpenRouter image model (Gemini, Flux, etc.), prompt optimization, text-to-image, and image editing. Triggers on "generate image", "create image", "draw", "nano banana", "image generation", "生成图片", "画图", "图像生成", "信息卡片".
 allowed-tools: Bash(curl:*), Bash(base64:*), Bash(jq:*), Bash(which:*), Bash(ls:*), Bash(date:*), Bash(wc:*), Bash(uname:*), Bash(file:*), Read, Write, Glob, AskUserQuestion
 ---
 
-# Nano Banana - Image Generation
+# Nano Banana - Universal Image Generation
 
-Generate images using OpenRouter API with Google Gemini models.
+Generate images through OpenRouter using any supported image-generation model. The user chooses the model for every run (no silent default), and short or abstract prompts can be optimized into richer visual descriptions before the API call.
 
 ## CRITICAL: Image Data Safety Rules
 
@@ -24,13 +24,18 @@ Run `which curl jq base64` to confirm all tools are available. If any are missin
 
 ### 1.2 Verify API key
 
-Check if `$OPENROUTER_API_KEY` is set:
+Resolve the image-generation key, preferring the image-specific variable and falling back to the legacy one for backward compatibility:
 
 ```bash
-echo "${OPENROUTER_API_KEY:+set}"
+IMAGE_KEY="${OPENROUTER_IMAGE_API_KEY:-$OPENROUTER_API_KEY}"
+[ -n "$IMAGE_KEY" ] && echo set
 ```
 
-If empty, inform the user: "Please set `OPENROUTER_API_KEY` in your environment." and **stop immediately**. Never prompt the user to enter the key inline.
+If empty, inform the user: "Please set `OPENROUTER_IMAGE_API_KEY` in your environment." and **stop immediately**. Never prompt the user to enter the key inline.
+
+If `$OPENROUTER_IMAGE_API_KEY` is unset but `$OPENROUTER_API_KEY` is set (fallback path), print a one-line deprecation notice: "Using legacy `OPENROUTER_API_KEY`. Please migrate to `OPENROUTER_IMAGE_API_KEY`." and continue.
+
+All subsequent API calls use `Authorization: Bearer $IMAGE_KEY`.
 
 ## Step 2: Parse User Intent
 
@@ -44,7 +49,7 @@ Determine the operation type and parameters from the user's request:
 ### 2.2 Extract parameters
 
 - **prompt** (required): The text description for image generation/editing
-- **model** (optional): User-specified model shorthand (see Model Table below)
+- **model** (optional): Either a shorthand (`flash`, `pro`) or a full OpenRouter model ID (e.g., `black-forest-labs/flux-1.1-pro`). If not provided, the user is prompted to choose in Step 3 — **there is no silent default**.
 - **source image** (optional, for edit): Path to an existing image file
 - **aspect ratio / dimensions** (optional): Include in prompt if specified by user
 - **style preset** (optional): A predefined style template (see Style Presets below)
@@ -81,16 +86,63 @@ Style requirements:
 1. Extract the user's actual topic/content (the subject they want illustrated)
 2. Replace `{USER_CONTENT}` in the template with their topic
 3. Use the assembled prompt as the final prompt sent to the API
-4. The user can still specify model choice (flash/pro) — pro is recommended for this style
+4. The user still chooses the model in Step 3 — `pro` is recommended for this style
+
+## Step 2.6: Prompt Quality Check & Optimization
+
+Before model selection, evaluate whether the prompt would benefit from optimization. **Skip this step entirely if a style preset (e.g., `infographic`) was applied** — presets already produce rich prompts.
+
+### When to offer optimization
+
+Offer optimization if ANY of these hold:
+
+- Prompt length is under 20 characters
+- Prompt lacks visual descriptors (no style, lighting, composition, color, material, or mood keywords)
+- Prompt is abstract (e.g., "a beautiful landscape", "a cute animal", "a cool car")
+- User explicitly asked to optimize ("优化 prompt", "润色提示词", "make the prompt better", etc.)
+
+Skip optimization when the prompt is already detailed (typically >60 characters with clear visual elements).
+
+### Optimization workflow
+
+1. Produce an enriched prompt that adds visual elements — art style, lighting, composition, color palette, mood, material/texture, and level of detail — while **preserving the user's original subject and intent** (do not change what is being depicted).
+2. Use `AskUserQuestion` to show the user both versions with three options:
+   - **Use optimized** — proceed with the enriched prompt
+   - **Use original** — proceed with the unmodified prompt
+   - **Let me edit** — user supplies their own revision (use the optimized version as a starting suggestion)
+3. Remember whether the final prompt is `original` or `optimized` for Step 6 output.
+
+### Example
+
+- User: `a cat`
+- Optimized: `A photorealistic portrait of a fluffy orange tabby cat sitting on a wooden windowsill, bathed in warm golden-hour sunlight, shallow depth of field, detailed fur texture, soft bokeh background, cozy mood`
 
 ## Step 3: Model Selection
 
-| Shorthand | Model ID | When to use |
-|-----------|----------|-------------|
-| flash | `google/gemini-2.5-flash-image` | User says "flash", "fast", "quick", "快速" |
-| pro (default) | `google/gemini-3-pro-image-preview` | Default — highest quality |
+The user must choose a model for every run — **do not pick a silent default**.
 
-If the user does not specify a model, use **pro**.
+### 3.1 If the user specified a model
+
+Resolve `$MODEL_ID`:
+
+- **Shorthand** → map to full ID:
+
+  | Shorthand | Model ID |
+  |-----------|----------|
+  | `flash` | `google/gemini-2.5-flash-image` |
+  | `pro` | `google/gemini-3-pro-image-preview` |
+
+- **Full model ID** (contains `/`) → use as-is. Any valid OpenRouter image-generation model works (e.g., `black-forest-labs/flux-1.1-pro`, `google/gemini-2.5-flash-image`). The skill forwards the string directly to OpenRouter; if OpenRouter rejects it, surface the API error to the user.
+
+### 3.2 If the user did NOT specify a model
+
+Use `AskUserQuestion` to require a choice — do not proceed without one. Offer three options:
+
+1. **flash** — `google/gemini-2.5-flash-image` (fast and cost-effective)
+2. **pro** — `google/gemini-3-pro-image-preview` (Gemini, highest quality)
+3. **Custom** — ask the user for a full OpenRouter model ID in the form `provider/model-name`
+
+Store the resolved value as `$MODEL_ID` for Step 4.
 
 ## Step 4: Build and Execute API Call
 
@@ -110,7 +162,7 @@ For **text-to-image generation**:
 curl -s -o /tmp/nano-banana-response.json -w "%{http_code}" \
   https://openrouter.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+  -H "Authorization: Bearer $IMAGE_KEY" \
   -d '{
     "model": "<MODEL_ID>",
     "messages": [
@@ -141,7 +193,7 @@ For **image editing** (user provides a source image):
    curl -s -o /tmp/nano-banana-response.json -w "%{http_code}" \
      https://openrouter.ai/api/v1/chat/completions \
      -H "Content-Type: application/json" \
-     -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+     -H "Authorization: Bearer $IMAGE_KEY" \
      -d '{
        "model": "<MODEL_ID>",
        "messages": [
@@ -230,8 +282,11 @@ Display the result:
 
 File:   /path/to/nano-banana-20260329-143022.png
 Size:   256 KB
-Model:  google/gemini-3-pro-image-preview
+Model:  <MODEL_ID>
+Prompt: <final prompt sent to the API>   [optimized]
 ```
+
+Append ` [optimized]` to the `Prompt:` line only if Step 2.6 produced an enriched version that the user accepted (or edited from the optimized base). Omit the tag when the original prompt was used.
 
 ## Error Handling Summary
 

@@ -11,7 +11,7 @@
     {
       "name": "yux-blog",
       "description": "Blog content toolkit. Video-to-article pipeline, article image analysis and generation.",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"
@@ -32,8 +32,8 @@
     },
     {
       "name": "yux-nano-banana",
-      "description": "Generate images using OpenRouter API with Gemini models. Supports text-to-image and image editing.",
-      "version": "1.3.1",
+      "description": "Universal image generation via OpenRouter. User-selected models (Gemini, Flux, any provider/model-id), prompt optimization, text-to-image, and image editing.",
+      "version": "1.4.0",
       "author": {
         "name": "wuyuxiangX",
         "email": "wuyuxiang@example.com"

@@ -24,13 +24,18 @@ Run `which curl jq base64` to confirm all tools are available. If any are missin
 
 ### 1.2 Verify API key
 
-Check if `$OPENROUTER_API_KEY` is set:
+Resolve the image-generation key, preferring the image-specific variable and falling back to the legacy one for backward compatibility:
 
 ```bash
-echo "${OPENROUTER_API_KEY:+set}"
+IMAGE_KEY="${OPENROUTER_IMAGE_API_KEY:-$OPENROUTER_API_KEY}"
+[ -n "$IMAGE_KEY" ] && echo set
 ```
 
-If empty, inform the user: "Please set `OPENROUTER_API_KEY` in your environment to use image generation." and **stop immediately**.
+If empty, inform the user: "Please set `OPENROUTER_IMAGE_API_KEY` in your environment to use image generation." and **stop immediately**.
+
+If `$OPENROUTER_IMAGE_API_KEY` is unset but `$OPENROUTER_API_KEY` is set (fallback path), print a one-line deprecation notice: "Using legacy `OPENROUTER_API_KEY`. Please migrate to `OPENROUTER_IMAGE_API_KEY`." and continue.
+
+All subsequent API calls use `Authorization: Bearer $IMAGE_KEY`.
 
 ## File Organization
 
@@ -240,7 +245,7 @@ For each pending ai-generated image, call OpenRouter API:
 curl -s -o /tmp/blog-image-response.json -w "%{http_code}" \
   https://openrouter.ai/api/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+  -H "Authorization: Bearer $IMAGE_KEY" \
   -d '{
     "model": "google/gemini-3-pro-image-preview",
     "messages": [
